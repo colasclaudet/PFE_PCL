@@ -33,6 +33,7 @@
 #include <pcl/point_types.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/kdtree/kdtree_flann.h>
+#include <pcl/search/kdtree.h>
 #include <pcl/features/normal_3d.h>
 #include <pcl/surface/gp3.h>
 
@@ -41,6 +42,21 @@
 #include <pcl/ModelCoefficients.h>
 #include <pcl/common/common.h>
 #include <pcl/common/distances.h>
+
+#include <vtkRenderWindow.h>
+
+#include <string>
+
+
+
+#include <pcl/search/organized.h>
+#include <pcl/search/kdtree.h>
+#include <pcl/features/normal_3d_omp.h>
+#include <pcl/filters/conditional_removal.h>
+#include <pcl/segmentation/extract_clusters.h>
+
+#include <pcl/features/don.h>
+
 //#include <pcl/common/impl/intersections.hpp>
 //#include <pcl/common/impl/intersections.hpp>
 /********** FIN INCLUDE PCL *********************/
@@ -81,7 +97,15 @@ public:
     **********************/
     pcl::PointCloud<pcl::PointXYZ>::Ptr regroup_plane(); //not use
     
-     
+    /**********************
+              PFE
+     *********************/
+
+    /**********************
+              Direction Of Normal Segmentation
+     *********************/
+    pcl::visualization::PCLVisualizer::Ptr don_segmentation(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud, double angle, double threshold,double scale1, double scale2);
+
 public slots:
     void chooseViewCloud();
     void chooseViewPlane();
@@ -107,6 +131,10 @@ private:
     
     int nb_cloud = 0;
     int nb_plane = 0;
+//new
+protected:
+    pcl::visualization::PCLVisualizer::Ptr viewer;
+
 };
 
 #endif // MAINWINDOW_H

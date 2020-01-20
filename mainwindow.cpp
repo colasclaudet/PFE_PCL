@@ -9,6 +9,18 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+    this->setWindowTitle("ScanLIDAR");
+    //new
+
+
+    viewer.reset (new pcl::visualization::PCLVisualizer ("viewer", false));
+    viewer->getRenderWindow();
+
+    /*
+    ui->qvtkWidget->SetRenderWindow (viewer->getRenderWindow ());
+    viewer->setupInteractor (ui->qvtkWidget->GetInteractor (), ui->qvtkWidget->GetRenderWindow ());
+    ui->qvtkWidget->update ();*/
+    //endNew
 	connect(ui->radio_cloud, SIGNAL(clicked()), this, SLOT(chooseViewCloud())); //si cloud radio button sélectionné
 	connect(ui->radio_plane, SIGNAL(clicked()), this, SLOT(chooseViewPlane())); //si plane radio button selectionné
 	connect(ui->slider_threshold, SIGNAL(valueChanged(int)), this, SLOT(changeThreshold(int))); //connexion slidebar threshold
@@ -170,7 +182,148 @@ pcl::visualization::PCLVisualizer::Ptr  MainWindow::addPlane(pcl::visualization:
 	this->nb_plane = this->nb_plane +1;
 	viewer->addPlane(planeCoef, planeCoef.values[0],planeCoef.values[1], planeCoef.values[2], "plane"+this->nb_plane,0);
 	//viewer->addPlane(planeCoef);
-	return (viewer);
+    return (viewer);
+}
+/**********************
+      PFE
+**********************/
+pcl::visualization::PCLVisualizer::Ptr MainWindow::don_segmentation(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud, double angle, double threshold, double scale1, double scale2)
+{
+    pcl::search::Search<PointXYZRGB>::Ptr tree;
+    if (cloud->isOrganized ())
+    {
+        tree.reset (new pcl::search::OrganizedNeighbor<PointXYZRGB> ());
+    }
+    else
+    {
+        tree.reset(new pcl::search::KdTree<PointXYZRGB> (false));
+    }
+    //Init tree with pointcloud
+    tree.setInputCloud(cloud);
+
+    if (scale1 >= scale2)
+    {
+        std::cerr << "Error: Large scale must be > small scale!" << std::endl;
+        //exit (EXIT_FAILURE);
+        if(scale1>scale2)
+        {
+            double temp = scale2;
+            scale2 = scale1;
+            scale1 = temp;
+        }
+        else
+        {
+            std::cerr << "Error: scale1 and scale2 have the same value!" << std::endl;
+            exit (EXIT_FAILURE);
+        }
+    }
+
+    pcl::NormalEstimationOMP<PointXYZRGB, PointNormal> ne;
+    ne.setInputCloud(cloud);
+    ne.setSearchMethod(tree);
+    //??? need search
+    ne.setViewPoint (std::numeric_limits<float>::max (), std::numeric_limits<float>::max (), std::numeric_limits<float>::max ());
+
+    std::cout << "Calculating normals for scale..." << scale1 << std::endl;
+
+    pcl::PointCloud<PointNormal>::Ptr normals_small_scale (new pcl::PointCloud<PointNormal>);
+
+    ne.setRadiusSearch (scale1);
+    ne.compute (*normals_small_scale);
+    // calculate normals with the large scale
+
+    std::cout << "Calculating normals for scale..." << scale2 << std::endl;
+    pcl::PointCloud<PointNormal>::Ptr normals_large_scale (new pcl::PointCloud<PointNormal>);
+    ne.setRadiusSearch (scale2);
+    ne.compute (*normals_large_scale);
+
+    // Create output cloud for DoN results
+    PointCloud<PointNormal>::Ptr doncloud (new pcl::PointCloud<PointNormal>);
+    copyPointCloud (*cloud, *doncloud);
+
+    std::cout << "Calculating DoN... " << std::endl;
+      // Create DoN operator
+    pcl::DifferenceOfNormalsEstimation<PointXYZRGB, PointNormal, PointNormal> don;
+    don.setInputCloud (cloud);
+    don.setNormalScaleLarge (normals_large_scale);
+    don.setNormalScaleSmall (normals_small_scale);
+
+    if (!don.initCompute ())
+    {
+        std::cerr << "Error: Could not initialize DoN feature operator" << std::endl;
+        exit (EXIT_FAILURE);
+    }
+
+    // Compute DoN
+    don.computeFeature (*doncloud);
+
+    // Save DoN features
+    pcl::PCDWriter writer;
+    writer.write<pcl::PointNormal> ("don.pcd", *doncloud, false);
+
+    // Filter by magnitude
+    std::cout << "Filtering out DoN mag <= " << threshold << "..." << std::endl;
+
+    // Build the condition for filtering
+    pcl::ConditionOr<PointNormal>::Ptr range_cond (
+    new pcl::ConditionOr<PointNormal> ()
+    );
+    range_cond->addComparison (pcl::FieldComparison<PointNormal>::ConstPtr (
+                               new pcl::FieldComparison<PointNormal> ("curvature", pcl::ComparisonOps::GT, threshold))
+                             );
+    // Build the filter
+    pcl::ConditionalRemoval<PointNormal> condrem;
+    condrem.setCondition (range_cond);
+    condrem.setInputCloud (doncloud);
+
+    pcl::PointCloud<PointNormal>::Ptr doncloud_filtered (new pcl::PointCloud<PointNormal>);
+
+    // Apply filter
+    condrem.filter (*doncloud_filtered);
+
+    doncloud = doncloud_filtered;
+
+    // Save filtered output
+    std::cout << "Filtered Pointcloud: " << doncloud->points.size () << " data points." << std::endl;
+
+    writer.write<pcl::PointNormal> ("don_filtered.pcd", *doncloud, false);
+
+    // Filter by magnitude
+    std::cout << "Clustering using EuclideanClusterExtraction with tolerance <= " << segradius << "..." << std::endl;
+
+    pcl::search::KdTree<PointNormal>::Ptr segtree (new pcl::search::KdTree<PointNormal>);
+    segtree->setInputCloud (doncloud);
+
+    std::vector<pcl::PointIndices> cluster_indices;
+    pcl::EuclideanClusterExtraction<PointNormal> ec;
+
+    ec.setClusterTolerance (segradius);
+    ec.setMinClusterSize (50);
+    ec.setMaxClusterSize (100000);
+    ec.setSearchMethod (segtree);
+    ec.setInputCloud (doncloud);
+    ec.extract (cluster_indices);
+
+    //TO DO
+    int j = 0;
+    for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin (); it != cluster_indices.end (); ++it, j++)
+    {
+        pcl::PointCloud<PointNormal>::Ptr cloud_cluster_don (new pcl::PointCloud<PointNormal>);
+        for (std::vector<int>::const_iterator pit = it->indices.begin (); pit != it->indices.end (); ++pit)
+        {
+            cloud_cluster_don->points.push_back (doncloud->points[*pit]);
+        }
+
+        cloud_cluster_don->width = int (cloud_cluster_don->points.size ());
+        cloud_cluster_don->height = 1;
+        cloud_cluster_don->is_dense = true;
+
+        //Save cluster
+        std::cout << "PointCloud representing the Cluster: " << cloud_cluster_don->points.size () << " data points." << std::endl;
+        stringstream ss;
+        ss << "don_cluster_" << j << ".pcd";
+        writer.write<pcl::PointNormal> (ss.str (), *cloud_cluster_don, false);
+    }
 }
 
 /**********************
@@ -240,7 +393,7 @@ void MainWindow::draw(){
 	// initialize PointClouds
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
 	pcl::PointCloud<pcl::PointXYZ>::Ptr final (new pcl::PointCloud<pcl::PointXYZ>);
-	pcl::visualization::PCLVisualizer::Ptr viewer;
+    //pcl::visualization::PCLVisualizer::Ptr viewer;
 	//-------------load cloud
 	std::vector<int> filenames;
 	bool file_is_pcd = false;
@@ -262,12 +415,12 @@ void MainWindow::draw(){
 	}
 	//-- end load cloud
 
-	viewer = simpleVis(cloud);
+    this->viewer = simpleVis(cloud);
 	//cout << "nb plan :" << this->nb_cloud << endl;
 	//finaliseVis(viewer);
-	while (!viewer->wasStopped ())
+    while (!this->viewer->wasStopped ())
 	{
-		viewer->spinOnce (100);
+        this->viewer->spinOnce (100);
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
