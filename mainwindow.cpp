@@ -187,7 +187,7 @@ pcl::visualization::PCLVisualizer::Ptr  MainWindow::addPlane(pcl::visualization:
 /**********************
       PFE
 **********************/
-pcl::visualization::PCLVisualizer::Ptr MainWindow::don_segmentation(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud, double angle, double threshold, double scale1, double scale2)
+pcl::visualization::PCLVisualizer::Ptr MainWindow::don_segmentation(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloud, double angle, double threshold, double scale1, double scale2)
 {
     pcl::search::Search<pcl::PointXYZRGB>::Ptr tree;
     if (cloud->isOrganized ())
@@ -198,9 +198,10 @@ pcl::visualization::PCLVisualizer::Ptr MainWindow::don_segmentation(pcl::PointCl
     {
         tree.reset(new pcl::search::KdTree<pcl::PointXYZRGB> (false));
     }
-    pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloudcolor; //attention nous devons faire une copie de notre ptcl dans ce ptcl de couleur
+    //pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloudcolor; //attention nous devons faire une copie de notre ptcl dans ce ptcl de couleur
     //Init tree with pointcloud
-    tree->setInputCloud(cloudcolor);
+    //copyPointCloud (*cloudcolor, *cloud);
+    tree->setInputCloud(cloud);
 
     if (scale1 >= scale2)
     {
@@ -220,7 +221,7 @@ pcl::visualization::PCLVisualizer::Ptr MainWindow::don_segmentation(pcl::PointCl
     }
 
     pcl::NormalEstimationOMP<pcl::PointXYZRGB, pcl::PointNormal> ne;
-    ne.setInputCloud(cloudcolor);
+    ne.setInputCloud(cloud);
     ne.setSearchMethod(tree);
     //??? need search
     ne.setViewPoint (std::numeric_limits<float>::max (), std::numeric_limits<float>::max (), std::numeric_limits<float>::max ());
@@ -245,7 +246,7 @@ pcl::visualization::PCLVisualizer::Ptr MainWindow::don_segmentation(pcl::PointCl
     std::cout << "Calculating DoN... " << std::endl;
       // Create DoN operator
     pcl::DifferenceOfNormalsEstimation<pcl::PointXYZRGB, pcl::PointNormal, pcl::PointNormal> don;
-    don.setInputCloud(cloudcolor);
+    don.setInputCloud(cloud);
     don.setNormalScaleLarge (normals_large_scale);
     don.setNormalScaleSmall (normals_small_scale);
 
@@ -416,8 +417,13 @@ void MainWindow::draw(){
 	}
 	//-- end load cloud
 
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_xyzrgb(new pcl::PointCloud<pcl::PointXYZRGB>);
+    copyPointCloud(*cloud,*cloud_xyzrgb); //initialisation des points avec les couleur se passe correctement ? apparement non donc il va falloir set les couleurs des points à 0
+    cout<<"nb_points : "<<cloud_xyzrgb->points.size()<<endl;
+    don_segmentation(cloud_xyzrgb, 3.14, 0.5,0, 1); //always in the range (0,1)
     this->viewer = simpleVis(cloud);
 	//cout << "nb plan :" << this->nb_cloud << endl;
+
 	//finaliseVis(viewer);
     while (!this->viewer->wasStopped ())
 	{

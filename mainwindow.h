@@ -107,7 +107,7 @@ public:
     /**********************
               Direction Of Normal Segmentation
      *********************/
-    pcl::visualization::PCLVisualizer::Ptr don_segmentation(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud, double angle, double threshold,double scale1, double scale2);
+    pcl::visualization::PCLVisualizer::Ptr don_segmentation(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloud, double angle, double threshold,double scale1, double scale2);
 
 public slots:
     void chooseViewCloud();
