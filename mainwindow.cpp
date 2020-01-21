@@ -189,17 +189,18 @@ pcl::visualization::PCLVisualizer::Ptr  MainWindow::addPlane(pcl::visualization:
 **********************/
 pcl::visualization::PCLVisualizer::Ptr MainWindow::don_segmentation(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud, double angle, double threshold, double scale1, double scale2)
 {
-    pcl::search::Search<PointXYZRGB>::Ptr tree;
+    pcl::search::Search<pcl::PointXYZRGB>::Ptr tree;
     if (cloud->isOrganized ())
     {
-        tree.reset (new pcl::search::OrganizedNeighbor<PointXYZRGB> ());
+        tree.reset (new pcl::search::OrganizedNeighbor<pcl::PointXYZRGB> ());
     }
     else
     {
-        tree.reset(new pcl::search::KdTree<PointXYZRGB> (false));
+        tree.reset(new pcl::search::KdTree<pcl::PointXYZRGB> (false));
     }
+    pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloudcolor; //attention nous devons faire une copie de notre ptcl dans ce ptcl de couleur
     //Init tree with pointcloud
-    tree.setInputCloud(cloud);
+    tree->setInputCloud(cloudcolor);
 
     if (scale1 >= scale2)
     {
@@ -218,33 +219,33 @@ pcl::visualization::PCLVisualizer::Ptr MainWindow::don_segmentation(pcl::PointCl
         }
     }
 
-    pcl::NormalEstimationOMP<PointXYZRGB, PointNormal> ne;
-    ne.setInputCloud(cloud);
+    pcl::NormalEstimationOMP<pcl::PointXYZRGB, pcl::PointNormal> ne;
+    ne.setInputCloud(cloudcolor);
     ne.setSearchMethod(tree);
     //??? need search
     ne.setViewPoint (std::numeric_limits<float>::max (), std::numeric_limits<float>::max (), std::numeric_limits<float>::max ());
 
     std::cout << "Calculating normals for scale..." << scale1 << std::endl;
 
-    pcl::PointCloud<PointNormal>::Ptr normals_small_scale (new pcl::PointCloud<PointNormal>);
+    pcl::PointCloud<pcl::PointNormal>::Ptr normals_small_scale (new pcl::PointCloud<pcl::PointNormal>);
 
     ne.setRadiusSearch (scale1);
     ne.compute (*normals_small_scale);
     // calculate normals with the large scale
 
     std::cout << "Calculating normals for scale..." << scale2 << std::endl;
-    pcl::PointCloud<PointNormal>::Ptr normals_large_scale (new pcl::PointCloud<PointNormal>);
+    pcl::PointCloud<pcl::PointNormal>::Ptr normals_large_scale (new pcl::PointCloud<pcl::PointNormal>);
     ne.setRadiusSearch (scale2);
     ne.compute (*normals_large_scale);
 
     // Create output cloud for DoN results
-    PointCloud<PointNormal>::Ptr doncloud (new pcl::PointCloud<PointNormal>);
+    pcl::PointCloud<pcl::PointNormal>::Ptr doncloud (new pcl::PointCloud<pcl::PointNormal>); //jai rajouté Ptr devant le new ... >::
     copyPointCloud (*cloud, *doncloud);
 
     std::cout << "Calculating DoN... " << std::endl;
       // Create DoN operator
-    pcl::DifferenceOfNormalsEstimation<PointXYZRGB, PointNormal, PointNormal> don;
-    don.setInputCloud (cloud);
+    pcl::DifferenceOfNormalsEstimation<pcl::PointXYZRGB, pcl::PointNormal, pcl::PointNormal> don;
+    don.setInputCloud(cloudcolor);
     don.setNormalScaleLarge (normals_large_scale);
     don.setNormalScaleSmall (normals_small_scale);
 
@@ -265,18 +266,18 @@ pcl::visualization::PCLVisualizer::Ptr MainWindow::don_segmentation(pcl::PointCl
     std::cout << "Filtering out DoN mag <= " << threshold << "..." << std::endl;
 
     // Build the condition for filtering
-    pcl::ConditionOr<PointNormal>::Ptr range_cond (
-    new pcl::ConditionOr<PointNormal> ()
+    pcl::ConditionOr<pcl::PointNormal>::Ptr range_cond (
+    new pcl::ConditionOr<pcl::PointNormal> ()
     );
-    range_cond->addComparison (pcl::FieldComparison<PointNormal>::ConstPtr (
-                               new pcl::FieldComparison<PointNormal> ("curvature", pcl::ComparisonOps::GT, threshold))
+    range_cond->addComparison (pcl::FieldComparison<pcl::PointNormal>::ConstPtr (
+                               new pcl::FieldComparison<pcl::PointNormal> ("curvature", pcl::ComparisonOps::GT, threshold))
                              );
     // Build the filter
-    pcl::ConditionalRemoval<PointNormal> condrem;
+    pcl::ConditionalRemoval<pcl::PointNormal> condrem;
     condrem.setCondition (range_cond);
     condrem.setInputCloud (doncloud);
 
-    pcl::PointCloud<PointNormal>::Ptr doncloud_filtered (new pcl::PointCloud<PointNormal>);
+    pcl::PointCloud<pcl::PointNormal>::Ptr doncloud_filtered (new pcl::PointCloud<pcl::PointNormal>); //jai rajouté Ptr devant le new ... >::
 
     // Apply filter
     condrem.filter (*doncloud_filtered);
@@ -289,15 +290,15 @@ pcl::visualization::PCLVisualizer::Ptr MainWindow::don_segmentation(pcl::PointCl
     writer.write<pcl::PointNormal> ("don_filtered.pcd", *doncloud, false);
 
     // Filter by magnitude
-    std::cout << "Clustering using EuclideanClusterExtraction with tolerance <= " << segradius << "..." << std::endl;
+    std::cout << "Clustering using EuclideanClusterExtraction with tolerance <= " << angle << "..." << std::endl;
 
-    pcl::search::KdTree<PointNormal>::Ptr segtree (new pcl::search::KdTree<PointNormal>);
+    pcl::search::KdTree<pcl::PointNormal>::Ptr segtree (new pcl::search::KdTree<pcl::PointNormal>);
     segtree->setInputCloud (doncloud);
 
     std::vector<pcl::PointIndices> cluster_indices;
-    pcl::EuclideanClusterExtraction<PointNormal> ec;
+    pcl::EuclideanClusterExtraction<pcl::PointNormal> ec;
 
-    ec.setClusterTolerance (segradius);
+    ec.setClusterTolerance (angle);
     ec.setMinClusterSize (50);
     ec.setMaxClusterSize (100000);
     ec.setSearchMethod (segtree);
@@ -308,7 +309,7 @@ pcl::visualization::PCLVisualizer::Ptr MainWindow::don_segmentation(pcl::PointCl
     int j = 0;
     for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin (); it != cluster_indices.end (); ++it, j++)
     {
-        pcl::PointCloud<PointNormal>::Ptr cloud_cluster_don (new pcl::PointCloud<PointNormal>);
+        pcl::PointCloud<pcl::PointNormal>::Ptr cloud_cluster_don (new pcl::PointCloud<pcl::PointNormal>);
         for (std::vector<int>::const_iterator pit = it->indices.begin (); pit != it->indices.end (); ++pit)
         {
             cloud_cluster_don->points.push_back (doncloud->points[*pit]);
@@ -320,7 +321,7 @@ pcl::visualization::PCLVisualizer::Ptr MainWindow::don_segmentation(pcl::PointCl
 
         //Save cluster
         std::cout << "PointCloud representing the Cluster: " << cloud_cluster_don->points.size () << " data points." << std::endl;
-        stringstream ss;
+        std::stringstream ss;
         ss << "don_cluster_" << j << ".pcd";
         writer.write<pcl::PointNormal> (ss.str (), *cloud_cluster_don, false);
     }

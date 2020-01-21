@@ -13,9 +13,12 @@
 
 #include <iostream>
 #include <thread>
-
+//#include <pcl/impl/point_types.hpp>
 #include <pcl/point_types.h>
 #include <pcl/features/normal_3d.h>
+//#include <pcl/features/impl/normal_3d_omp.hpp>
+
+#include <pcl/features/normal_3d_omp.h>
 #include <pcl/io/ply_io.h>
 
 #include <pcl/console/parse.h>
