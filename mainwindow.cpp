@@ -432,3 +432,105 @@ void MainWindow::draw(){
 	}
 
 }
+
+/*********************************
+*
+*	Repérage des murs/sol/plafond
+*
+*********************************/
+//-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+//fonction mère , appelle les autres fonctions et gère l'affichage
+//-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+void MainWindow::repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer,std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_planes){
+    cout<< "Repere room" << endl;
+    std::vector<QVector3D> list_positions_mean;
+    QVector3D pos_min = QVector3D(FLT_MAX, FLT_MAX, FLT_MAX);
+    QVector3D pos_max = QVector3D(FLT_MIN, FLT_MIN, FLT_MIN);
+
+    cout<< "nombre plan total" << list_planes.size() << endl;
+    for (unsigned i = 0; i < list_planes.size(); i++){
+        int cpt = 0;
+        QVector3D pos_mean_plane = QVector3D(0,0,0);
+        //calcul de la position moyenne de chaque plans
+        cout<< "list_planes[i]->points.size()" << list_planes[i]->points.size() << endl;
+        for (size_t j=0;j< list_planes[i]->points.size();j++){
+            pos_mean_plane[0] += list_planes[i]->points[j].x;
+            //cout<< "pos_mean_plane[0]" << pos_mean_plane[0]<< endl; //nan
+            //cout<< "list_planes[i]->points[j].x" << list_planes[i]->points[j].x << endl; //nan
+
+            pos_mean_plane[1] += list_planes[i]->points[j].y;
+            pos_mean_plane[2] += list_planes[i]->points[j].z;
+            cpt++;
+        }
+        pos_mean_plane[0] /= cpt;
+        pos_mean_plane[1] /= cpt;
+        pos_mean_plane[2] /= cpt;
+        list_positions_mean.push_back(pos_mean_plane);
+        cout<< "pos_mean_plane" << pos_mean_plane.y()<< endl; //nan
+
+
+        //recherche du plan le plus bas et le plus haut
+        if(pos_mean_plane[1] > pos_max[1])
+            pos_max = pos_mean_plane;
+        if(pos_mean_plane[1] < pos_min[1])
+            pos_min = pos_mean_plane;
+
+    }
+    //------reconstitution du sol et plafond grace a un seuil d'erreur
+    float error = (pos_max[1] - pos_min[1]) * 0.05; //(5% de la hauteur de la piece)
+    cout<< "pos min" << pos_min[1] << endl;
+    cout<< "pos max" << pos_max[1] << endl;
+    cout<< "error" << error << endl;
+
+    std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_floor; //liste des plans appartenant au sol
+    std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_ceiling;//liste des plans appartenant au plafond
+    for (unsigned i = 0; i < list_positions_mean.size(); i++){
+        //sol
+        cout<< "list_positions_mean[" <<i<<"][1]" << list_positions_mean[i].y()<< endl; //nan
+        cout<< "pos min" << pos_min.y() << endl;
+        cout<< "(pos_min[1]+error)" << (pos_min.y()+error) << endl;
+        if (list_positions_mean[i].y() >= pos_min.y() && list_positions_mean[i].y() <= (pos_min.y()+error)){
+            list_floor.push_back(list_planes[i]);
+        }
+        //plafond
+        if (list_positions_mean[i].y() <= pos_max.y() && list_positions_mean[i].y() >= (pos_max.y()+error)){
+            list_ceiling.push_back(list_planes[i]);
+        }
+    }
+
+    cout<< "nombre plan floor" << list_floor.size() << endl;
+    cout<< "nombre plan ceiling" << list_ceiling.size() << endl;
+
+    //ajout au viewer des élements dans des couleurs différentes
+    for (unsigned i = 0; i < list_floor.size(); i++){
+        for(size_t j=0; j < list_floor[i]->size(); j++){
+            list_floor[i]->points[j].r = 255;
+            list_floor[i]->points[j].g = 0;
+            list_floor[i]->points[j].b = 0;
+        }
+        addPtsCloudXYZRGB(viewer, list_floor[i]);
+    }
+    for (unsigned i = 0; i < list_ceiling.size(); i++){
+        //pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> color (list_ceiling[i], 0, 0, 255);
+        for(size_t j=0; j < list_ceiling[i]->size(); j++){
+            list_ceiling[i]->points[j].r = 0;
+            list_ceiling[i]->points[j].g = 0;
+            list_ceiling[i]->points[j].b = 255;
+        }
+        addPtsCloudXYZRGB(viewer, list_ceiling[i]);
+    }
+}
+
+pcl::visualization::PCLVisualizer::Ptr MainWindow::addPtsCloudXYZRGB (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud)
+{
+    // -----------------------------------------------
+    // -----Open 3D viewer and add color point cloud--
+    // -----------------------------------------------
+
+    cout<<"ADD COLOR POINTCLOUD N°"<<this->nb_cloud<<endl;
+    viewer->addPointCloud<pcl::PointXYZRGB> (cloud, "sample cloud"+this->nb_cloud);
+    this->nb_cloud = this->nb_cloud +1;
+    return (viewer);
+}
+
+
