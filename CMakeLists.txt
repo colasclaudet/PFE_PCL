@@ -16,6 +16,31 @@ find_package(Qt5 REQUIRED Widgets)
 find_package(VTK REQUIRED)
 find_package(PCL 1.7.1 REQUIRED)
 
+#find CGAL
+find_package( CGAL QUIET COMPONENTS  )
+
+if ( NOT CGAL_FOUND )
+
+  message(STATUS "This project requires the CGAL library, and will not be compiled.")
+  return()  
+
+endif()
+
+# include helper file
+include( ${CGAL_USE_FILE} )
+
+
+# Boost and its components
+find_package( Boost REQUIRED )
+
+if ( NOT Boost_FOUND )
+
+  message(STATUS "This project requires the Boost library, and will not be compiled.")
+
+  return()  
+
+endif()
+
 # Fix a compilation bug under ubuntu 16.04 (Xenial)
 list(REMOVE_ITEM PCL_LIBRARIES "vtkproj4")
 
@@ -26,4 +51,4 @@ set(project_SOURCES main.cpp mainwindow.cpp)
 
 add_executable(${PROJECT_NAME} ${project_SOURCES})
 
-target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} Qt5::Widgets ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES})
