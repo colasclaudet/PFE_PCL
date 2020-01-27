@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/">
+        <file>shaders/billboard.fsh</file>
+        <file>shaders/billboard.vsh</file>
+        <file>shaders/simple.fsh</file>
+        <file>shaders/simple.vsh</file>
+        <file>textures/catfish.png</file>
+        <file>textures/donald.png</file>
+        <file>textures/fish.png</file>
+        <file>textures/ground.jpg</file>
+        <file>textures/koda.png</file>
+        <file>textures/lava.jpg</file>
+        <file>textures/mexicain.png</file>
+        <file>textures/nemo.png</file>
+        <file>textures/orque.png</file>
+        <file>textures/orque1.png</file>
+        <file>textures/puff.png</file>
+        <file>textures/puffs.png</file>
+        <file>textures/seal.jpg</file>
+        <file>textures/seal.png</file>
+        <file>textures/seal2.png</file>
+        <file>textures/shark.png</file>
+        <file>textures/shark2.png</file>
+        <file>textures/shark3.png</file>
+        <file>textures/shrek.png</file>
+        <file>textures/shrek2.png</file>
+        <file>textures/shreksol.jpg</file>
+    </qresource>
+</RCC>
