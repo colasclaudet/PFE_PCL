@@ -59,7 +59,11 @@
 #include <pcl/segmentation/extract_clusters.h>
 
 #include <pcl/features/don.h>
-
+#include <pcl/common/point_operators.h>
+#include <pcl/search/octree.h>
+#include <pcl/features/normal_3d_omp.h>
+#include <pcl/segmentation/sac_segmentation.h>
+#include <pcl/filters/voxel_grid.h>
 //#include <pcl/common/impl/intersections.hpp>
 //#include <pcl/common/impl/intersections.hpp>
 /********** FIN INCLUDE PCL *********************/
@@ -105,9 +109,15 @@ public:
      *********************/
 
     /**********************
+            Add xyzrgb point cloud
+     *********************/
+    pcl::visualization::PCLVisualizer::Ptr addPtsCloudXYZRGB (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
+    /**********************
               Direction Of Normal Segmentation
      *********************/
     pcl::visualization::PCLVisualizer::Ptr don_segmentation(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloud, double angle, double threshold,double scale1, double scale2);
+
+    void don_segmentation2(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloud, double angle, double threshold,double scale1, double scale2);
 
 public slots:
     void chooseViewCloud();
@@ -129,7 +139,7 @@ private:
 	std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> vector_cloud;
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloudToSave;
 	std::vector<pcl::ModelCoefficients> vector_eq;
-
+    std::vector<pcl::PointCloud<pcl::PointXYZRGB>> vector_cloud_RGB;
     QString file = "";
     
     int nb_cloud = 0;
