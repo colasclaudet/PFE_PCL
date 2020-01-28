@@ -14,7 +14,7 @@
 #include <QOpenGLTexture>
 
 #include <Qt3DRender/Qt3DRender>
-
+#include "planes.h"
 
 class GLArea : public QOpenGLWidget,
                protected QOpenGLFunctions
@@ -24,6 +24,10 @@ class GLArea : public QOpenGLWidget,
 public:
     explicit GLArea(QWidget *parent = nullptr);
     ~GLArea() override;
+
+    void draw_plane(QVector3D P1,QVector3D P2,QVector3D P3,QVector3D P4);
+
+    QList<Plane> list_plane;
 
 protected slots:
     void onTimeout();
@@ -69,7 +73,7 @@ private:
 
     float a_light = 1.0;
 
-
+    Planes * planes;
 };
 
 

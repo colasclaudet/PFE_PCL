@@ -27,11 +27,15 @@ CONFIG += c++14
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-        glarea.cpp
+        glarea.cpp \
+        plane.cpp \
+        planes.cpp
 
 HEADERS += \
         mainwindow.h \
-        glarea.h
+        glarea.h \
+        plane.h \
+        planes.h
 
 FORMS += \
         mainwindow.ui

@@ -40,6 +40,8 @@ GLArea::~GLArea()
 
 void GLArea::initializeGL()
 {
+    if(list_plane.size()>0)
+        this->planes = new Planes(this->list_plane);
     initializeOpenGLFunctions();
     glClearColor(r_light,g_light,b_light,a_light);
     glEnable(GL_DEPTH_TEST);
@@ -263,6 +265,21 @@ void GLArea::paintGL()
         program_particule->disableAttributeArray("in_uv");
         program_particule->release();
         glDepthMask(GL_TRUE);*/
+    program_box->bind();
+    program_box->setUniformValue("projectionMatrix", projectionMatrix);
+    program_box->setUniformValue("viewMatrix", viewMatrix);
+    //textures[2]->bind();
+
+    if(list_plane.size()>0)
+    {
+        planes->display(program_box);
+    }
+
+    //textures[2]->release();
+    program_box->disableAttributeArray("in_position");
+    program_box->disableAttributeArray("in_uv");
+    program_box->release();
+    glDepthMask(GL_TRUE);
 }
 
 
