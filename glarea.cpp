@@ -37,6 +37,12 @@ GLArea::~GLArea()
     doneCurrent();
 }
 
+void GLArea::addPlanes(QList<Plane> lplanes)
+{
+    this->list_plane = lplanes;
+    initializeGL();
+}
+
 
 void GLArea::initializeGL()
 {
@@ -229,7 +235,7 @@ void GLArea::paintGL()
     program_sol->enableAttributeArray("in_uv");
 
     textures[0]->bind();
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    //glDrawArrays(GL_TRIANGLES, 0, 6);
     textures[0]->release();
 
     program_sol->disableAttributeArray("in_position");

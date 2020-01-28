@@ -26,7 +26,7 @@ public:
     ~GLArea() override;
 
     void draw_plane(QVector3D P1,QVector3D P2,QVector3D P3,QVector3D P4);
-
+    void addPlanes(QList<Plane> lplanes);
     QList<Plane> list_plane;
 
 protected slots:
@@ -67,9 +67,9 @@ private:
 
     //Qt3DRender::QMesh * mesh;
 
-    float r_light = 0.5;
-    float g_light = 0.5;
-    float b_light = 1.0;
+    float r_light = 0.02;
+    float g_light = 0.02;
+    float b_light = 0.05;
 
     float a_light = 1.0;
 

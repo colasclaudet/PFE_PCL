@@ -8,6 +8,7 @@
 #include <chrono>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
+#include <thread>
 
 /********** INCLUDE PCL *********************/
 
@@ -127,7 +128,7 @@ public slots:
     void changeProba(int proba);
     void chooseFile();
     void draw();
-    
+    void modelize();
     void saveCloud(); //not use
 
 private:

@@ -11,6 +11,9 @@ Plane::Plane(QVector3D P1, QVector3D P2, QVector3D P3, QVector3D P4)
        P4[0],P4[1],P4[2],
        P1[0],P1[1],P1[2]
     };
+    float tailleSol = 20.0f;
+
+
 
     GLfloat texCoords[] =
     {
@@ -30,6 +33,12 @@ Plane::Plane(QVector3D P1, QVector3D P2, QVector3D P3, QVector3D P4)
         for (int j = 0; j < 2; j++)
             vertData.append(texCoords[i*2+j]);
     }
+    float r = (rand()%255)/255.0;
+    float g = (rand()%255)/255.0;
+    float b = (rand()%255)/255.0;
+
+    float a = 0.7;
+    this->color = QVector4D(r,g,b,a);
 }
 
 void Plane::display(QOpenGLShaderProgram *buffer)
@@ -39,10 +48,10 @@ void Plane::display(QOpenGLShaderProgram *buffer)
     this->vbo.allocate(vertData.constData(), vertData.count() * int(sizeof(GLfloat)));
 
     matrix.setToIdentity();
-    //matrix.translate(this->position);
+    matrix.translate(0.0,0.0,0.0);
 
     buffer->setUniformValue("modelMatrix", matrix);
-    buffer->setUniformValue("particleSize", 1);
+    buffer->setUniformValue("particleSize", 1.0f);
     //QColor c(255,0,0,255);
     //GLfloat color[] = {255.0f, 0.0f, 0.0f, 200.0f};
     //QVector4D color(1.0f/this->position[1],1.0f/this->position[1],1.0f/this->position[1],1.0f);
@@ -51,8 +60,8 @@ void Plane::display(QOpenGLShaderProgram *buffer)
 
     //glBindVertexArray(color);
     //buffer->setUniformValue("uv",color);
-    buffer->setUniformValue("color",this->color);
 
+    buffer->setUniformValue("color",this->color);
     //buffer->setUniformValue("uv",color);
     buffer->setAttributeBuffer("in_position", GL_FLOAT, 0, 3, 5 * sizeof(GLfloat));
     buffer->setAttributeBuffer("in_uv", GL_FLOAT, 3 * sizeof(GLfloat), 2, 5 * sizeof(GLfloat));

@@ -10,8 +10,21 @@
     <height>534</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Garuda</family>
+    <weight>50</weight>
+    <italic>false</italic>
+    <bold>false</bold>
+    <strikeout>false</strikeout>
+    <kerning>true</kerning>
+   </font>
+  </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ScanLiDAR</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
@@ -243,6 +256,19 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QPushButton" name="btn_modelize">
+            <property name="maximumSize">
+             <size>
+              <width>80</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Modelize</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
        </layout>
@@ -286,7 +312,7 @@
      <x>0</x>
      <y>0</y>
      <width>531</width>
-     <height>22</height>
+     <height>33</height>
     </rect>
    </property>
   </widget>

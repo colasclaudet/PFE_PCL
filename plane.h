@@ -14,7 +14,7 @@ public:
 private:
 
     QOpenGLBuffer vbo;
-    QVector4D color = QVector4D(255,255,255,255);
+    QVector4D color = QVector4D(1.0f,1.0f,1.0f,0.5f);
 
     QMatrix4x4 matrix;
     QVector<GLfloat> vertData;

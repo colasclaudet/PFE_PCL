@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui->slider_proba, SIGNAL(valueChanged(int)), this, SLOT(changeProba(int))); //connexion slidebar proba
 	connect(ui->btn_import, SIGNAL(clicked()), this, SLOT(chooseFile())); //connexion selection de fichier
 	connect(ui->btn_draw, SIGNAL(clicked()), this, SLOT(draw())); //connexion bouton draw, on lance le viewer
+    connect(ui->btn_modelize, SIGNAL(clicked()), this, SLOT(modelize())); //connexion bouton modelize, on lance la modelisation
 	//save
     //connect(ui->btn_save, SIGNAL(clicked()), this, SLOT(saveCloud()));
 
@@ -383,7 +384,7 @@ void MainWindow::don_segmentation(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cl
     std::vector<pcl::PointIndices> cluster_indices;
     pcl::EuclideanClusterExtraction<pcl::PointNormal> ec;
     ec.setClusterTolerance (segradius);
-    ec.setMinClusterSize (500); //50
+    ec.setMinClusterSize (75); //50
     ec.setMaxClusterSize (100000); //100000
     ec.setSearchMethod (segtree);
     ec.setInputCloud (doncloud);
@@ -549,7 +550,7 @@ void MainWindow::draw(){
             don_segmentation2(cloud_xyzrgb, a, 0.25,0.02, 2.0); //always in the range (0,1) 0.25, 0.25,0.2, 0.5
             cout<<" a "<<a<<" b "<<b<<" c "<<c<<" d "<<d<<endl;
         }*/
-        don_segmentation(cloud_xyzrgb, 25.25, 0.25,0.02, 0.5); //always in the range (0,1) 0.25, 0.25,0.2, 0.5
+        don_segmentation(cloud_xyzrgb, 25.25, 0.25,1.0, 2.0); //always in the range (0,1) 0.25, 0.25,0.2, 0.5
         cloud->clear();
 
         this->viewer = simpleVis(cloud);
@@ -586,4 +587,50 @@ void MainWindow::draw(){
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
+}
+
+void MainWindow::modelize()
+{
+    cout<<"Modelize"<<endl;
+
+    QList<Plane> pl;
+    {
+        QVector3D p1(0.0,-1.0,-1.0);
+        QVector3D p2(0.0,1.0,-1.0);
+        QVector3D p3(0.0,1.0,1.0);
+        QVector3D p4(0.0,-1.0,1.0);
+        Plane p(p1,p2,p3,p4);
+
+        pl.push_back(p);
+    }
+
+    {
+        QVector3D p1(1.0,-1.0,-1.0);
+        QVector3D p2(1.0,1.0,-1.0);
+        QVector3D p3(1.0,1.0,1.0);
+        QVector3D p4(1.0,-1.0,1.0);
+        Plane p(p1,p2,p3,p4);
+
+        pl.push_back(p);
+    }
+    {
+        QVector3D p1(0.0,-1.0,-1.0);
+        QVector3D p2(0.0,-1.0,1.0);
+        QVector3D p3(1.0,-1.0,1.0);
+        QVector3D p4(1.0,-1.0,-1.0);
+        Plane p(p1,p2,p3,p4);
+
+        pl.push_back(p);
+    }
+    {
+        QVector3D p1(0.0,-1.0,1.0);
+        QVector3D p2(0.0,1.0,1.0);
+        QVector3D p3(1.0,1.0,1.0);
+        QVector3D p4(1.0,-1.0,1.0);
+        Plane p(p1,p2,p3,p4);
+
+        pl.push_back(p);
+    }
+
+    ui->glarea->addPlanes(pl);
 }

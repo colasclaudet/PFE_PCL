@@ -3,6 +3,7 @@
 Planes::Planes(QList<Plane> _listPlane)
 {
     this->listPlane = _listPlane;
+    qDebug()<<"NB_PLANE : "<<this->listPlane.size();
 }
 
 void Planes::display(QOpenGLShaderProgram *buffer)
@@ -14,4 +15,5 @@ void Planes::display(QOpenGLShaderProgram *buffer)
             i->display(buffer);
             i++;
     }
+    //qDebug()<<"display";
 }
