@@ -211,7 +211,80 @@ pcl::visualization::PCLVisualizer::Ptr  MainWindow::addPlane(pcl::visualization:
 /**********************
       PFE
 **********************/
+double * MainWindow::equation_plane(QVector3D P1, QVector3D P2, QVector3D P3)
+{
+    double * eq_plane = new double[4];
 
+    double a = static_cast<double>((P2[1]-P1[1])*(P3[2] - P1[2]) - (P2[2]-P1[2])*(P3[1]-P1[2]));
+    double b = static_cast<double>(-((P2[0]-P1[0])*(P3[2]-P1[2])-(P2[2]-P1[2])*(P3[0]-P1[0])));
+    double c = static_cast<double>((P2[0]-P1[0])*(P3[1]-P1[1]) - (P2[1]-P1[1])*(P3[0]-P1[0]));
+    double d = static_cast<double>(-( a * P1[0] + b * P1[1] + c * P1[2]));
+    //qDebug() << "-( a * P1[0] + b * P1[1] + c * P1[2]) :" << a << "*" << P1[0] << "+" << b << "*" << P1[1] << "+" << c << "*" << P1[2];
+    //qDebug() << "equation of plane is " << a << " x + " << b
+        //<< " y + " << c << " z + " << d << " = 0.";
+    eq_plane[0]=a;
+    eq_plane[1]=b;
+    eq_plane[2]=c;
+    eq_plane[3]=d;
+    return eq_plane;
+}
+
+QVector3D MainWindow::resol_3eq_3inc(double * eq1, double * eq2, double * eq3)
+{
+
+    double matrice[3][4];
+    double coefficient,x,y,z;
+    int i=0;
+    //qDebug() << "Resolution d'un systeme de 3 equations a trois inconnues\n";
+    //qDebug() << "Premiere equation, entrez en ordre respectif x,y,z et la constante\n";
+    //cin >> matrice[0][0]>>matrice[0][1]>>matrice[0][2]>>matrice[0][3];
+    matrice[0][0] = eq1[0];
+    matrice[0][1] = eq1[1];
+    matrice[0][2] = eq1[2];
+    matrice[0][3] = eq1[3];
+    //cout << "Seconde equation, entrez en ordre respectif x,y,z et la constante\n";
+    //cin >> matrice[1][0]>>matrice[1][1]>>matrice[1][2]>>matrice[1][3];
+    matrice[1][0] = eq2[0];
+    matrice[1][1] = eq2[1];
+    matrice[1][2] = eq2[2];
+    matrice[1][3] = eq2[3];
+    //cout << "Premiere equation, entrez en ordre respectif x,y,z et la constante\n";
+    //cin >> matrice[2][0]>>matrice[2][1]>>matrice[2][2]>>matrice[2][3];
+    matrice[2][0] = eq3[0];
+    matrice[2][1] = eq3[1];
+    matrice[2][2] = eq3[2];
+    matrice[2][3] = eq3[3];
+    coefficient=(-1.0*matrice[1][0]/matrice[0][0]);
+    for(int p = 0; p<3;p++)
+        for(int l = 0; l<4; l++)
+            //qDebug() <<"matrice : "<<matrice[p][l]<<endl;
+    for(;i<=3;i++)
+    {
+        matrice[1][i]=(coefficient*matrice[0][i])+matrice[1][i];
+    }
+    coefficient=(-1.0*matrice[2][0]/matrice[0][0]);
+    i=0;
+    for(;i<=3;i++)
+    {
+        matrice[2][i]=(coefficient*matrice[0][i])+matrice[2][i];
+    }
+    coefficient=(-1.0*matrice[2][1]/matrice[1][1]);
+    i=1;
+    for(;i<=3;i++)
+    {
+        matrice[2][i]=(coefficient*matrice[1][i])+matrice[2][i];
+    }
+    z=matrice[2][3]/matrice[2][2];
+    y=(matrice[1][3]-(matrice[1][2]*z))/matrice[1][1];
+    x=(matrice[0][3]-((matrice[0][1]*y)+(matrice[0][2]*z)))/matrice[0][0];
+    //qDebug()  << "X est egal a " << x << "\n";
+    //qDebug()  << "Y est egal a " << y << "\n";
+    //qDebug()  << "Z est egal a " << z << "\n";
+    QVector3D point(x,y,z);
+    //system("PAUSE");
+    return point;
+
+}
 void MainWindow::don_segmentation(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloud, double angle, double threshold, double scale1, double scale2)
 {
     ///The smallest scale to use in the DoN filter.

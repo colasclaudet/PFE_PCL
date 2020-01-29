@@ -111,6 +111,14 @@ public:
      *********************/
 
     /**********************
+     resolve 3 parameters equation
+     **********************/
+    QVector3D resol_3eq_3inc(double * eq1, double * eq2, double * eq3);
+    /**********************
+     get plane equation
+     **********************/
+    double * equation_plane(QVector3D P1, QVector3D P2, QVector3D P3);
+    /**********************
             Add xyzrgb point cloud
      *********************/
     pcl::visualization::PCLVisualizer::Ptr addPtsCloudXYZRGB (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
