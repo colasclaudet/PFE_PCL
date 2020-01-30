@@ -46,12 +46,11 @@
 #include <pcl/ModelCoefficients.h>
 #include <pcl/common/common.h>
 #include <pcl/common/distances.h>
+#include <pcl/common/transforms.h>
 
 #include <vtkRenderWindow.h>
 
 #include <string>
-
-
 
 #include <pcl/search/organized.h>
 #include <pcl/search/kdtree.h>
@@ -102,6 +101,12 @@ public:
     pcl::visualization::PCLVisualizer::Ptr addPlane (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::ModelCoefficients planeCoef);
     pcl::PointXYZ threePlaneIntersection(pcl::ModelCoefficients plane_coeff1, pcl::ModelCoefficients plane_coeff2, pcl::ModelCoefficients plane_coeff3);
     /**********************
+           CALCUL
+    **********************/
+    void repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_planes);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe);
+    
+    /**********************
            OBSOLETE
     **********************/
     pcl::PointCloud<pcl::PointXYZ>::Ptr regroup_plane(); //not use
@@ -129,6 +134,8 @@ public:
 
     void don_segmentation(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloud, double angle, double threshold,double scale1, double scale2);
 
+    void ransac_segmentation();
+
 public slots:
     void chooseViewCloud();
     void chooseViewPlane();
@@ -140,18 +147,26 @@ public slots:
     void saveCloud(); //not use
 
 private:
+    // initialize PointClouds
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud; //(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr final; //(new pcl::PointCloud<pcl::PointXYZ>);
+    
+    bool file_is_ply = false;
+
     Ui::MainWindow *ui;
     float threshold = 20.0f;
     float proba = 0.05f;
-    bool view_plan = true;	
-	bool have_plane = false;
+    bool view_plan = true;
+    bool have_plane = false;
 
-	std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> vector_cloud;
-	pcl::PointCloud<pcl::PointXYZ>::Ptr cloudToSave;
-	std::vector<pcl::ModelCoefficients> vector_eq;
+    std::vector<pcl::PointCloud<pcl::PointXYZ>> vector_cloud;
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloudToSave;
+    std::vector<pcl::ModelCoefficients> vector_eq;
     std::vector<pcl::PointCloud<pcl::PointXYZRGB>> vector_cloud_RGB;
+
+    std::vector<double *> eq_planes;
     QString file = "";
-    
+
     int nb_cloud = 0;
     int nb_plane = 0;
 //new
