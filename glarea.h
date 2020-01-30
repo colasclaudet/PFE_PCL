@@ -26,6 +26,7 @@ public:
     ~GLArea() override;
 
     void draw_plane(QVector3D P1,QVector3D P2,QVector3D P3,QVector3D P4);
+    void draw_bounding_box(GLfloat xmax =0.0f, GLfloat ymax=0.0f, GLfloat zmax=0.0f, GLfloat xmin=0.0f, GLfloat ymin=0.0f, GLfloat zmin=0.0f);
     void addPlanes(QList<Plane> lplanes);
     QList<Plane> list_plane;
 

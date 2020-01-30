@@ -671,7 +671,8 @@ void MainWindow::ransac_segmentation()
 
             int nb_iter_for_avg = 1; //nombre de fois qu'on itere pour faire la moyenne des equations des plans
 
-            for(int i= 0; i < nb_iter_for_avg; ++i){
+            for(int i= 0; i < nb_iter_for_avg; ++i)
+            {
                 pcl::PointCloud<pcl::PointXYZ>::Ptr clicked_points_3d (final); //  creer nuage (copie de final)
                 Eigen::VectorXf ground_coeffs;
                 ground_coeffs.resize(4); // coefficient du plan
@@ -755,6 +756,31 @@ void MainWindow::ransac_segmentation()
     }
 }
 
+void MainWindow::calc_bounding_box(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud)
+{
+
+    for(int i = 0; i<cloud->points.size();i++)
+    {
+        if(cloud->points[i].x > xmax)
+            xmax = cloud->points[i].x;
+        if(cloud->points[i].y > ymax)
+            ymax = cloud->points[i].y;
+        if(cloud->points[i].z > zmax)
+            zmax = cloud->points[i].z;
+
+        if(cloud->points[i].x < xmin)
+            xmin= cloud->points[i].x;
+        if(cloud->points[i].y < ymin)
+            ymin = cloud->points[i].y;
+        if(cloud->points[i].z < zmin)
+            zmin = cloud->points[i].z;
+    }
+    std::cout<<"BOUNDING BOX : "<<endl<<"MAX : "
+    <<" x : "<<xmax<<" y : "<<ymax<<" z : "<<zmax
+    <<endl<<"MIN : "
+    <<" x : "<<xmin<<" y : "<<ymin<<" z : "<<zmin<<endl;
+}
+
 void MainWindow::draw()
 {
 	/* initialize random seed: */
@@ -800,13 +826,29 @@ void MainWindow::draw()
         //finaliseVis(viewer);
 
         //debut fonction
+        calc_bounding_box(cloud);
         ransac_segmentation();
         //fin fonction
         cout<<"INTERSECTIONS DES PLANS : "<<endl;
         for(int i=0;i<eq_planes.size()-2;i++)
         {
-            QVector3D point = resol_3eq_3inc(eq_planes.at(i), eq_planes.at(i+1), eq_planes.at(i+2));
-            cout<<"x = "<<point[0]<<" y = "<<point[1]<<" z = "<<point[2]<<endl;
+            for(int j=0;j<eq_planes.size()-2;j++)
+            {
+                for(int k = 0;k<eq_planes.size();k++)
+                {
+                    if(i != j && j!=k && i!=k)
+                    {
+                        QVector3D point = resol_3eq_3inc(eq_planes.at(i), eq_planes.at(j), eq_planes.at(k));
+
+                        if(!(point[0]>xmax || point[1]>ymax || point[2]>zmax || point[0]<xmin || point[1]<ymin || point[2]<zmin))
+                        {
+                            cout<<"x = "<<point[0]<<" y = "<<point[1]<<" z = "<<point[2]<<endl;
+                            inter_points.push_back(point);
+                        }
+
+                    }
+                }
+            }
         }
         cout<<"FIN INTERSECTIONS DES PLANS "<<endl;
 
@@ -845,6 +887,7 @@ void MainWindow::draw()
 void MainWindow::modelize()
 {
     cout<<"Modelize"<<endl;
+    //ui->glarea->draw_bounding_box(xmax/100.0,ymax/100.0,zmax/100.0f,xmin/100.0f,ymin/100.0f,zmin/100.0f);
 
     QList<Plane> pl;
     {
@@ -884,8 +927,50 @@ void MainWindow::modelize()
 
         pl.push_back(p);
     }
+    {
+        cout<<"TRY TO MODELISE PLANE IN OPENGL UI : "<<endl;
+        if(inter_points.size()>=4)
+        {
+            /*for(int i = 0; i<inter_points.size()-3;i++)
+            {
+                Plane p(inter_points.at(i)/100.0,inter_points.at(i+1)/100.0,inter_points.at(i+2)/100.0,inter_points.at(i+3)/100.0);
+                pl.push_back(p);
+            }*/
+
+            for(int i = 0; i<eq_planes.size(); i++)
+            {
+                std::vector<QVector3D> plane_points;
+                for(int j = 0; j<inter_points.size();j++)
+                {
+                    if(eq_planes.at(i)[0]*inter_points.at(j)[0] + eq_planes.at(i)[1]*inter_points.at(j)[1]
+                            + eq_planes.at(i)[2]*inter_points.at(j)[2] + eq_planes.at(i)[3] <= 100 &&
+                            eq_planes.at(i)[0]*inter_points.at(j)[0] + eq_planes.at(i)[1]*inter_points.at(j)[1]
+                                                        + eq_planes.at(i)[2]*inter_points.at(j)[2] + eq_planes.at(i)[3] >= -100)
+                    {
+                        plane_points.push_back(inter_points.at(j));
+                        cout<<" POINT(S) FOUND IN PLANE n°"<<i<<endl;
+                    }
+                }
+                if(plane_points.size()>=4)
+                {
+                    Plane p(plane_points.at(0)/100.0,plane_points.at(1)/100.0,plane_points.at(2)/100.0,plane_points.at(3)/100.0);
+                    pl.push_back(p);
+                }
+                else
+                {
+                    cout<<"ERROR plane points : °"<<plane_points.size()<<endl;
+                }
+            }
+        }
+        else
+        {
+            cout<<"ERROR : NO INTER POINTS"<<endl;
+        }
+    }
 
     ui->glarea->addPlanes(pl);
+    ui->glarea->draw_bounding_box(xmax/100.0,ymax/100.0,zmax/100.0f,xmin/100.0f,ymin/100.0f,zmin/100.0f);
+    //ui->glarea->draw_bounding_box(1.0f,1.0f,1.0f,-1.0f,-1.0f,-1.0f);
 }
 
 void MainWindow::on_action_propos_triggered()
@@ -896,7 +981,8 @@ void MainWindow::on_action_propos_triggered()
 }
 
 //http://pointclouds.org/documentation/tutorials/matrix_transform.php
-pcl::PointCloud<pcl::PointXYZ>::Ptr MainWindow::rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe){
+pcl::PointCloud<pcl::PointXYZ>::Ptr MainWindow::rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe)
+{
     Eigen::Affine3f transform = Eigen::Affine3f::Identity();
     float theta = degrees * M_PI /180; //passage des degrees en radians
 

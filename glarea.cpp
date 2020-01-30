@@ -1,6 +1,6 @@
 // Basé sur :
 // CC-BY Edouard.Thiel@univ-amu.fr - 22/01/2019
-
+//from TP3 colas claudet animation et rendu
 #include "glarea.h"
 #include <QDebug>
 #include <QSurfaceFormat>
@@ -35,6 +35,63 @@ GLArea::~GLArea()
     makeCurrent();
     tearGLObjects();
     doneCurrent();
+}
+
+void GLArea::draw_bounding_box(GLfloat xmax, GLfloat ymax, GLfloat zmax, GLfloat xmin, GLfloat ymin, GLfloat zmin)
+{
+    //float tailleaq = 15.0f;
+    //from TP2 colas claudet animation et rendu
+
+    GLfloat vertices_aq[] = {
+           xmin,ymin,zmin,
+           xmax,ymin,zmin,
+           xmin,ymin,zmax,
+           xmax,ymin,zmax,
+           xmin,ymax,zmin,
+           xmax,ymax,zmin,
+           xmin,ymax,zmax,
+           xmax,ymax,zmax,
+
+           xmin,ymin,zmin,
+           xmin,ymin,zmax,
+           xmin,ymax,zmin,
+           xmin,ymax,zmax,
+           xmax,ymin,zmin,
+           xmax,ymin,zmax,
+           xmax,ymax,zmin,
+           xmax,ymax,zmax,
+
+           xmin,ymin,zmin,
+           xmin,ymax,zmin,
+           xmax,ymin,zmin,
+           xmax,ymax,zmin,
+           xmin,ymin,zmax,
+           xmin,ymax,zmax,
+           xmax,ymin,zmax,
+           xmax,ymax,zmax
+        };
+    GLfloat texCoords_aq[] = {
+            0.0f, 0.0f,
+            0.0f, 1.0f,
+            1.0f, 1.0f,
+            1.0f, 1.0f,
+            1.0f, 0.0f,
+            0.0f, 0.0f
+        };
+
+    QVector<GLfloat> vertData_aq;
+    for (int i = 0; i < 24; ++i) {
+        // coordonnées sommets
+        for (int j = 0; j < 3; j++)
+            vertData_aq.append(vertices_aq[i*3+j]);
+        // coordonnées texture
+        for (int j = 0; j < 2; j++)
+            vertData_aq.append(texCoords_aq[i*2+j]);
+    }
+    vbo_sol.create();
+    vbo_sol.bind();
+    vbo_sol.allocate(vertData_aq.constData(), vertData_aq.count() * int(sizeof(GLfloat)));
+
 }
 
 void GLArea::addPlanes(QList<Plane> lplanes)
@@ -97,8 +154,8 @@ void GLArea::initializeGL()
 void GLArea::makeGLObjects()
 {
     // Création du sol
-
-    float tailleSol = 20.0f;
+    draw_bounding_box();
+    /*float tailleSol = 20.0f;
 
     GLfloat vertices_sol[] = {
        -tailleSol, 0.0f,-tailleSol,
@@ -131,7 +188,7 @@ void GLArea::makeGLObjects()
     vbo_sol.create();
     vbo_sol.bind();
     vbo_sol.allocate(vertData_sol.constData(), vertData_sol.count() * int(sizeof(GLfloat)));
-
+    */
 
     // Création d'une particule de fumée
     GLfloat vertices_particule[] = {
@@ -228,15 +285,16 @@ void GLArea::paintGL()
     program_sol->setUniformValue("projectionMatrix", projectionMatrix);
     program_sol->setUniformValue("viewMatrix", viewMatrix);
     program_sol->setUniformValue("modelMatrix", modelMatrixSol);
+    program_sol->setUniformValue("color",QVector4D(1.0,1.0,1.0,1.0));
 
     program_sol->setAttributeBuffer("in_position", GL_FLOAT, 0, 3, 5 * sizeof(GLfloat));
     program_sol->setAttributeBuffer("in_uv", GL_FLOAT, 3 * sizeof(GLfloat), 2, 5 * sizeof(GLfloat));
     program_sol->enableAttributeArray("in_position");
     program_sol->enableAttributeArray("in_uv");
 
-    textures[0]->bind();
-    //glDrawArrays(GL_TRIANGLES, 0, 6);
-    textures[0]->release();
+    //textures[0]->bind();
+    glDrawArrays(GL_LINES, 0, 24);
+    //textures[0]->release();
 
     program_sol->disableAttributeArray("in_position");
     program_sol->disableAttributeArray("in_uv");

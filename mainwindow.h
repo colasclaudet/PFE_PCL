@@ -135,6 +135,7 @@ public:
     void don_segmentation(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloud, double angle, double threshold,double scale1, double scale2);
 
     void ransac_segmentation();
+    void calc_bounding_box(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
 
 public slots:
     void chooseViewCloud();
@@ -154,7 +155,7 @@ private:
     bool file_is_ply = false;
 
     Ui::MainWindow *ui;
-    float threshold = 20.0f;
+    float threshold = 90.0f;
     float proba = 0.05f;
     bool view_plan = true;
     bool have_plane = false;
@@ -165,10 +166,14 @@ private:
     std::vector<pcl::PointCloud<pcl::PointXYZRGB>> vector_cloud_RGB;
 
     std::vector<double *> eq_planes;
+    std::vector<QVector3D> inter_points;
     QString file = "";
 
     int nb_cloud = 0;
     int nb_plane = 0;
+
+    double xmin,ymin,zmin = 10000000000;
+    double xmax,ymax,zmax = -10000000000;
 //new
 protected:
     pcl::visualization::PCLVisualizer::Ptr viewer;
