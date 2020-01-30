@@ -9,7 +9,7 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <thread>
-
+#include <QMessageBox>
 /********** INCLUDE PCL *********************/
 
 #include <iostream>
@@ -158,6 +158,8 @@ private:
 protected:
     pcl::visualization::PCLVisualizer::Ptr viewer;
 
+private slots:
+    void on_action_propos_triggered();
 };
 
 #endif // MAINWINDOW_H

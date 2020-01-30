@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui->btn_import, SIGNAL(clicked()), this, SLOT(chooseFile())); //connexion selection de fichier
 	connect(ui->btn_draw, SIGNAL(clicked()), this, SLOT(draw())); //connexion bouton draw, on lance le viewer
     connect(ui->btn_modelize, SIGNAL(clicked()), this, SLOT(modelize())); //connexion bouton modelize, on lance la modelisation
+
 	//save
     //connect(ui->btn_save, SIGNAL(clicked()), this, SLOT(saveCloud()));
 
@@ -458,7 +459,7 @@ void MainWindow::don_segmentation(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cl
     pcl::EuclideanClusterExtraction<pcl::PointNormal> ec;
     ec.setClusterTolerance (segradius);
     ec.setMinClusterSize (75); //50
-    ec.setMaxClusterSize (100000); //100000
+    ec.setMaxClusterSize (10000000); //100000
     ec.setSearchMethod (segtree);
     ec.setInputCloud (doncloud);
     ec.extract (cluster_indices);
@@ -623,7 +624,7 @@ void MainWindow::draw(){
             don_segmentation2(cloud_xyzrgb, a, 0.25,0.02, 2.0); //always in the range (0,1) 0.25, 0.25,0.2, 0.5
             cout<<" a "<<a<<" b "<<b<<" c "<<c<<" d "<<d<<endl;
         }*/
-        don_segmentation(cloud_xyzrgb, 25.25, 0.25,1.0, 2.0); //always in the range (0,1) 0.25, 0.25,0.2, 0.5
+        don_segmentation(cloud_xyzrgb, 40.25, 40.25,40.2, 40.5); //always in the range (0,1) 0.25, 0.25,0.2, 0.5
         cloud->clear();
 
         this->viewer = simpleVis(cloud);
@@ -706,4 +707,11 @@ void MainWindow::modelize()
     }
 
     ui->glarea->addPlanes(pl);
+}
+
+void MainWindow::on_action_propos_triggered()
+{
+    QMessageBox msgBox;
+    msgBox.setText("Developped by: \n Colas CLAUDET, Yoann FOULON, Rachel GLAIDE");
+    msgBox.exec();
 }
