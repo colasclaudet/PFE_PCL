@@ -106,7 +106,8 @@ public:
     /**********************
               PFE
      *********************/
-
+    void repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_planes);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe);
     /**********************
               Direction Of Normal Segmentation
      *********************/

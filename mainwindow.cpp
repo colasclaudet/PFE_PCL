@@ -435,6 +435,97 @@ void MainWindow::draw(){
 
 /*********************************
 *
+*   Transformation de nuage
+*
+*********************************/
+/*void MainWindow::rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe){
+    QVector<float> mat_rotation_tmp;
+    cout << "m_pi" << M_PI << endl;
+    float value_rad = degrees * M_PI /180;
+    cout << "value_rad" << value_rad << endl;
+
+    if(axe == 0) {
+        cout << "vtf1" << endl;
+        mat_rotation_tmp.push_back(1.0f);
+        mat_rotation_tmp.push_back(0.0f);
+        mat_rotation_tmp.push_back(0.0f);
+
+        mat_rotation_tmp.push_back(0.0f);
+        mat_rotation_tmp.push_back(cos(value_rad));
+        mat_rotation_tmp.push_back(-sin(value_rad));
+
+        mat_rotation_tmp.push_back(0.0f);
+        mat_rotation_tmp.push_back(sin(value_rad));
+        mat_rotation_tmp.push_back(cos(value_rad));
+    } else if(axe == 1) {
+        mat_rotation_tmp.push_back(cos(value_rad));
+        mat_rotation_tmp.push_back(0.0f);
+        mat_rotation_tmp.push_back(sin(value_rad));
+
+        mat_rotation_tmp.push_back(0.0f);
+        mat_rotation_tmp.push_back(1.0f);
+        mat_rotation_tmp.push_back(0.0f);
+
+        mat_rotation_tmp.push_back(-sin(value_rad));
+        mat_rotation_tmp.push_back(0.0f);
+        mat_rotation_tmp.push_back(cos(value_rad));
+    } else {
+        mat_rotation_tmp.push_back(cos(value_rad));
+        mat_rotation_tmp.push_back(-sin(value_rad));
+        mat_rotation_tmp.push_back(0.0f);
+
+        mat_rotation_tmp.push_back(sin(value_rad));
+        mat_rotation_tmp.push_back(cos(value_rad));
+        mat_rotation_tmp.push_back(0.0f);
+
+        mat_rotation_tmp.push_back(0.0f);
+        mat_rotation_tmp.push_back(0.0f);
+        mat_rotation_tmp.push_back(1.0f);
+    }
+
+    matrix mat_rotation(3, 3, mat_rotation_tmp);
+    for (size_t i=0 ; i< cloud->points.size() ; i++){
+        cout << "vtf" << endl;
+        QVector<float> tmp;
+        tmp.push_back(cloud->points[i].x);
+        tmp.push_back(cloud->points[i].y);
+        tmp.push_back(cloud->points[i].z);
+        matrix point(3, 1, tmp);
+
+        cout << "truc" << endl;
+        //cout << "point_tmp" << point_tmp<< endl;
+        //cout << "mat_rotation" << mat_rotation<< endl;
+        //point.afficher();
+        point = point.multMat(mat_rotation);
+
+    cout << "muche" << endl;
+
+        cloud->points[i].x = point.at(0, 0);
+        cloud->points[i].y = point.at(0, 1);
+        cloud->points[i].z = point.at(0, 2);
+        cout << "good" << endl;
+    }
+}*/
+//http://pointclouds.org/documentation/tutorials/matrix_transform.php
+pcl::PointCloud<pcl::PointXYZ>::Ptr MainWindow::rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe){
+    Eigen::Affine3f transform = Eigen::Affine3f::Identity();
+    float theta = degrees * M_PI /180; //passage des degrees en radians
+
+    //création de la transformation en fonction de l'axe choisi
+    if(axe == 0) //axe x
+        transform.rotate (Eigen::AngleAxisf (theta, Eigen::Vector3f::UnitX()));
+    else if (axe == 1)
+        transform.rotate (Eigen::AngleAxisf (theta, Eigen::Vector3f::UnitY()));
+    else
+        transform.rotate (Eigen::AngleAxisf (theta, Eigen::Vector3f::UnitZ()));
+
+    // exécution de la transformation
+    pcl::PointCloud<pcl::PointXYZ>::Ptr transformed_cloud (new pcl::PointCloud<pcl::PointXYZ> ());
+    // application de la transformation au nuage initial
+    pcl::transformPointCloud (*cloud, *transformed_cloud, transform);
+    
+/*********************************
+*
 *	Repérage des murs/sol/plafond
 *
 *********************************/
