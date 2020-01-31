@@ -967,7 +967,13 @@ void MainWindow::modelize()
             cout<<"ERROR : NO INTER POINTS"<<endl;
         }
     }
-
+    QList<Vertex> vertices;
+    for(int i = 0; i<inter_points.size();i++)
+    {
+        Vertex v(0.5,inter_points.at(i)[0]/100.0,inter_points.at(i)[1]/100.0,inter_points.at(i)[2]/100.0);
+        vertices.push_back(v);
+    }
+    ui->glarea->addVertex(vertices);
     ui->glarea->addPlanes(pl);
     ui->glarea->draw_bounding_box(xmax/100.0,ymax/100.0,zmax/100.0f,xmin/100.0f,ymin/100.0f,zmin/100.0f);
     //ui->glarea->draw_bounding_box(1.0f,1.0f,1.0f,-1.0f,-1.0f,-1.0f);

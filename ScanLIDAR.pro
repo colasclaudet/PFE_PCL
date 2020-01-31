@@ -29,13 +29,17 @@ SOURCES += \
         mainwindow.cpp \
         glarea.cpp \
         plane.cpp \
-        planes.cpp
+        planes.cpp \
+        vertex.cpp \
+        vertices.cpp
 
 HEADERS += \
         mainwindow.h \
         glarea.h \
         plane.h \
-        planes.h
+        planes.h \
+        vertex.h \
+        vertices.h
 
 FORMS += \
         mainwindow.ui

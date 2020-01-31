@@ -100,11 +100,19 @@ void GLArea::addPlanes(QList<Plane> lplanes)
     initializeGL();
 }
 
+void GLArea::addVertex(QList<Vertex> lvertex)
+{
+    this->list_vertices = lvertex;
+    initializeGL();
+}
+
 
 void GLArea::initializeGL()
 {
     if(list_plane.size()>0)
         this->planes = new Planes(this->list_plane);
+    if(list_vertices.size()>0)
+        this->vertices = new Vertices(0.5,this->list_vertices);
     initializeOpenGLFunctions();
     glClearColor(r_light,g_light,b_light,a_light);
     glEnable(GL_DEPTH_TEST);
@@ -130,8 +138,8 @@ void GLArea::initializeGL()
     //program_particule->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/billboard.vsh");
     //program_particule->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/billboard.fsh");
 
-    program_particule->addShaderFromSourceFile(QOpenGLShader::Vertex, "../shaders/billboard.vsh");
-    program_particule->addShaderFromSourceFile(QOpenGLShader::Fragment, "../shaders/billboard.fsh");
+    program_particule->addShaderFromSourceFile(QOpenGLShader::Vertex, "../shaders/billboard_m.vsh");
+    program_particule->addShaderFromSourceFile(QOpenGLShader::Fragment, "../shaders/billboard_m.fsh");
     if (! program_particule->link()) {  // édition de lien des shaders dans le shader program
         qWarning("Failed to compile and link shader program:");
         qWarning() << program_particule->log();
@@ -191,37 +199,7 @@ void GLArea::makeGLObjects()
     */
 
     // Création d'une particule de fumée
-    GLfloat vertices_particule[] = {
-       -0.5f, 0.5f, 0.0f,
-       -0.5f,-0.5f, 0.0f,
-        0.5f, 0.5f, 0.0f,
-       -0.5f,-0.5f, 0.0f,
-        0.5f,-0.5f, 0.0f,
-        0.5f, 0.5f, 0.0f
-    };
 
-    GLfloat texCoords_particule[] = {
-            0.0f, 0.0f,
-            0.0f, 1.0f,
-            1.0f, 0.0f,
-            0.0f, 1.0f,
-            1.0f, 1.0f,
-            1.0f, 0.0f
-        };
-
-    QVector<GLfloat> vertData_particule;
-    for (int i = 0; i < 6; ++i) {
-        // coordonnées sommets
-        for (int j = 0; j < 3; j++)
-            vertData_particule.append(vertices_particule[i*3+j]);
-        // coordonnées texture
-        for (int j = 0; j < 2; j++)
-            vertData_particule.append(texCoords_particule[i*2+j]);
-    }
-
-    vbo_particule.create();
-    vbo_particule.bind();
-    vbo_particule.allocate(vertData_particule.constData(), vertData_particule.count() * int(sizeof(GLfloat)));
 
     // Création de textures
     //QImage image_sol(":/textures/solplanche.jpg");
@@ -261,10 +239,6 @@ void GLArea::paintGL()
 {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-
-
     // Matrice de projection
     QMatrix4x4 projectionMatrix;
     projectionMatrix.perspective(45.0f, windowRatio, 1.0f, 1000.0f);
@@ -302,33 +276,37 @@ void GLArea::paintGL()
 
 
     // Affichage d'une particule
-    /*vbo_particule.bind();
-        program_particule->bind(); // active le shader program des particules
+    //vbo_particule.bind();
+    program_particule->bind(); // active le shader program des particules
 
-        QMatrix4x4 modelMatrixParticule;
+    QMatrix4x4 modelMatrixParticule;
 
-        glDepthMask(GL_FALSE);
-        program_particule->setUniformValue("projectionMatrix", projectionMatrix);
-        program_particule->setUniformValue("viewMatrix", viewMatrix);
-        program_particule->setUniformValue("modelMatrix", modelMatrixParticule);
-        program_particule->setUniformValue("particleSize", 1.0f);
+    glDepthMask(GL_FALSE);
+    program_particule->setUniformValue("projectionMatrix", projectionMatrix);
+    program_particule->setUniformValue("viewMatrix", viewMatrix);
+    //program_particule->setUniformValue("modelMatrix", modelMatrixParticule);
+    //program_particule->setUniformValue("particleSize", 1.0f);
 
-        program_particule->setAttributeBuffer("in_position", GL_FLOAT, 0, 3, 5 * sizeof(GLfloat));
-        program_particule->setAttributeBuffer("in_uv", GL_FLOAT, 3 * sizeof(GLfloat), 2, 5 * sizeof(GLfloat));
-        program_particule->enableAttributeArray("in_position");
-        program_particule->enableAttributeArray("in_uv");
+    //program_particule->setAttributeBuffer("in_position", GL_FLOAT, 0, 3, 5 * sizeof(GLfloat));
+    //program_particule->setAttributeBuffer("in_uv", GL_FLOAT, 3 * sizeof(GLfloat), 2, 5 * sizeof(GLfloat));
+    //program_particule->enableAttributeArray("in_position");
+    //program_particule->enableAttributeArray("in_uv");
 
-        textures[1]->bind();
-        glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-        //glEnable(GL_BLEND);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        //glDisable(GL_BLEND);
-        textures[1]->release();
+    //textures[1]->bind();
+    //glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    //glEnable(GL_BLEND);
+    //glDrawArrays(GL_TRIANGLES, 0, 6);
+    //glDisable(GL_BLEND);
+    //textures[1]->release();
+    if(list_vertices.size()>0)
+    {
+        vertices->display(program_particule);
+    }
+    program_particule->disableAttributeArray("in_position");
+    program_particule->disableAttributeArray("in_uv");
+    program_particule->release();
+    //glDepthMask(GL_TRUE);
 
-        program_particule->disableAttributeArray("in_position");
-        program_particule->disableAttributeArray("in_uv");
-        program_particule->release();
-        glDepthMask(GL_TRUE);*/
     program_box->bind();
     program_box->setUniformValue("projectionMatrix", projectionMatrix);
     program_box->setUniformValue("viewMatrix", viewMatrix);

@@ -7,5 +7,7 @@
         <file>textures/ground.jpg</file>
         <file>textures/puff.png</file>
         <file>textures/seal.png</file>
+        <file>shaders/billboard_m.fsh</file>
+        <file>shaders/billboard_m.vsh</file>
     </qresource>
 </RCC>
