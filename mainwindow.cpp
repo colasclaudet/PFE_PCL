@@ -700,12 +700,12 @@ void MainWindow::ransac_segmentation()
                 model_plane.computeModelCoefficients(clicked_points_indices,ground_coeffs);// calcul plan a partir des indices des points
 
                 //ici on va calculer les équations de plan
-                QVector3D p1(final->points[a].x,final->points[a].y,final->points[a].z);
+                /*QVector3D p1(final->points[a].x,final->points[a].y,final->points[a].z);
                 QVector3D p2(final->points[b].x,final->points[b].y,final->points[b].z);
                 QVector3D p3(final->points[c].x,final->points[c].y,final->points[c].z);
                 double * plane_eq = equation_plane(p1,p2,p3);
                 eq_planes.push_back(plane_eq);
-                std::cout<<"PLANE EQUATION : "<<plane_eq[0]<<"x + "<<plane_eq[1]<<"y + "<<plane_eq[2]<<"z + "<<plane_eq[3]<<" = 0"<<endl;
+                std::cout<<"PLANE EQUATION : "<<plane_eq[0]<<"x + "<<plane_eq[1]<<"y + "<<plane_eq[2]<<"z + "<<plane_eq[3]<<" = 0"<<endl;*/
                 //end
                 std::cout << "Ground plane: " << ground_coeffs(0)
                         << " " << ground_coeffs(1) << " " << ground_coeffs(2)
@@ -781,6 +781,38 @@ void MainWindow::calc_bounding_box(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud)
     <<" x : "<<xmin<<" y : "<<ymin<<" z : "<<zmin<<endl;
 }
 
+void MainWindow::calc_inter_planes()
+{
+    for(int i = 0; i<vector_cloud.size();i++)
+    {
+        int a = 0; //indice premier point
+        int b = 0; // ...second point
+        int c = 0;
+        pcl::PointCloud<pcl::PointXYZ>::iterator  i1 = vector_cloud.at(i).begin();
+        pcl::PointCloud<pcl::PointXYZ>::iterator  i2 = vector_cloud.at(i).begin();
+        pcl::PointCloud<pcl::PointXYZ>::iterator  i3 = vector_cloud.at(i).begin();
+
+        while(a==b || b==c || a==c)
+        {
+            a = (rand() % vector_cloud.at(i).points.size()) ;
+            b = (rand() % vector_cloud.at(i).points.size()) ;
+            c = (rand() % vector_cloud.at(i).points.size()) ;
+            i1 = i1 + a;
+            i2 = i2 + b;
+            i3 = i3 + c;
+        }
+        QVector3D p1(final->points[a].x,final->points[a].y,final->points[a].z);
+        QVector3D p2(final->points[b].x,final->points[b].y,final->points[b].z);
+        QVector3D p3(final->points[c].x,final->points[c].y,final->points[c].z);
+        double * plane_eq = equation_plane(p1,p2,p3);
+        eq_planes.push_back(plane_eq);
+        std::cout<<"PLANE EQUATION : "<<plane_eq[0]<<"x + "<<plane_eq[1]<<"y + "<<plane_eq[2]<<"z + "<<plane_eq[3]<<" = 0"<<endl;
+        std::cout<<"MAKE WITH 1 :  "<<" x "<<final->points[a].x<<" y "<<final->points[a].y <<" z "<< final->points[a].z<<endl;
+        std::cout<<"MAKE WITH 2 :  "<<" x "<<final->points[b].x<<" y "<<final->points[b].y <<" z "<< final->points[b].z<<endl;
+        std::cout<<"MAKE WITH 3 :  "<<" x "<<final->points[c].x<<" y "<<final->points[c].y <<" z "<< final->points[c].z<<endl;
+    }
+}
+
 void MainWindow::draw()
 {
 	/* initialize random seed: */
@@ -828,6 +860,7 @@ void MainWindow::draw()
         //debut fonction
         calc_bounding_box(cloud);
         ransac_segmentation();
+        calc_inter_planes();
         //fin fonction
         cout<<"INTERSECTIONS DES PLANS : "<<endl;
         for(int i=0;i<eq_planes.size()-2;i++)
@@ -970,7 +1003,7 @@ void MainWindow::modelize()
     QList<Vertex> vertices;
     for(int i = 0; i<inter_points.size();i++)
     {
-        Vertex v(0.5,inter_points.at(i)[0]/100.0,inter_points.at(i)[1]/100.0,inter_points.at(i)[2]/100.0);
+        Vertex v(0.2,inter_points.at(i)[0]/100.0,inter_points.at(i)[1]/100.0,inter_points.at(i)[2]/100.0);
         vertices.push_back(v);
     }
     ui->glarea->addVertex(vertices);

@@ -136,7 +136,7 @@ public:
 
     void ransac_segmentation();
     void calc_bounding_box(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
-
+    void calc_inter_planes();
 public slots:
     void chooseViewCloud();
     void chooseViewPlane();
