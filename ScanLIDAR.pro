@@ -26,10 +26,16 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    primitive.cpp \
+    kippi.cpp \
+    graphvertex.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    primitive.h \
+    kippi.h \
+    graphvertex.h
 
 FORMS += \
         mainwindow.ui
