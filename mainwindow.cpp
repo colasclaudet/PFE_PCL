@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui->slider_proba, SIGNAL(valueChanged(int)), this, SLOT(changeProba(int))); //connexion slidebar proba
 	connect(ui->btn_import, SIGNAL(clicked()), this, SLOT(chooseFile())); //connexion selection de fichier
 	connect(ui->btn_draw, SIGNAL(clicked()), this, SLOT(draw())); //connexion bouton draw, on lance le viewer
-    connect(ui->btn_modelize, SIGNAL(clicked()), this, SLOT(modelize())); //connexion bouton modelize, on lance la modelisation
+	connect(ui->btn_modelize, SIGNAL(clicked()), this, SLOT(modelize())); //connexion bouton modelize, on lance la modelisation
 
 	//save
     //connect(ui->btn_save, SIGNAL(clicked()), this, SLOT(saveCloud()));
@@ -49,7 +49,8 @@ MainWindow::~MainWindow()
 //SLOT - sauvegarde du nuage de point dans un fichier ply
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 
-void MainWindow::saveCloud(){
+void MainWindow::saveCloud()
+{
 	QString fileName;
 	fileName = QFileDialog::getSaveFileName(this,
 	tr("Sauvegarder votre image"), "cloud_plane.ply",
@@ -222,7 +223,7 @@ void MainWindow::denoise(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud){
     std::cerr << *cloud << std::endl;
 
     // creer cloud pour futur nuage filtré
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered (new pcl::PointCloud<pcl::PointXYZ>); 
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered (new pcl::PointCloud<pcl::PointXYZ>);
 
     // Create the filtering object
     pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
@@ -265,7 +266,85 @@ double * MainWindow::equation_plane(QVector3D P1, QVector3D P2, QVector3D P3)
     eq_plane[1]=b;
     eq_plane[2]=c;
     eq_plane[3]=d;
+
     return eq_plane;
+}
+double * MainWindow::equation_plane2(pcl::PointCloud<pcl::PointXYZ> pcloud)
+{
+	double * myEq = new double[4];
+	pcl::ModelCoefficients::Ptr coefficients(new pcl::ModelCoefficients);
+	pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
+	// Create the segmentation object
+	pcl::SACSegmentation<pcl::PointXYZ> seg;
+	// Optional
+	seg.setOptimizeCoefficients (true);
+	// Mandatory
+	seg.setModelType (pcl::SACMODEL_PLANE);
+	seg.setMethodType (pcl::SAC_RANSAC);
+	seg.setDistanceThreshold (0.90f); //CHANGE
+	pcl::PointCloud<pcl::PointXYZ>::Ptr pcloudptr(new pcl::PointCloud<pcl::PointXYZ>);
+	copyPointCloud(pcloud,*pcloudptr);
+	seg.setInputCloud (pcloudptr);
+	seg.segment (*inliers, *coefficients);
+
+	/*if (inliers->indices.size () == 0)
+	{
+		PCL_ERROR ("Could not estimate a planar model for the given dataset.");
+		for(int i = 0;i<4;i++)
+		{
+			myEq[i]=0.0;
+		}
+		return myEq;
+	}*/
+
+	std::cerr << "Model coefficients PLANE2: " << coefficients->values[0] << " x + "
+																			<< coefficients->values[1] << " y + "
+																			<< coefficients->values[2] << " z + "
+																			<< coefficients->values[3] << std::endl;
+	myEq[0] = coefficients->values[0];
+	myEq[1] = coefficients->values[1];
+	myEq[2] = coefficients->values[2];
+	myEq[3] = coefficients->values[3];
+	/*std::cerr << "Model inliers: " << inliers->indices.size () << std::endl;
+	for (std::size_t i = 0; i < inliers->indices.size (); ++i)
+		std::cerr << inliers->indices[i] << "    " << pcloud.points[inliers->indices[i]].x << " "
+																							 << pcloud.points[inliers->indices[i]].y << " "
+																							 << pcloud.points[inliers->indices[i]].z << std::endl;*/
+	return myEq;
+}
+double *MainWindow::moy_eq_plane(pcl::PointCloud<pcl::PointXYZ> pcloud)
+{
+    std::vector<double *> vec_eq;
+    for(int i = 0; i<pcloud.points.size()-3;i++)
+    {
+        QVector3D p1(pcloud.points[i].x,pcloud.points[i].y,pcloud.points[i].z);
+        QVector3D p2(pcloud.points[i+1].x,pcloud.points[i+1].y,pcloud.points[i+1].z);
+        QVector3D p3(pcloud.points[i+2].x,pcloud.points[i+2].y,pcloud.points[i+2].z);
+
+        vec_eq.push_back(equation_plane(p1,p2,p3));
+    }
+    double * eq_final = new double[4];
+    for(int i = 0; i< vec_eq.size(); i++)
+    {
+        eq_final[0] = eq_final[0] + vec_eq.at(i)[0];
+        eq_final[1] = eq_final[1] + vec_eq.at(i)[1];
+        eq_final[2] = eq_final[2] + vec_eq.at(i)[2];
+        eq_final[3] = eq_final[3] + vec_eq.at(i)[3];
+    }
+    eq_final[0] = eq_final[0]/vec_eq.size();
+    eq_final[1] = eq_final[1]/vec_eq.size();
+    eq_final[2] = eq_final[2]/vec_eq.size();
+    eq_final[3] = eq_final[3]/vec_eq.size();
+		cout<<"MOYENNE EQ PLANE : "<<eq_final[0]<<"x + "<<
+    eq_final[1]<<"y + "<<
+    eq_final[2]<<"z + "<<
+    eq_final[3]<<" = 0 "<<endl;
+    /*int a = rand()%(vec_eq.size()-1);
+    eq_final[0] = vec_eq.at(a)[0];
+    eq_final[1] = vec_eq.at(a)[1];
+    eq_final[2] = vec_eq.at(a)[2];
+    eq_final[3] = vec_eq.at(a)[3];*/
+    return eq_final;
 }
 
 QVector3D MainWindow::resol_3eq_3inc(double * eq1, double * eq2, double * eq3)
@@ -294,9 +373,9 @@ QVector3D MainWindow::resol_3eq_3inc(double * eq1, double * eq2, double * eq3)
     matrice[2][2] = eq3[2];
     matrice[2][3] = eq3[3];
     coefficient=(-1.0*matrice[1][0]/matrice[0][0]);
-    for(int p = 0; p<3;p++)
+    /*for(int p = 0; p<3;p++)
         for(int l = 0; l<4; l++)
-            //qDebug() <<"matrice : "<<matrice[p][l]<<endl;
+            qDebug() <<"matrice : "<<matrice[p][l]<<endl;*/
     for(;i<=3;i++)
     {
         matrice[1][i]=(coefficient*matrice[0][i])+matrice[1][i];
@@ -316,6 +395,9 @@ QVector3D MainWindow::resol_3eq_3inc(double * eq1, double * eq2, double * eq3)
     z=matrice[2][3]/matrice[2][2];
     y=(matrice[1][3]-(matrice[1][2]*z))/matrice[1][1];
     x=(matrice[0][3]-((matrice[0][1]*y)+(matrice[0][2]*z)))/matrice[0][0];
+		x = -x;
+		y = -y;
+		z = -z;
     //qDebug()  << "X est egal a " << x << "\n";
     //qDebug()  << "Y est egal a " << y << "\n";
     //qDebug()  << "Z est egal a " << z << "\n";
@@ -574,7 +656,7 @@ void MainWindow::changeThreshold(int th){
 }
 
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-//changement de la valeur du slider proba 
+//changement de la valeur du slider proba
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 
 void MainWindow::changeProba(int proba){
@@ -641,6 +723,7 @@ void MainWindow::ransac_segmentation()
         pcl::SampleConsensusModelPlane<pcl::PointXYZ>::Ptr
         model_p (new pcl::SampleConsensusModelPlane<pcl::PointXYZ> (cloud)); //création d'un modèle pour la récupération de points formant un plan
 
+
         std::cout << "Appel de ransac" << endl;
         pcl::RandomSampleConsensus<pcl::PointXYZ> ransac (model_p);
         ransac.setDistanceThreshold (this->threshold);
@@ -674,13 +757,13 @@ void MainWindow::ransac_segmentation()
             for(int i= 0; i < nb_iter_for_avg; ++i)
             {
                 pcl::PointCloud<pcl::PointXYZ>::Ptr clicked_points_3d (final); //  creer nuage (copie de final)
-                Eigen::VectorXf ground_coeffs;
-                ground_coeffs.resize(4); // coefficient du plan
+
                 std::vector<int> clicked_points_indices; //indices des points du plan  choisis random
 
                 int a = 0; //indice premier point
                 int b = 0; // ...second point
                 int c = 0; //... troisième point
+
                 // creer des points randoms
                 // on sélectionne trois points random dans notre plan
                 while(a==b || b==c || a==c)
@@ -689,16 +772,27 @@ void MainWindow::ransac_segmentation()
                     b = (rand() % final->size()) ;
                     c = (rand() % final->size()) ;
                 }
+
                 std::cout<<"A "<<a<<"B " <<b<<"C "<<c<<endl;
                 // les mettre dans clicked_point_indices
                 clicked_points_indices.push_back(a);
                 clicked_points_indices.push_back(b);
                 clicked_points_indices.push_back(c);
 
-                //pcl::SampleConsensusModelPlane<pcl::PointXYZ> model_plane(clicked_points_3d);
-                pcl::SampleConsensusModelPlane<pcl::PointXYZ> model_plane(final);
-                model_plane.computeModelCoefficients(clicked_points_indices,ground_coeffs);// calcul plan a partir des indices des points
 
+                //pcl::SampleConsensusModelPlane<pcl::PointXYZ> model_plane(clicked_points_3d);
+                Eigen::VectorXf ground_coeffs(4);
+                //ground_coeffs.resize(4); // coefficient du plan
+                //pcl::SampleConsensusModelPlane<pcl::PointXYZ> model_plane(final);
+                //plane ou cloud ? car a b c ont été selectionné par rapport à cloud
+                model_p->computeModelCoefficients(clicked_points_indices,ground_coeffs); // calcul plan a partir des indices des points
+								//ransac.computeModelCoefficients(clicked_points_indices,ground_coeffs);
+                double * plane_eq = new double[4];
+                plane_eq[0] = ground_coeffs(0);
+                plane_eq[1] = ground_coeffs(1);
+                plane_eq[2] = ground_coeffs(2);
+                plane_eq[3] = ground_coeffs(3);
+                //eq_planes.push_back(plane_eq); //TO DO
                 //ici on va calculer les équations de plan
                 /*QVector3D p1(final->points[a].x,final->points[a].y,final->points[a].z);
                 QVector3D p2(final->points[b].x,final->points[b].y,final->points[b].z);
@@ -740,8 +834,10 @@ void MainWindow::ransac_segmentation()
             single_color_gen (final, (j*100)%255, (j*20)%255, (j*30)%255); //la couleur de chaque nuage de plan ransac est différente
 
             addPtsCloudColor(viewer,final,single_color_gen); //ajout du nuage de plan ransac au viewer
-
-            vector_cloud.push_back(*final); //on ajoute le nuage de plan ransac au vecteur mais inutilisé //marche pas car les finals sont les memes
+						pcl::PointCloud<pcl::PointXYZ> cpy;
+						copyPointCloud(*final, cpy);
+            //vector_cloud.push_back(*final); //on ajoute le nuage de plan ransac au vecteur mais inutilisé //marche pas car les finals sont les memes
+						vector_cloud.push_back(cpy);
             cout << "Taille vector_cloud : " << vector_cloud.size();
         }
 
@@ -804,7 +900,10 @@ void MainWindow::calc_inter_planes()
         QVector3D p1(final->points[a].x,final->points[a].y,final->points[a].z);
         QVector3D p2(final->points[b].x,final->points[b].y,final->points[b].z);
         QVector3D p3(final->points[c].x,final->points[c].y,final->points[c].z);
-        double * plane_eq = equation_plane(p1,p2,p3);
+        //double * plane_eq = equation_plane(p1,p2,p3);
+				cout<<"NB POINTS IN FRAGMENT "<<vector_cloud.at(i).points.size()<<endl;
+        //double * plane_eq = moy_eq_plane(vector_cloud.at(i));
+				double * plane_eq = equation_plane2(vector_cloud.at(i));
         eq_planes.push_back(plane_eq);
         std::cout<<"PLANE EQUATION : "<<plane_eq[0]<<"x + "<<plane_eq[1]<<"y + "<<plane_eq[2]<<"z + "<<plane_eq[3]<<" = 0"<<endl;
         std::cout<<"MAKE WITH 1 :  "<<" x "<<final->points[a].x<<" y "<<final->points[a].y <<" z "<< final->points[a].z<<endl;
@@ -821,8 +920,10 @@ void MainWindow::draw()
 	qDebug() << "draw";
 	std::cout << "proba " << this->proba << std::endl;
 	std::cout << "threshold " << this->threshold << std::endl;
-    cloud = rotateCloud(cloud, 270, 0);
-    
+	cloud = rotateCloud(cloud, 270, 0);
+	cloud_xyzrgb = pcl::PointCloud<pcl::PointXYZRGB>::Ptr(new pcl::PointCloud<pcl::PointXYZRGB>);
+
+	copyPointCloud(*cloud,*cloud_xyzrgb);
 
     viewer = addVisualiser(); //initialisation du visualiseur
 
@@ -841,7 +942,7 @@ void MainWindow::draw()
         don_segmentation(cloud_xyzrgb, 40.25, 40.25,40.2, 40.5); //always in the range (0,1) 0.25, 0.25,0.2, 0.5
         copyPointCloud( *cloud_xyzrgb, *cloud);*/
         //cloud->clear();
-        
+
         //this->viewer = simpleVis(cloud);
 
         /*this->nb_cloud++;
@@ -863,9 +964,9 @@ void MainWindow::draw()
         calc_inter_planes();
         //fin fonction
         cout<<"INTERSECTIONS DES PLANS : "<<endl;
-        for(int i=0;i<eq_planes.size()-2;i++)
+        for(int i=0;i<eq_planes.size();i++)
         {
-            for(int j=0;j<eq_planes.size()-2;j++)
+            for(int j=0;j<eq_planes.size();j++)
             {
                 for(int k = 0;k<eq_planes.size();k++)
                 {
@@ -873,7 +974,7 @@ void MainWindow::draw()
                     {
                         QVector3D point = resol_3eq_3inc(eq_planes.at(i), eq_planes.at(j), eq_planes.at(k));
 
-                        if(!(point[0]>xmax || point[1]>ymax || point[2]>zmax || point[0]<xmin || point[1]<ymin || point[2]<zmin))
+                        if(!(point[0]>xmax+100 || point[1]>ymax+100 || point[2]>zmax+100 || point[0]<xmin-100 || point[1]<ymin-100 || point[2]<zmin-100))
                         {
                             cout<<"x = "<<point[0]<<" y = "<<point[1]<<" z = "<<point[2]<<endl;
                             inter_points.push_back(point);
@@ -987,7 +1088,7 @@ void MainWindow::modelize()
                 if(plane_points.size()>=4)
                 {
                     Plane p(plane_points.at(0)/100.0,plane_points.at(1)/100.0,plane_points.at(2)/100.0,plane_points.at(3)/100.0);
-                    pl.push_back(p);
+                    //pl.push_back(p); //pour afficher les plans
                 }
                 else
                 {
@@ -1003,12 +1104,21 @@ void MainWindow::modelize()
     QList<Vertex> vertices;
     for(int i = 0; i<inter_points.size();i++)
     {
-        Vertex v(0.2,inter_points.at(i)[0]/100.0,inter_points.at(i)[1]/100.0,inter_points.at(i)[2]/100.0);
+        Vertex v(0.20,inter_points.at(i)[0]/100.0,inter_points.at(i)[1]/100.0,inter_points.at(i)[2]/100.0);
+				//v.setColor((rand()%255)/255.0,(rand()%255)/255.0,(rand()%255)/255.0,(rand()%255)/255.0);
         vertices.push_back(v);
+
     }
+		for(int i = 0; i < cloud_xyzrgb->points.size();i = i + 20 )
+		{
+			Vertex v(0.05,cloud_xyzrgb->points[i].x/100.0,cloud_xyzrgb->points[i].y/100.0,cloud_xyzrgb->points[i].z/100.0);
+			v.setColor(1.0,1.0,1.0,1.0);
+			vertices.push_back(v);
+		}
     ui->glarea->addVertex(vertices);
     ui->glarea->addPlanes(pl);
     ui->glarea->draw_bounding_box(xmax/100.0,ymax/100.0,zmax/100.0f,xmin/100.0f,ymin/100.0f,zmin/100.0f);
+
     //ui->glarea->draw_bounding_box(1.0f,1.0f,1.0f,-1.0f,-1.0f,-1.0f);
 }
 
@@ -1088,7 +1198,7 @@ void MainWindow::repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::
     for (unsigned i = 0; i < list_positions_mean.size(); i++)
     {
         //sol
-        cout<< "list_positions_mean[" <<i<<"][1]" << list_positions_mean[i].y()<< endl; 
+        cout<< "list_positions_mean[" <<i<<"][1]" << list_positions_mean[i].y()<< endl;
         cout<< "pos min" << pos_min.y() << endl;
         cout<< "(pos_min[1]+error)" << (pos_min.y()+error) << endl;
         if (list_positions_mean[i].y() >= pos_min.y() && list_positions_mean[i].y() <= (pos_min.y()+error))

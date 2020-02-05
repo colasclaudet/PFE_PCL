@@ -64,6 +64,10 @@
 #include <pcl/features/normal_3d_omp.h>
 #include <pcl/segmentation/sac_segmentation.h>
 #include <pcl/filters/voxel_grid.h>
+
+#include <pcl/sample_consensus/method_types.h>
+#include <pcl/sample_consensus/model_types.h>
+#include <pcl/segmentation/sac_segmentation.h>
 //#include <pcl/common/impl/intersections.hpp>
 //#include <pcl/common/impl/intersections.hpp>
 /********** FIN INCLUDE PCL *********************/
@@ -105,12 +109,12 @@ public:
     **********************/
     void repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_planes);
     pcl::PointCloud<pcl::PointXYZ>::Ptr rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe);
-    
+
     /**********************
            OBSOLETE
     **********************/
     pcl::PointCloud<pcl::PointXYZ>::Ptr regroup_plane(); //not use
-    
+
     /**********************
               PFE
      *********************/
@@ -123,6 +127,8 @@ public:
      get plane equation
      **********************/
     double * equation_plane(QVector3D P1, QVector3D P2, QVector3D P3);
+    double * equation_plane2(pcl::PointCloud<pcl::PointXYZ> pcloud);
+    double * moy_eq_plane(pcl::PointCloud<pcl::PointXYZ> pcloud);
     /**********************
             Add xyzrgb point cloud
      *********************/
@@ -150,8 +156,9 @@ public slots:
 private:
     // initialize PointClouds
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud; //(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_xyzrgb;
     pcl::PointCloud<pcl::PointXYZ>::Ptr final; //(new pcl::PointCloud<pcl::PointXYZ>);
-    
+
     bool file_is_ply = false;
 
     Ui::MainWindow *ui;
