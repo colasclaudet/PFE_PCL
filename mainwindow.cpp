@@ -760,7 +760,7 @@ void MainWindow::ransac_segmentation()
 
                 std::vector<int> clicked_points_indices; //indices des points du plan  choisis random
 
-                int a = 0; //indice premier point
+                /*int a = 0; //indice premier point
                 int b = 0; // ...second point
                 int c = 0; //... troisième point
 
@@ -799,7 +799,7 @@ void MainWindow::ransac_segmentation()
                 QVector3D p3(final->points[c].x,final->points[c].y,final->points[c].z);
                 double * plane_eq = equation_plane(p1,p2,p3);
                 eq_planes.push_back(plane_eq);
-                std::cout<<"PLANE EQUATION : "<<plane_eq[0]<<"x + "<<plane_eq[1]<<"y + "<<plane_eq[2]<<"z + "<<plane_eq[3]<<" = 0"<<endl;*/
+                std::cout<<"PLANE EQUATION : "<<plane_eq[0]<<"x + "<<plane_eq[1]<<"y + "<<plane_eq[2]<<"z + "<<plane_eq[3]<<" = 0"<<endl;
                 //end
                 std::cout << "Ground plane: " << ground_coeffs(0)
                         << " " << ground_coeffs(1) << " " << ground_coeffs(2)
@@ -809,7 +809,7 @@ void MainWindow::ransac_segmentation()
                 sum[0] += ground_coeffs(0);
                 sum[1] += ground_coeffs(1);
                 sum[2] += ground_coeffs(2);
-                sum[3] += ground_coeffs(3);
+                sum[3] += ground_coeffs(3);*/
             }
             //calcul de la moyenne pour chaque valeur de l equation
             int iter_eq = 4;
@@ -881,7 +881,7 @@ void MainWindow::calc_inter_planes()
 {
     for(int i = 0; i<vector_cloud.size();i++)
     {
-        int a = 0; //indice premier point
+        /*int a = 0; //indice premier point
         int b = 0; // ...second point
         int c = 0;
         pcl::PointCloud<pcl::PointXYZ>::iterator  i1 = vector_cloud.at(i).begin();
@@ -899,17 +899,38 @@ void MainWindow::calc_inter_planes()
         }
         QVector3D p1(final->points[a].x,final->points[a].y,final->points[a].z);
         QVector3D p2(final->points[b].x,final->points[b].y,final->points[b].z);
-        QVector3D p3(final->points[c].x,final->points[c].y,final->points[c].z);
+        QVector3D p3(final->points[c].x,final->points[c].y,final->points[c].z);*/
         //double * plane_eq = equation_plane(p1,p2,p3);
 				cout<<"NB POINTS IN FRAGMENT "<<vector_cloud.at(i).points.size()<<endl;
         //double * plane_eq = moy_eq_plane(vector_cloud.at(i));
 				double * plane_eq = equation_plane2(vector_cloud.at(i));
         eq_planes.push_back(plane_eq);
-        std::cout<<"PLANE EQUATION : "<<plane_eq[0]<<"x + "<<plane_eq[1]<<"y + "<<plane_eq[2]<<"z + "<<plane_eq[3]<<" = 0"<<endl;
+        /*std::cout<<"PLANE EQUATION : "<<plane_eq[0]<<"x + "<<plane_eq[1]<<"y + "<<plane_eq[2]<<"z + "<<plane_eq[3]<<" = 0"<<endl;
         std::cout<<"MAKE WITH 1 :  "<<" x "<<final->points[a].x<<" y "<<final->points[a].y <<" z "<< final->points[a].z<<endl;
         std::cout<<"MAKE WITH 2 :  "<<" x "<<final->points[b].x<<" y "<<final->points[b].y <<" z "<< final->points[b].z<<endl;
-        std::cout<<"MAKE WITH 3 :  "<<" x "<<final->points[c].x<<" y "<<final->points[c].y <<" z "<< final->points[c].z<<endl;
+        std::cout<<"MAKE WITH 3 :  "<<" x "<<final->points[c].x<<" y "<<final->points[c].y <<" z "<< final->points[c].z<<endl;*/
     }
+		cout<<"INTERSECTIONS DES PLANS : "<<endl;
+		for(int i=0;i<eq_planes.size();i++)
+		{
+				for(int j=0;j<eq_planes.size();j++)
+				{
+						for(int k = 0;k<eq_planes.size();k++)
+						{
+								if(i != j && j!=k && i!=k)
+								{
+										QVector3D point = resol_3eq_3inc(eq_planes.at(i), eq_planes.at(j), eq_planes.at(k));
+										if(!(point[0]>xmax+100 || point[1]>ymax+100 || point[2]>zmax+100 || point[0]<xmin-100 || point[1]<ymin-100 || point[2]<zmin-100))
+										{
+												cout<<"x = "<<point[0]<<" y = "<<point[1]<<" z = "<<point[2]<<endl;
+												inter_points.push_back(point);
+										}
+
+								}
+						}
+				}
+		}
+		cout<<"FIN INTERSECTIONS DES PLANS "<<endl;
 }
 
 void MainWindow::draw()
@@ -963,28 +984,6 @@ void MainWindow::draw()
         ransac_segmentation();
         calc_inter_planes();
         //fin fonction
-        cout<<"INTERSECTIONS DES PLANS : "<<endl;
-        for(int i=0;i<eq_planes.size();i++)
-        {
-            for(int j=0;j<eq_planes.size();j++)
-            {
-                for(int k = 0;k<eq_planes.size();k++)
-                {
-                    if(i != j && j!=k && i!=k)
-                    {
-                        QVector3D point = resol_3eq_3inc(eq_planes.at(i), eq_planes.at(j), eq_planes.at(k));
-
-                        if(!(point[0]>xmax+100 || point[1]>ymax+100 || point[2]>zmax+100 || point[0]<xmin-100 || point[1]<ymin-100 || point[2]<zmin-100))
-                        {
-                            cout<<"x = "<<point[0]<<" y = "<<point[1]<<" z = "<<point[2]<<endl;
-                            inter_points.push_back(point);
-                        }
-
-                    }
-                }
-            }
-        }
-        cout<<"FIN INTERSECTIONS DES PLANS "<<endl;
 
     }
     else //affichage du nuage initial
@@ -1065,6 +1064,7 @@ void MainWindow::modelize()
         cout<<"TRY TO MODELISE PLANE IN OPENGL UI : "<<endl;
         if(inter_points.size()>=4)
         {
+
             /*for(int i = 0; i<inter_points.size()-3;i++)
             {
                 Plane p(inter_points.at(i)/100.0,inter_points.at(i+1)/100.0,inter_points.at(i+2)/100.0,inter_points.at(i+3)/100.0);
@@ -1077,9 +1077,9 @@ void MainWindow::modelize()
                 for(int j = 0; j<inter_points.size();j++)
                 {
                     if(eq_planes.at(i)[0]*inter_points.at(j)[0] + eq_planes.at(i)[1]*inter_points.at(j)[1]
-                            + eq_planes.at(i)[2]*inter_points.at(j)[2] + eq_planes.at(i)[3] <= 100 &&
+                            + eq_planes.at(i)[2]*inter_points.at(j)[2] + eq_planes.at(i)[3] <= 1 &&
                             eq_planes.at(i)[0]*inter_points.at(j)[0] + eq_planes.at(i)[1]*inter_points.at(j)[1]
-                                                        + eq_planes.at(i)[2]*inter_points.at(j)[2] + eq_planes.at(i)[3] >= -100)
+                                                        + eq_planes.at(i)[2]*inter_points.at(j)[2] + eq_planes.at(i)[3] >= -1)
                     {
                         plane_points.push_back(inter_points.at(j));
                         cout<<" POINT(S) FOUND IN PLANE n°"<<i<<endl;
@@ -1087,8 +1087,58 @@ void MainWindow::modelize()
                 }
                 if(plane_points.size()>=4)
                 {
-                    Plane p(plane_points.at(0)/100.0,plane_points.at(1)/100.0,plane_points.at(2)/100.0,plane_points.at(3)/100.0);
-                    //pl.push_back(p); //pour afficher les plans
+										//dans un premier temps il faut qu'on trouve la distance la plus grande entre 2 POINTS
+										int flag1 = 0;
+										int flag2 = 0;
+										float dist = 0.0;
+										for(int k = 0; k<plane_points.size();k++)
+										{
+												for(int l = 0; l<plane_points.size();l++)
+												{
+														float dist_temp = sqrt(pow(plane_points.at(k)[0]-plane_points.at(l)[0],2) +
+														pow(plane_points.at(k)[1]-plane_points.at(l)[1],2) +
+														pow(plane_points.at(k)[2]-plane_points.at(l)[2],2));
+														if(l != k && dist<dist_temp)
+														{
+															dist = dist_temp;
+															flag1 = k;
+															flag2 = l;
+														}
+												}
+										}
+										QVector3D center((plane_points.at(flag1)[0]+plane_points.at(flag2)[0])/2,
+										(plane_points.at(flag1)[1]+plane_points.at(flag2)[1])/2,
+										(plane_points.at(flag1)[2]+plane_points.at(flag2)[2])/2);
+										dist = 0.0;
+										int flag3 = 0;
+										for(int l = 0; l<plane_points.size();l++)
+										{
+												float dist_temp = sqrt(pow(center[0]-plane_points.at(l)[0],2) +
+												pow(center[1]-plane_points.at(l)[1],2) +
+												pow(center[2]-plane_points.at(l)[2],2));
+												if(l != flag1 && dist<dist_temp && l != flag2)
+												{
+													dist = dist_temp;
+													flag3 = l;
+												}
+										}
+										dist = 0.0;
+										int flag4 = 0;
+										for(int l = 0; l<plane_points.size();l++)
+										{
+												float dist_temp = sqrt(pow(plane_points.at(flag3)[0]-plane_points.at(l)[0],2) +
+												pow(plane_points.at(flag3)[1]-plane_points.at(l)[1],2) +
+												pow(plane_points.at(flag3)[2]-plane_points.at(l)[2],2));
+												if(l != flag1 && dist<dist_temp && l != flag2 && l != flag3)
+												{
+													dist = dist_temp;
+													flag4 = l;
+												}
+										}
+										cout<<" FLAG 1 : "<<flag1<<" FLAG 2 : "<<flag2<<" FLAG 3 : "<<flag3<<" FLAG 4 : "<<flag4<<endl;
+                    //Plane p(plane_points.at(0)/100.0,plane_points.at(2)/100.0,plane_points.at(1)/100.0,plane_points.at(3)/100.0);
+										Plane p(plane_points.at(flag1)/100.0,plane_points.at(flag3)/100.0,plane_points.at(flag2)/100.0,plane_points.at(flag4)/100.0);
+                    pl.push_back(p); //pour afficher les plans
                 }
                 else
                 {
@@ -1104,12 +1154,12 @@ void MainWindow::modelize()
     QList<Vertex> vertices;
     for(int i = 0; i<inter_points.size();i++)
     {
-        Vertex v(0.20,inter_points.at(i)[0]/100.0,inter_points.at(i)[1]/100.0,inter_points.at(i)[2]/100.0);
+        Vertex v(0.30,inter_points.at(i)[0]/100.0,inter_points.at(i)[1]/100.0,inter_points.at(i)[2]/100.0);
 				//v.setColor((rand()%255)/255.0,(rand()%255)/255.0,(rand()%255)/255.0,(rand()%255)/255.0);
         vertices.push_back(v);
 
     }
-		for(int i = 0; i < cloud_xyzrgb->points.size();i = i + 20 )
+		for(int i = 0; i < cloud_xyzrgb->points.size();i = i + 15 )
 		{
 			Vertex v(0.05,cloud_xyzrgb->points[i].x/100.0,cloud_xyzrgb->points[i].y/100.0,cloud_xyzrgb->points[i].z/100.0);
 			v.setColor(1.0,1.0,1.0,1.0);
