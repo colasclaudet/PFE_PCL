@@ -281,7 +281,7 @@ void GLArea::paintGL()
 
     QMatrix4x4 modelMatrixParticule;
 
-    glDepthMask(GL_FALSE);
+    //glDepthMask(GL_FALSE);//à décocher plus tard
     program_particule->setUniformValue("projectionMatrix", projectionMatrix);
     program_particule->setUniformValue("viewMatrix", viewMatrix);
     //program_particule->setUniformValue("modelMatrix", modelMatrixParticule);
@@ -321,7 +321,7 @@ void GLArea::paintGL()
     program_box->disableAttributeArray("in_position");
     program_box->disableAttributeArray("in_uv");
     program_box->release();
-    glDepthMask(GL_TRUE);
+    //glDepthMask(GL_TRUE);//à décocher plus tard
 }
 
 

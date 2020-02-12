@@ -104,6 +104,7 @@ public:
     **********************/
     pcl::visualization::PCLVisualizer::Ptr addPlane (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::ModelCoefficients planeCoef);
     pcl::PointXYZ threePlaneIntersection(pcl::ModelCoefficients plane_coeff1, pcl::ModelCoefficients plane_coeff2, pcl::ModelCoefficients plane_coeff3);
+    pcl::PointCloud<pcl::PointXYZ> clouds_union(std::vector<pcl::PointCloud<pcl::PointXYZ>> v_cloud);
     /**********************
            CALCUL
     **********************/
