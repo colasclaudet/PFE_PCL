@@ -13,7 +13,6 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 
-#include <Qt3DRender/Qt3DRender>
 #include "planes.h"
 #include "vertices.h"
 

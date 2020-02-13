@@ -120,12 +120,6 @@ public:
     **********************/
     void repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_planes);
     pcl::PointCloud<pcl::PointXYZ>::Ptr rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe);
-
-    /**********************
-           CALCUL
-    **********************/
-    void repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_planes);
-    pcl::PointCloud<pcl::PointXYZ>::Ptr rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe);
     void searchLimit (std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_planes, std::vector<double *> list_equat_planes, std::vector<QVector3D> list_normale_planes, std::vector<QVector3D> list_meanPosition);
     QVector3D computeNormalePlane(pcl::PointCloud<pcl::PointXYZRGB>::Ptr plane);
     QVector3D computeMeanPositionPlane(pcl::PointCloud<pcl::PointXYZRGB>::Ptr plane);
