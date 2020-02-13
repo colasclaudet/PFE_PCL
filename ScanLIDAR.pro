@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++14
 
 SOURCES += \
+        fragment.cpp \
         main.cpp \
         mainwindow.cpp \
         glarea.cpp \
@@ -34,6 +35,7 @@ SOURCES += \
         vertices.cpp
 
 HEADERS += \
+        fragment.h \
         mainwindow.h \
         glarea.h \
         plane.h \

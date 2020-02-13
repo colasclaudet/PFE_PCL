@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     viewer->setupInteractor (ui->qvtkWidget->GetInteractor (), ui->qvtkWidget->GetRenderWindow ());
     ui->qvtkWidget->update ();*/
     //endNew
+
 		connect(ui->radio_cloud, SIGNAL(clicked()), this, SLOT(chooseViewCloud())); //si cloud radio button sélectionné
 		connect(ui->radio_plane, SIGNAL(clicked()), this, SLOT(chooseViewPlane())); //si plane radio button selectionné
 		connect(ui->slider_threshold, SIGNAL(valueChanged(int)), this, SLOT(changeThreshold(int))); //connexion slidebar threshold
@@ -29,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		connect(ui->btn_draw, SIGNAL(clicked()), this, SLOT(draw())); //connexion bouton draw, on lance le viewer
 		connect(ui->btn_modelize, SIGNAL(clicked()), this, SLOT(modelize())); //connexion bouton modelize, on lance la modelisation
 		ui->btn_modelize->setVisible(false);
+
 	//save
     //connect(ui->btn_save, SIGNAL(clicked()), this, SLOT(saveCloud()));
 
@@ -231,6 +233,8 @@ void MainWindow::denoise(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud){
     std::cerr << *cloud << std::endl;
 
     // creer cloud pour futur nuage filtré
+    //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered (new pcl::PointCloud<pcl::PointXYZ>); 
+
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered (new pcl::PointCloud<pcl::PointXYZ>);
 
     // Create the filtering object
@@ -277,49 +281,7 @@ double * MainWindow::equation_plane(QVector3D P1, QVector3D P2, QVector3D P3)
 
     return eq_plane;
 }
-double * MainWindow::equation_plane2(pcl::PointCloud<pcl::PointXYZ> pcloud)
-{
-	double * myEq = new double[4];
-	pcl::ModelCoefficients::Ptr coefficients(new pcl::ModelCoefficients);
-	pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
-	// Create the segmentation object
-	pcl::SACSegmentation<pcl::PointXYZ> seg;
-	// Optional
-	seg.setOptimizeCoefficients (true);
-	// Mandatory
-	seg.setModelType (pcl::SACMODEL_PLANE);
-	seg.setMethodType (pcl::SAC_RANSAC);
-	seg.setDistanceThreshold (0.90f); //CHANGE
-	pcl::PointCloud<pcl::PointXYZ>::Ptr pcloudptr(new pcl::PointCloud<pcl::PointXYZ>);
-	copyPointCloud(pcloud,*pcloudptr);
-	seg.setInputCloud (pcloudptr);
-	seg.segment (*inliers, *coefficients);
 
-	/*if (inliers->indices.size () == 0)
-	{
-		PCL_ERROR ("Could not estimate a planar model for the given dataset.");
-		for(int i = 0;i<4;i++)
-		{
-			myEq[i]=0.0;
-		}
-		return myEq;
-	}*/
-
-	std::cerr << "Model coefficients PLANE2: " << coefficients->values[0] << " x + "
-																			<< coefficients->values[1] << " y + "
-																			<< coefficients->values[2] << " z + "
-																			<< coefficients->values[3] << std::endl;
-	myEq[0] = coefficients->values[0];
-	myEq[1] = coefficients->values[1];
-	myEq[2] = coefficients->values[2];
-	myEq[3] = coefficients->values[3];
-	/*std::cerr << "Model inliers: " << inliers->indices.size () << std::endl;
-	for (std::size_t i = 0; i < inliers->indices.size (); ++i)
-		std::cerr << inliers->indices[i] << "    " << pcloud.points[inliers->indices[i]].x << " "
-																							 << pcloud.points[inliers->indices[i]].y << " "
-																							 << pcloud.points[inliers->indices[i]].z << std::endl;*/
-	return myEq;
-}
 double *MainWindow::moy_eq_plane(pcl::PointCloud<pcl::PointXYZ> pcloud)
 {
     std::vector<double *> vec_eq;
@@ -381,9 +343,11 @@ QVector3D MainWindow::resol_3eq_3inc(double * eq1, double * eq2, double * eq3)
     matrice[2][2] = eq3[2];
     matrice[2][3] = eq3[3];
     coefficient=(-1.0*matrice[1][0]/matrice[0][0]);
+
     /*for(int p = 0; p<3;p++)
         for(int l = 0; l<4; l++)
             qDebug() <<"matrice : "<<matrice[p][l]<<endl;*/
+
     for(;i<=3;i++)
     {
         matrice[1][i]=(coefficient*matrice[0][i])+matrice[1][i];
@@ -403,9 +367,11 @@ QVector3D MainWindow::resol_3eq_3inc(double * eq1, double * eq2, double * eq3)
     z=matrice[2][3]/matrice[2][2];
     y=(matrice[1][3]-(matrice[1][2]*z))/matrice[1][1];
     x=(matrice[0][3]-((matrice[0][1]*y)+(matrice[0][2]*z)))/matrice[0][0];
+
 		x = -x;
 		y = -y;
 		z = -z;
+
     //qDebug()  << "X est egal a " << x << "\n";
     //qDebug()  << "Y est egal a " << y << "\n";
     //qDebug()  << "Z est egal a " << z << "\n";
@@ -485,6 +451,7 @@ void MainWindow::don_segmentation(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cl
     * normals are all pointed in the same direction!
     */
     ne.setViewPoint(std::numeric_limits<float>::max(),std::numeric_limits<float>::max(),std::numeric_limits<float>::max());
+
 
     if(scale1 >= scale2)
     {
@@ -674,7 +641,6 @@ void MainWindow::changeProba(int proba){
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 //sélection du fichier ply pour le traitement
 //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-
 void MainWindow::chooseFile(){
     // initialize PointClouds
     cloud = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
@@ -715,7 +681,9 @@ void MainWindow::ransac_segmentation()
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color(cloud, 0, 0, 255); //initialisation d'une couleur bleue pour les points
     //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_cpy = cloud;
 
-    int maxToDelete = 0.02*cloud->size();
+
+    //int maxToDelete = 0.02*cloud->size(); //attention lors du merge
+
     int j = 0;
 
     while(cloud->size()>300) //on récupère tout les plans tant qu'il reste plus de 100 pts dans le nuage de point original
@@ -730,7 +698,6 @@ void MainWindow::ransac_segmentation()
         // ======= RANSAC ============
         pcl::SampleConsensusModelPlane<pcl::PointXYZ>::Ptr
         model_p (new pcl::SampleConsensusModelPlane<pcl::PointXYZ> (cloud)); //création d'un modèle pour la récupération de points formant un plan
-
 
         std::cout << "Appel de ransac" << endl;
         pcl::RandomSampleConsensus<pcl::PointXYZ> ransac (model_p);
@@ -753,8 +720,9 @@ void MainWindow::ransac_segmentation()
         //std::cout << "Viewer" << endl;
 
         //récupération des équations des plans
-        if(final->size() > maxToDelete) //si la taille du plan est suppérieure à un pourcentage de la taille du nuage de point global donné
-        {
+        //if(final->size() > maxToDelete) //si la taille du plan est suppérieure à un pourcentage de la taille du nuage de point global donné
+        //{
+
             std::vector<float> list_coeff; //liste des coefs de l'équation du plan
             std::vector<float> sum; //vector d'addition des coefs pour en faire une moyenne
             for(int i = 0; i < 4; ++i)
@@ -765,59 +733,49 @@ void MainWindow::ransac_segmentation()
             for(int i= 0; i < nb_iter_for_avg; ++i)
             {
                 pcl::PointCloud<pcl::PointXYZ>::Ptr clicked_points_3d (final); //  creer nuage (copie de final)
-
+                //Eigen::VectorXf ground_coeffs;
+                //ground_coeffs.resize(4); // coefficient du plan
                 std::vector<int> clicked_points_indices; //indices des points du plan  choisis random
 
-                /*int a = 0; //indice premier point
-                int b = 0; // ...second point
-                int c = 0; //... troisième point
+//                int a = 0; //indice premier point
+//                int b = 0; // ...second point
+//                int c = 0; //... troisième point
+//                // creer des points randoms
+//                // on sélectionne trois points random dans notre plan
+//                while(a==b || b==c || a==c)
+//                {
+//                    a = (rand() % final->size()) ;
+//                    b = (rand() % final->size()) ;
+//                    c = (rand() % final->size()) ;
+//                }
+//                std::cout<<"A "<<a<<"B " <<b<<"C "<<c<<endl;
+//                // les mettre dans clicked_point_indices
+//                clicked_points_indices.push_back(a);
+//                clicked_points_indices.push_back(b);
+//                clicked_points_indices.push_back(c);
 
-                // creer des points randoms
-                // on sélectionne trois points random dans notre plan
-                while(a==b || b==c || a==c)
-                {
-                    a = (rand() % final->size()) ;
-                    b = (rand() % final->size()) ;
-                    c = (rand() % final->size()) ;
-                }
+//                //pcl::SampleConsensusModelPlane<pcl::PointXYZ> model_plane(clicked_points_3d);
+//                pcl::SampleConsensusModelPlane<pcl::PointXYZ> model_plane(final);
+//                model_plane.computeModelCoefficients(clicked_points_indices,ground_coeffs);// calcul plan a partir des indices des points
 
-                std::cout<<"A "<<a<<"B " <<b<<"C "<<c<<endl;
-                // les mettre dans clicked_point_indices
-                clicked_points_indices.push_back(a);
-                clicked_points_indices.push_back(b);
-                clicked_points_indices.push_back(c);
+//                //ici on va calculer les équations de plan
+//                /*QVector3D p1(final->points[a].x,final->points[a].y,final->points[a].z);
+//                QVector3D p2(final->points[b].x,final->points[b].y,final->points[b].z);
+//                QVector3D p3(final->points[c].x,final->points[c].y,final->points[c].z);
+//                double * plane_eq = equation_plane(p1,p2,p3);
+//                eq_planes.push_back(plane_eq);
+//                std::cout<<"PLANE EQUATION : "<<plane_eq[0]<<"x + "<<plane_eq[1]<<"y + "<<plane_eq[2]<<"z + "<<plane_eq[3]<<" = 0"<<endl;*/
+//                //end
+//                std::cout << "Ground plane: " << ground_coeffs(0)
+//                        << " " << ground_coeffs(1) << " " << ground_coeffs(2)
+//                        << " " << ground_coeffs(3) << std::endl;
 
+//                // faire la somme des coeffs pour chaque boucle effectuée
+//                sum[0] += ground_coeffs(0);
+//                sum[1] += ground_coeffs(1);
+//                sum[2] += ground_coeffs(2);
+//                sum[3] += ground_coeffs(3);
 
-                //pcl::SampleConsensusModelPlane<pcl::PointXYZ> model_plane(clicked_points_3d);
-                Eigen::VectorXf ground_coeffs(4);
-                //ground_coeffs.resize(4); // coefficient du plan
-                //pcl::SampleConsensusModelPlane<pcl::PointXYZ> model_plane(final);
-                //plane ou cloud ? car a b c ont été selectionné par rapport à cloud
-                model_p->computeModelCoefficients(clicked_points_indices,ground_coeffs); // calcul plan a partir des indices des points
-								//ransac.computeModelCoefficients(clicked_points_indices,ground_coeffs);
-                double * plane_eq = new double[4];
-                plane_eq[0] = ground_coeffs(0);
-                plane_eq[1] = ground_coeffs(1);
-                plane_eq[2] = ground_coeffs(2);
-                plane_eq[3] = ground_coeffs(3);
-                //eq_planes.push_back(plane_eq); //TO DO
-                //ici on va calculer les équations de plan
-                /*QVector3D p1(final->points[a].x,final->points[a].y,final->points[a].z);
-                QVector3D p2(final->points[b].x,final->points[b].y,final->points[b].z);
-                QVector3D p3(final->points[c].x,final->points[c].y,final->points[c].z);
-                double * plane_eq = equation_plane(p1,p2,p3);
-                eq_planes.push_back(plane_eq);
-                std::cout<<"PLANE EQUATION : "<<plane_eq[0]<<"x + "<<plane_eq[1]<<"y + "<<plane_eq[2]<<"z + "<<plane_eq[3]<<" = 0"<<endl;
-                //end
-                std::cout << "Ground plane: " << ground_coeffs(0)
-                        << " " << ground_coeffs(1) << " " << ground_coeffs(2)
-                        << " " << ground_coeffs(3) << std::endl;
-
-                // faire la somme des coeffs pour chaque boucle effectuée
-                sum[0] += ground_coeffs(0);
-                sum[1] += ground_coeffs(1);
-                sum[2] += ground_coeffs(2);
-                sum[3] += ground_coeffs(3);*/
             }
             //calcul de la moyenne pour chaque valeur de l equation
             int iter_eq = 4;
@@ -828,6 +786,7 @@ void MainWindow::ransac_segmentation()
             /*std::cout << "plane : " << list_coeff[0]
             << " " << list_coeff[1] << " " << list_coeff[2]
             << " " << list_coeff[3] << std::endl;*/
+
             //for (unsigned int i = 0; i < clicked_points_3d->points.size(); i++)
             pcl::ModelCoefficients plane_coeff;
             plane_coeff.values.resize (4);
@@ -841,13 +800,20 @@ void MainWindow::ransac_segmentation()
             pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ>
             single_color_gen (final, (j*100)%255, (j*20)%255, (j*30)%255); //la couleur de chaque nuage de plan ransac est différente
 
+            //addPtsCloudColor(viewer,final,single_color_gen); //ajout du nuage de plan ransac au viewer
+            //attention
+            //vector_cloud.push_back(*final); //on ajoute le nuage de plan ransac au vecteur mais inutilisé //marche pas car les finals sont les memes
+            //cout << "Taille vector_cloud : " << vector_cloud.size();
+        
+
             addPtsCloudColor(viewer,final,single_color_gen); //ajout du nuage de plan ransac au viewer
 						pcl::PointCloud<pcl::PointXYZ> cpy;
 						copyPointCloud(*final, cpy);
             //vector_cloud.push_back(*final); //on ajoute le nuage de plan ransac au vecteur mais inutilisé //marche pas car les finals sont les memes
 						vector_cloud.push_back(cpy);
             cout << "Taille vector_cloud : " << vector_cloud.size();
-        }
+        //}
+
 
         //ici on supprime du nuage de point original le plan trouvé par ransac
         // comme ça lors de la prochaine itération, ransac sélectionne un autre plan
@@ -885,75 +851,6 @@ void MainWindow::calc_bounding_box(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud)
     <<" x : "<<xmin<<" y : "<<ymin<<" z : "<<zmin<<endl;
 }
 
-void MainWindow::calc_inter_planes()
-{
-    for(int i = 0; i<vector_cloud.size();i++)
-    {
-        /*int a = 0; //indice premier point
-        int b = 0; // ...second point
-        int c = 0;
-        pcl::PointCloud<pcl::PointXYZ>::iterator  i1 = vector_cloud.at(i).begin();
-        pcl::PointCloud<pcl::PointXYZ>::iterator  i2 = vector_cloud.at(i).begin();
-        pcl::PointCloud<pcl::PointXYZ>::iterator  i3 = vector_cloud.at(i).begin();
-
-        while(a==b || b==c || a==c)
-        {
-            a = (rand() % vector_cloud.at(i).points.size()) ;
-            b = (rand() % vector_cloud.at(i).points.size()) ;
-            c = (rand() % vector_cloud.at(i).points.size()) ;
-            i1 = i1 + a;
-            i2 = i2 + b;
-            i3 = i3 + c;
-        }
-        QVector3D p1(final->points[a].x,final->points[a].y,final->points[a].z);
-        QVector3D p2(final->points[b].x,final->points[b].y,final->points[b].z);
-        QVector3D p3(final->points[c].x,final->points[c].y,final->points[c].z);*/
-        //double * plane_eq = equation_plane(p1,p2,p3);
-				cout<<"NB POINTS IN FRAGMENT "<<vector_cloud.at(i).points.size()<<endl;
-        //double * plane_eq = moy_eq_plane(vector_cloud.at(i));
-				double * plane_eq = equation_plane2(vector_cloud.at(i));
-        eq_planes.push_back(plane_eq);
-        /*std::cout<<"PLANE EQUATION : "<<plane_eq[0]<<"x + "<<plane_eq[1]<<"y + "<<plane_eq[2]<<"z + "<<plane_eq[3]<<" = 0"<<endl;
-        std::cout<<"MAKE WITH 1 :  "<<" x "<<final->points[a].x<<" y "<<final->points[a].y <<" z "<< final->points[a].z<<endl;
-        std::cout<<"MAKE WITH 2 :  "<<" x "<<final->points[b].x<<" y "<<final->points[b].y <<" z "<< final->points[b].z<<endl;
-        std::cout<<"MAKE WITH 3 :  "<<" x "<<final->points[c].x<<" y "<<final->points[c].y <<" z "<< final->points[c].z<<endl;*/
-    }
-
-		cout<<"INTERSECTIONS DES PLANS : "<<endl;
-		//on parcourt les plans 3 à 3
-		for(int i=0;i<eq_planes.size();i++)
-		{
-				for(int j=0;j<eq_planes.size();j++)
-				{
-						for(int k = 0;k<eq_planes.size();k++)
-						{
-								if(i != j && j!=k && i!=k)
-								{
-										QVector3D point = resol_3eq_3inc(eq_planes.at(i), eq_planes.at(j), eq_planes.at(k));
-										if(!(point[0]>xmax+100 || point[1]>ymax+100 || point[2]>zmax+100 || point[0]<xmin-100 || point[1]<ymin-100 || point[2]<zmin-100)) //100
-										{
-												cout<<"x = "<<point[0]<<" y = "<<point[1]<<" z = "<<point[2]<<endl;
-												inter_points.push_back(point);
-										}
-
-								}
-						}
-				}
-		}
-		cout<<"FIN INTERSECTIONS DES PLANS "<<endl;
-}
-void MainWindow::showVizualizer()
-{
-
-}
-void launch_viewer(pcl::visualization::PCLVisualizer::Ptr v)
-{
-	while (!v->wasStopped ())
-	{
-			v->spinOnce (100);
-			std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	}
-}
 void MainWindow::draw()
 {
 		/* initialize random seed: */
@@ -1014,6 +911,7 @@ void MainWindow::draw()
         this->nb_cloud++;
     }
 
+    //Copie du nuage pour l'appel de RepereRoom
     std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list;
     cout << "vector_cloud.size()" << vector_cloud.size() << endl;
     for (unsigned i = 0; i < vector_cloud.size(); i++)
@@ -1040,7 +938,48 @@ void MainWindow::draw()
 		}
 		ui->btn_modelize->setVisible(true);
 }
+  void MainWindow::showVizualizer()
+{
 
+}
+void launch_viewer(pcl::visualization::PCLVisualizer::Ptr v)
+{
+	while (!v->wasStopped ())
+	{
+			v->spinOnce (100);
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
+}
+
+//http://pointclouds.org/documentation/tutorials/matrix_transform.php
+pcl::PointCloud<pcl::PointXYZ>::Ptr MainWindow::rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe)
+{
+    Eigen::Affine3f transform = Eigen::Affine3f::Identity();
+    float theta = degrees * M_PI /180; //passage des degrees en radians
+
+    //création de la transformation en fonction de l'axe choisi
+    if(axe == 0) //axe x
+        transform.rotate (Eigen::AngleAxisf (theta, Eigen::Vector3f::UnitX()));
+    else if (axe == 1)
+        transform.rotate (Eigen::AngleAxisf (theta, Eigen::Vector3f::UnitY()));
+    else
+        transform.rotate (Eigen::AngleAxisf (theta, Eigen::Vector3f::UnitZ()));
+
+
+    // exécution de la transformation
+    pcl::PointCloud<pcl::PointXYZ>::Ptr transformed_cloud (new pcl::PointCloud<pcl::PointXYZ> ());
+    // application de la transformation au nuage initial
+    pcl::transformPointCloud (*cloud, *transformed_cloud, transform);
+    return transformed_cloud;
+}
+  
+void MainWindow::on_action_propos_triggered()
+{
+    QMessageBox msgBox;
+    msgBox.setText("Developped by: \n Colas CLAUDET, Yoann FOULON, Rachel GLAIDE");
+    msgBox.exec();
+}
+  
 void MainWindow::modelize()
 {
     cout<<"Modelize"<<endl;
@@ -1242,36 +1181,89 @@ void MainWindow::modelize()
     //ui->glarea->draw_bounding_box(1.0f,1.0f,1.0f,-1.0f,-1.0f,-1.0f);
 }
 
-void MainWindow::on_action_propos_triggered()
-{
-    QMessageBox msgBox;
-    msgBox.setText("Developped by: \n Colas CLAUDET, Yoann FOULON, Rachel GLAIDE");
-    msgBox.exec();
-}
-
-//http://pointclouds.org/documentation/tutorials/matrix_transform.php
-pcl::PointCloud<pcl::PointXYZ>::Ptr MainWindow::rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe)
-{
-    Eigen::Affine3f transform = Eigen::Affine3f::Identity();
-    float theta = degrees * M_PI /180; //passage des degrees en radians
-
-    //création de la transformation en fonction de l'axe choisi
-    if(axe == 0) //axe x
-        transform.rotate (Eigen::AngleAxisf (theta, Eigen::Vector3f::UnitX()));
-    else if (axe == 1)
-        transform.rotate (Eigen::AngleAxisf (theta, Eigen::Vector3f::UnitY()));
-    else
-        transform.rotate (Eigen::AngleAxisf (theta, Eigen::Vector3f::UnitZ()));
-
-    // exécution de la transformation
-    pcl::PointCloud<pcl::PointXYZ>::Ptr transformed_cloud (new pcl::PointCloud<pcl::PointXYZ> ());
-    // application de la transformation au nuage initial
-    pcl::transformPointCloud (*cloud, *transformed_cloud, transform);
-    return transformed_cloud;
-}
-
 void MainWindow::repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_planes){
     cout<< "Repere room" << endl;
+    std::vector<QVector3D> list_meanPosition;
+    std::vector<QVector3D> list_normale_planes;
+
+    //cout<< "nombre plan total" << list_planes.size() << endl;
+    //initialise les vector comprenant la position moyenne/les équations/les normales de tous les plans pour eviter de recalculer plusieurs fois
+    for (unsigned i = 0; i < list_planes.size(); i++)
+    {
+        list_meanPosition.push_back(computeMeanPositionPlane(list_planes[i]));
+        list_normale_planes.push_back(QVector3D(eq_planes[i][0], eq_planes[i][1], eq_planes[i][2]));
+    }
+    //TODO travailler sur copie de list_planes et supprimer lesplans au fur et a mesure
+    std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> copy = list_planes;
+
+    searchLimit(copy, eq_planes, list_normale_planes, list_meanPosition);
+
+    /*int cpt_mur = 0;
+    int cpt_plafond = 0;
+    int cpt_sol = 0;
+    int cpt_autre = 0;
+    for (unsigned i = 0; i < list_limits.size(); i++)
+    {
+        if(list_limits[i].getType() == Fragment::Type::Mur){
+            cpt_mur++;
+        } else if(list_limits[i].getType() == Fragment::Type::Plafond){
+            cpt_plafond++;
+        } else if(list_limits[i].getType() == Fragment::Type::Sol){
+            cpt_sol++;
+        } else {
+            cpt_autre++;
+        }
+    }*/
+
+    //cout << "Il y a " << cpt_mur << " mur, " << cpt_plafond << " plafond, " << cpt_sol << "sol et " << cpt_autre << "autres." << endl;
+
+    //visualisation.
+   // cout << "list_limits.size()" << list_limits.size() << endl;
+    for (unsigned i = 0; i < list_limits.size(); i++)
+    {
+        list_limits[i].attributeColorAuto();
+       // cout << "couleur pour " << i << "attribué" << endl;
+    }
+    createRoom();
+    cout << "room.size() " << room.size() << endl;
+    for(unsigned i = 0; i < room.size(); i++){
+//            //cout << "copie en cours de j : "<< j << endl;
+        pcl::PointCloud<pcl::PointXYZRGB>::Ptr tmp(new pcl::PointCloud<pcl::PointXYZRGB>);
+        copyPointCloud(room[i], *tmp);
+
+//            cout << "couleur " << tmp->points[0].r << ", " << tmp->points[0].g << ", " << tmp->points[0].b  << endl;
+//            uint8_t r = 0;
+//            uint8_t g = 0;
+//            uint8_t b = 0;
+
+//            if (list_limits[i].getType() == Fragment::Type::Mur){
+//                b = 255;
+//            } else if (list_limits[i].getType() == Fragment::Type::Plafond){
+//                g = 255;
+//            } else if (list_limits[i].getType() == Fragment::Type::Sol){
+//                r = 255;
+//            } else {
+//                r = 255; g = 255; b = 255;
+//            }
+
+//            uint32_t rgb = ((uint32_t)r << 16| (uint32_t)g << 8 | (uint32_t)b);
+//            for (size_t k=0;k< tmp->points.size();k++){
+////                tmp->points[k].r = r;
+////                tmp->points[k].g = g;
+////                tmp->points[k].b = b;
+//                tmp->points[k].rgb = *reinterpret_cast<float*>(&rgb);
+//            }
+//            cout << "couleur " << tmp->points[0].r << ", " << tmp->points[0].g << ", " << tmp->points[0].b  << endl;
+
+
+        addPtsCloudXYZRGB (viewer, tmp);
+    }
+
+}
+
+/*void MainWindow::repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_planes){
+    cout<< "Repere room" << endl;
+
     std::vector<QVector3D> list_positions_mean;
     QVector3D pos_min = QVector3D(FLT_MAX, FLT_MAX, FLT_MAX);
     QVector3D pos_max = QVector3D(FLT_MIN, FLT_MIN, FLT_MIN);
@@ -1357,4 +1349,327 @@ void MainWindow::repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::
         }
         addPtsCloudXYZRGB(viewer, list_ceiling[i]);
     }
+}*/
+
+void MainWindow::searchLimit (std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_planes, std::vector<double *> list_equat_planes, std::vector<QVector3D> list_normale_planes, std::vector<QVector3D> list_meanPosition){
+
+    std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> planes_axe_x;
+    std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> planes_axe_y;
+    std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> planes_axe_z;
+    std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> planes_others;
+    cout << "taille list_planes : " << list_planes.size() << ", taille list_equat_planes : " << list_equat_planes.size() << endl;
+
+    std::vector<int> corres_axe_x;
+    std::vector<int> corres_axe_y;
+    std::vector<int> corres_axe_z;
+
+    QVector3D axe_x(1,0,0);
+    QVector3D axe_y(0,1,0);
+    QVector3D axe_z(0,0,1);
+
+//    1 - parcourir tous les plans
+//        2 - chercher les plans pour chaque axe (comparer les normales) trier en trois
+    for(unsigned i = 0; i < list_planes.size(); i++){
+        if(normalesAreSimilar(axe_x, list_normale_planes[i])){
+            cout << "je suis sur x" << endl;
+            planes_axe_x.push_back(list_planes[i]);
+            corres_axe_x.push_back(i);
+        } else if(normalesAreSimilar(axe_y, list_normale_planes[i])){
+            cout << "je suis sur y" << endl;
+            planes_axe_y.push_back(list_planes[i]);
+            corres_axe_y.push_back(i);
+            cout << "normale du plan : " << list_equat_planes[i][0] << ", " << list_equat_planes[i][1] << ", " << list_equat_planes[i][2] << endl;
+        } else if(normalesAreSimilar(axe_z, list_normale_planes[i])){
+            cout << "je suis sur z" << endl;
+            planes_axe_z.push_back(list_planes[i]);
+            corres_axe_z.push_back(i);
+        } else {
+            cout << "je suis sur rien" << endl;
+            planes_others.push_back(list_planes[i]);
+        }
+    }
+
+    // 3 - parcourir les 3 vectors
+    //     4 - trouver position min max de chaque axe dans l'axe du vector
+
+    float min_x = FLT_MAX;
+    float min_y = FLT_MAX;
+    float min_z = FLT_MAX;
+
+    float max_x = FLT_MIN;
+    float max_y = FLT_MIN;
+    float max_z = FLT_MIN;
+
+    //axe x (murs)
+    for(unsigned i = 0; i < planes_axe_x.size(); i++){
+        QVector3D valeur_courante = list_meanPosition[corres_axe_x[i]];
+        if(valeur_courante[0] > max_x) max_x = valeur_courante[0];
+        else if(valeur_courante[0] < min_x) min_x = valeur_courante[0];
+    }
+    //axe y (plafond/sol)
+    for(unsigned i = 0; i < planes_axe_y.size(); i++){
+        QVector3D valeur_courante = list_meanPosition[corres_axe_y[i]];
+        if(valeur_courante[1] > max_y) max_y = valeur_courante[1];
+        else if(valeur_courante[1] < min_y) min_y = valeur_courante[1];
+    }
+    //axe z (murs)
+    for(unsigned i = 0; i < planes_axe_z.size(); i++){
+        QVector3D valeur_courante = list_meanPosition[corres_axe_z[i]];
+        if(valeur_courante[2] > max_z) max_z = valeur_courante[2];
+        else if(valeur_courante[2] < min_z) min_z = valeur_courante[2];
+    }
+
+    // 5 - calculer taille piece en fonction des positions --> calculer 3 seuil erreur = 5%
+    float seuil = 0.03f;
+    float error_x = (max_x - min_x) * seuil;
+    float error_y = (max_y - min_y) * seuil;
+    float error_z = (max_z - min_z) * seuil;
+
+
+    // 6 - parcourir les 3 vecteurs
+    //     7 - ajouter les plans en fonctions du seuil d erreur a des fragments
+    for(unsigned i = 0; i < 6; i++){
+        list_limits.push_back(Fragment());
+    }
+    //TODO - vraiment faire par axe cette partie ? peut etre pas pour prendre tous les plans et positions
+    //axe x (murs) Fragment 1 et 2
+    cout << "Il y a " << planes_axe_x.size() << " plans sur x, " << planes_axe_y.size() << " plans sur y, " << planes_axe_z.size() << " plans sur z." << endl;
+    for(unsigned i = 0; i < planes_axe_x.size(); i++){
+        QVector3D valeur_courante = list_meanPosition[corres_axe_x[i]];
+        if(valeur_courante[0] > (max_x-error_x)  && valeur_courante[0] < (max_x+error_x)){
+            list_limits[0].addPlane(*planes_axe_x[i]);
+            cout << "je suis un mur x 1 " << endl;
+        }
+        else if(valeur_courante[0] > (min_x-error_x)  && valeur_courante[0] < (min_x+error_x)){
+            list_limits[1].addPlane(*planes_axe_x[i]);
+            cout << "je suis un mur x 2" << endl;
+        }
+    }
+    //axe y (plafond/sol) Fragment 3 et 4
+    for(unsigned i = 0; i < planes_axe_y.size(); i++){
+        QVector3D valeur_courante = list_meanPosition[corres_axe_y[i]];
+        if(valeur_courante[1] > (max_y-error_y)  && valeur_courante[1] < (max_y+error_y)){
+            list_limits[2].addPlane(*planes_axe_y[i]);
+            cout << "je suis un plafond d equation " << list_equat_planes[corres_axe_x[i]][0] << ", "  << list_equat_planes[corres_axe_x[i]][1]
+                    << ", "  << list_equat_planes[corres_axe_x[i]][2] << endl;
+
+        }
+        else if(valeur_courante[1] > (min_y-error_y)  && valeur_courante[1] < (min_y+error_y)){
+            list_limits[3].addPlane(*planes_axe_y[i]);
+            cout << "je suis un sol" << endl;
+        }
+    }
+    //axe z (murs) Fragment 5 et 6
+    for(unsigned i = 0; i < planes_axe_z.size(); i++){
+        QVector3D valeur_courante = list_meanPosition[corres_axe_z[i]];
+        if(valeur_courante[2] > (max_z-error_z)  && valeur_courante[2] < (max_z+error_z)){
+            list_limits[4].addPlane(*planes_axe_z[i]);
+            cout << "je suis un mur z 1" << endl;
+        }
+        else if(valeur_courante[2] > (min_z-error_z)  && valeur_courante[2] < (min_z+error_z)){
+            list_limits[5].addPlane(*planes_axe_z[i]);
+            cout << "je suis un mur z 2" << endl;
+        }
+    }
+
+    //attribution type aux fragments
+    list_limits[0].setType(Fragment::Type::Mur);
+    list_limits[1].setType(Fragment::Type::Mur);
+
+    list_limits[2].setType(Fragment::Type::Plafond);
+    list_limits[3].setType(Fragment::Type::Sol);
+
+    list_limits[4].setType(Fragment::Type::Mur);
+    list_limits[5].setType(Fragment::Type::Mur);
+    for(unsigned i = 0; i < list_limits.size(); i++){
+        list_limits[i].attributeColorAuto();
+    }
+    cout << "Il y a " << list_limits[0].planes.size() << " mur en x1, " << list_limits[1].planes.size() << " mur en x2, " <<
+            list_limits[2].planes.size() << " plafond, " <<list_limits[3].planes.size() << " sol, " <<
+            list_limits[4].planes.size() << "mur en z1, " << list_limits[5].planes.size() << "mur en z2." << endl;
+
+}
+
+QVector3D MainWindow::computeNormalePlane(pcl::PointCloud<pcl::PointXYZRGB>::Ptr plane){
+    QVector3D normale (0, 0, 0);
+    return normale;
+}
+
+QVector3D MainWindow::computeMeanPositionPlane(pcl::PointCloud<pcl::PointXYZRGB>::Ptr plane){
+    int cpt = 0;
+    QVector3D pos_mean_plane = QVector3D(0,0,0);
+    //calcul de la position moyenne d'un plan
+    for (size_t j=0;j< plane->points.size();j++){
+        pos_mean_plane[0] += plane->points[j].x;
+        pos_mean_plane[1] += plane->points[j].y;
+        pos_mean_plane[2] += plane->points[j].z;
+        cpt++;
+    }
+    pos_mean_plane[0] /= cpt;
+    pos_mean_plane[1] /= cpt;
+    pos_mean_plane[2] /= cpt;
+    return pos_mean_plane;
+}
+
+double MainWindow::computeDistance(QVector3D p1, QVector3D p2){
+    return sqrt( pow(p1[0]-p2[0],2) + pow(p1[1]-p2[1],2) + pow(p1[2]-p2[2],2) );
+}
+
+//TODO - calculer normales en fonction des points pas des equations
+bool MainWindow::normalesAreSimilar(QVector3D p1, QVector3D p2){
+    double seuil = 0.1;
+    p1.normalize();
+    p2.normalize();
+    cout << "-----------------------" << endl;
+    cout << p1[0] << ", " << p1[1] << ", " << p1[2] << endl;
+    cout << p2[0] << ", " << p2[1] << ", " << p2[2] << endl;
+
+    if( (p1[0]<p2[0]+seuil && p1[0]>p2[0]-seuil) && (p1[1]<p2[1]+seuil&& p1[1]>p2[1]-seuil) && (p1[2]<p2[2]+seuil && p1[2]>p2[2]-seuil) ||
+            ((-p1[0])<p2[0]+seuil && (-p1[0])>p2[0]-seuil) && ((-p1[1])<p2[1]+seuil&& (-p1[1])>p2[1]-seuil) && ((-p1[2])<p2[2]+seuil && (-p1[2])>p2[2]-seuil)){
+        cout << "sont similaires."<< endl;
+        return true;
+    }
+    cout << "sont pas similaires."<< endl;
+    return false;
+}
+
+int MainWindow::axeViaNormal(QVector3D n){
+    n.normalize();
+    double seuil = 0.6;
+    cout << "Normale : " << n[0] << ", "<< n[1] << ", "<< n[2] << endl;
+    if ((n[0] > seuil || n[0] < -seuil) && (n[1] < seuil && n[1] > -seuil) && (n[2] < seuil && n[2] > -seuil)){
+        cout << "axe x" << endl;
+        return 0;
+    } else if ((n[0] < seuil && n[0] > -seuil) && (n[1] > seuil || n[1] < -seuil) && (n[2] < seuil && n[2] > -seuil)){
+        cout << "axe y" << endl;
+        return 1;
+    } else if ((n[0] < seuil && n[0] > -seuil) && (n[1] < seuil && n[1] > -seuil) && (n[2] > seuil || n[2] < -seuil)){
+        cout << "axe z" << endl;
+        return 2;
+    } else {
+        cout << "axe autre" << endl;
+        cout << "x : " << n[0] << ", y : " << n[1] << ", z: " << n[2] << endl;
+        return 4;
+    }
+}
+
+
+
+double * MainWindow::equation_plane2(pcl::PointCloud<pcl::PointXYZ> pcloud)
+{
+    double * myEq = new double[4];
+    pcl::ModelCoefficients::Ptr coefficients(new pcl::ModelCoefficients);
+    pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
+    // Create the segmentation object
+    pcl::SACSegmentation<pcl::PointXYZ> seg;
+    // Optional
+    seg.setOptimizeCoefficients (true);
+    // Mandatory
+    seg.setModelType (pcl::SACMODEL_PLANE);
+    seg.setMethodType (pcl::SAC_RANSAC);
+    seg.setDistanceThreshold (0.90f); //CHANGE
+    pcl::PointCloud<pcl::PointXYZ>::Ptr pcloudptr(new pcl::PointCloud<pcl::PointXYZ>);
+    copyPointCloud(pcloud,*pcloudptr);
+    seg.setInputCloud (pcloudptr);
+    seg.segment (*inliers, *coefficients);
+
+    /*if (inliers->indices.size () == 0)
+    {
+        PCL_ERROR ("Could not estimate a planar model for the given dataset.");
+        for(int i = 0;i<4;i++)
+        {
+            myEq[i]=0.0;
+        }
+        return myEq;
+    }*/
+
+    std::cerr << "Model coefficients PLANE2: " << coefficients->values[0] << " x + "
+                                                                            << coefficients->values[1] << " y + "
+                                                                            << coefficients->values[2] << " z + "
+                                                                            << coefficients->values[3] << std::endl;
+    myEq[0] = coefficients->values[0];
+    myEq[1] = coefficients->values[1];
+    myEq[2] = coefficients->values[2];
+    myEq[3] = coefficients->values[3];
+    /*std::cerr << "Model inliers: " << inliers->indices.size () << std::endl;
+    for (std::size_t i = 0; i < inliers->indices.size (); ++i)
+        std::cerr << inliers->indices[i] << "    " << pcloud.points[inliers->indices[i]].x << " "
+                                                                                             << pcloud.points[inliers->indices[i]].y << " "
+                                                                                             << pcloud.points[inliers->indices[i]].z << std::endl;*/
+    return myEq;
+}
+
+void MainWindow::createRoom(){
+    for(unsigned i = 0; i < list_limits.size(); i++){
+        pcl::PointCloud<pcl::PointXYZRGB> tmp = clouds_union(list_limits[i].planes);
+        room.push_back(tmp);
+    }
+}
+
+pcl::PointCloud<pcl::PointXYZRGB> MainWindow::clouds_union(std::vector<pcl::PointCloud<pcl::PointXYZRGB>> v_cloud) {
+        pcl::PointCloud<pcl::PointXYZRGB> c_union;
+        for(int i = 0; i<v_cloud.size();i++)
+        {
+                c_union = c_union + v_cloud.at(i);
+        }
+        return c_union;
+
+}
+
+void MainWindow::calc_inter_planes()
+{
+    for(int i = 0; i<vector_cloud.size();i++)
+    {
+        /*int a = 0; //indice premier point
+        int b = 0; // ...second point
+        int c = 0;
+        pcl::PointCloud<pcl::PointXYZ>::iterator  i1 = vector_cloud.at(i).begin();
+        pcl::PointCloud<pcl::PointXYZ>::iterator  i2 = vector_cloud.at(i).begin();
+        pcl::PointCloud<pcl::PointXYZ>::iterator  i3 = vector_cloud.at(i).begin();
+
+        while(a==b || b==c || a==c)
+        {
+            a = (rand() % vector_cloud.at(i).points.size()) ;
+            b = (rand() % vector_cloud.at(i).points.size()) ;
+            c = (rand() % vector_cloud.at(i).points.size()) ;
+            i1 = i1 + a;
+            i2 = i2 + b;
+            i3 = i3 + c;
+        }
+        QVector3D p1(final->points[a].x,final->points[a].y,final->points[a].z);
+        QVector3D p2(final->points[b].x,final->points[b].y,final->points[b].z);
+        QVector3D p3(final->points[c].x,final->points[c].y,final->points[c].z);*/
+        //double * plane_eq = equation_plane(p1,p2,p3);
+                cout<<"NB POINTS IN FRAGMENT "<<vector_cloud.at(i).points.size()<<endl;
+        //double * plane_eq = moy_eq_plane(vector_cloud.at(i));
+                double * plane_eq = equation_plane2(vector_cloud.at(i));
+        eq_planes.push_back(plane_eq);
+        /*std::cout<<"PLANE EQUATION : "<<plane_eq[0]<<"x + "<<plane_eq[1]<<"y + "<<plane_eq[2]<<"z + "<<plane_eq[3]<<" = 0"<<endl;
+        std::cout<<"MAKE WITH 1 :  "<<" x "<<final->points[a].x<<" y "<<final->points[a].y <<" z "<< final->points[a].z<<endl;
+        std::cout<<"MAKE WITH 2 :  "<<" x "<<final->points[b].x<<" y "<<final->points[b].y <<" z "<< final->points[b].z<<endl;
+        std::cout<<"MAKE WITH 3 :  "<<" x "<<final->points[c].x<<" y "<<final->points[c].y <<" z "<< final->points[c].z<<endl;*/
+    }
+
+        cout<<"INTERSECTIONS DES PLANS : "<<endl;
+        //on parcourt les plans 3 à 3
+        for(int i=0;i<eq_planes.size(); i++)
+        {
+                for(int j=0;j<eq_planes.size();j++)
+                {
+                        for(int k = 0;k<eq_planes.size();k++)
+                        {
+                                if(i != j && j!=k && i!=k)
+                                {
+                                        QVector3D point = resol_3eq_3inc(eq_planes.at(i), eq_planes.at(j), eq_planes.at(k));
+                                        if(!(point[0]>xmax+100 || point[1]>ymax+100 || point[2]>zmax+100 || point[0]<xmin-100 || point[1]<ymin-100 || point[2]<zmin-100))
+                                        {
+                                                cout<<"x = "<<point[0]<<" y = "<<point[1]<<" z = "<<point[2]<<endl;
+                                                inter_points.push_back(point);
+                                        }
+
+                                }
+                        }
+                }
+        }
+        cout<<"FIN INTERSECTIONS DES PLANS "<<endl;
 }

@@ -10,9 +10,11 @@ Vertex::Vertex(GLfloat size, float x, float y, float z)
         x+size, y-size, z,
         x+size, y+size, z
     };*/
+
     this->x = x;
     this->y = y;
     this->z = z;
+
     this->position = QVector3D(x,y,z);
     GLfloat vertices_particule[] = {
         -size, size, 0.0f,
@@ -41,10 +43,12 @@ Vertex::Vertex(GLfloat size, float x, float y, float z)
             vertData.append(texCoords_particule[i*2+j]);
     }
 }
+
 void Vertex::setColor(float r,float g, float b, float a)
 {
     this->color = QVector4D(r,g,b,a);
 }
+
 void Vertex::display(QOpenGLShaderProgram *buffer)
 {
     vbo.create();
