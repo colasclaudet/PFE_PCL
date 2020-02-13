@@ -64,6 +64,12 @@
 #include <pcl/features/normal_3d_omp.h>
 #include <pcl/segmentation/sac_segmentation.h>
 #include <pcl/filters/voxel_grid.h>
+
+#include <pcl/sample_consensus/method_types.h>
+#include <pcl/sample_consensus/model_types.h>
+#include <pcl/segmentation/sac_segmentation.h>
+
+#include <QThread>
 //#include <pcl/common/impl/intersections.hpp>
 //#include <pcl/common/impl/intersections.hpp>
 /********** FIN INCLUDE PCL *********************/
@@ -91,6 +97,7 @@ public:
     pcl::visualization::PCLVisualizer::Ptr finaliseVis(pcl::visualization::PCLVisualizer::Ptr viewer);
     pcl::visualization::PCLVisualizer::Ptr addPtsCloudColor(pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud, pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color);
     pcl::visualization::PCLVisualizer::Ptr addPtsCloud (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointNormal>::Ptr cloud);
+    static void showVizualizer();
     /**********************
           DEBRUITAGE
     **********************/
@@ -100,17 +107,18 @@ public:
     **********************/
     pcl::visualization::PCLVisualizer::Ptr addPlane (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::ModelCoefficients planeCoef);
     pcl::PointXYZ threePlaneIntersection(pcl::ModelCoefficients plane_coeff1, pcl::ModelCoefficients plane_coeff2, pcl::ModelCoefficients plane_coeff3);
+    pcl::PointCloud<pcl::PointXYZ> clouds_union(std::vector<pcl::PointCloud<pcl::PointXYZ>> v_cloud);
     /**********************
            CALCUL
     **********************/
     void repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_planes);
     pcl::PointCloud<pcl::PointXYZ>::Ptr rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe);
-    
+
     /**********************
            OBSOLETE
     **********************/
     pcl::PointCloud<pcl::PointXYZ>::Ptr regroup_plane(); //not use
-    
+
     /**********************
               PFE
      *********************/
@@ -123,6 +131,8 @@ public:
      get plane equation
      **********************/
     double * equation_plane(QVector3D P1, QVector3D P2, QVector3D P3);
+    double * equation_plane2(pcl::PointCloud<pcl::PointXYZ> pcloud);
+    double * moy_eq_plane(pcl::PointCloud<pcl::PointXYZ> pcloud);
     /**********************
             Add xyzrgb point cloud
      *********************/
@@ -150,8 +160,9 @@ public slots:
 private:
     // initialize PointClouds
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud; //(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_xyzrgb;
     pcl::PointCloud<pcl::PointXYZ>::Ptr final; //(new pcl::PointCloud<pcl::PointXYZ>);
-    
+
     bool file_is_ply = false;
 
     Ui::MainWindow *ui;
@@ -174,6 +185,8 @@ private:
 
     double xmin,ymin,zmin = 10000000000;
     double xmax,ymax,zmax = -10000000000;
+
+    QThread processViewer;
 //new
 protected:
     pcl::visualization::PCLVisualizer::Ptr viewer;
