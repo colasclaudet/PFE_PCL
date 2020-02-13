@@ -68,6 +68,8 @@
 #include <pcl/sample_consensus/method_types.h>
 #include <pcl/sample_consensus/model_types.h>
 #include <pcl/segmentation/sac_segmentation.h>
+
+#include <QThread>
 //#include <pcl/common/impl/intersections.hpp>
 //#include <pcl/common/impl/intersections.hpp>
 /********** FIN INCLUDE PCL *********************/
@@ -95,6 +97,7 @@ public:
     pcl::visualization::PCLVisualizer::Ptr finaliseVis(pcl::visualization::PCLVisualizer::Ptr viewer);
     pcl::visualization::PCLVisualizer::Ptr addPtsCloudColor(pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud, pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color);
     pcl::visualization::PCLVisualizer::Ptr addPtsCloud (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointNormal>::Ptr cloud);
+    static void showVizualizer();
     /**********************
           DEBRUITAGE
     **********************/
@@ -182,6 +185,8 @@ private:
 
     double xmin,ymin,zmin = 10000000000;
     double xmax,ymax,zmax = -10000000000;
+
+    QThread processViewer;
 //new
 protected:
     pcl::visualization::PCLVisualizer::Ptr viewer;

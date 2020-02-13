@@ -21,14 +21,14 @@ MainWindow::MainWindow(QWidget *parent) :
     viewer->setupInteractor (ui->qvtkWidget->GetInteractor (), ui->qvtkWidget->GetRenderWindow ());
     ui->qvtkWidget->update ();*/
     //endNew
-	connect(ui->radio_cloud, SIGNAL(clicked()), this, SLOT(chooseViewCloud())); //si cloud radio button sélectionné
-	connect(ui->radio_plane, SIGNAL(clicked()), this, SLOT(chooseViewPlane())); //si plane radio button selectionné
-	connect(ui->slider_threshold, SIGNAL(valueChanged(int)), this, SLOT(changeThreshold(int))); //connexion slidebar threshold
-	connect(ui->slider_proba, SIGNAL(valueChanged(int)), this, SLOT(changeProba(int))); //connexion slidebar proba
-	connect(ui->btn_import, SIGNAL(clicked()), this, SLOT(chooseFile())); //connexion selection de fichier
-	connect(ui->btn_draw, SIGNAL(clicked()), this, SLOT(draw())); //connexion bouton draw, on lance le viewer
-	connect(ui->btn_modelize, SIGNAL(clicked()), this, SLOT(modelize())); //connexion bouton modelize, on lance la modelisation
-
+		connect(ui->radio_cloud, SIGNAL(clicked()), this, SLOT(chooseViewCloud())); //si cloud radio button sélectionné
+		connect(ui->radio_plane, SIGNAL(clicked()), this, SLOT(chooseViewPlane())); //si plane radio button selectionné
+		connect(ui->slider_threshold, SIGNAL(valueChanged(int)), this, SLOT(changeThreshold(int))); //connexion slidebar threshold
+		connect(ui->slider_proba, SIGNAL(valueChanged(int)), this, SLOT(changeProba(int))); //connexion slidebar proba
+		connect(ui->btn_import, SIGNAL(clicked()), this, SLOT(chooseFile())); //connexion selection de fichier
+		connect(ui->btn_draw, SIGNAL(clicked()), this, SLOT(draw())); //connexion bouton draw, on lance le viewer
+		connect(ui->btn_modelize, SIGNAL(clicked()), this, SLOT(modelize())); //connexion bouton modelize, on lance la modelisation
+		ui->btn_modelize->setVisible(false);
 	//save
     //connect(ui->btn_save, SIGNAL(clicked()), this, SLOT(saveCloud()));
 
@@ -942,7 +942,18 @@ void MainWindow::calc_inter_planes()
 		}
 		cout<<"FIN INTERSECTIONS DES PLANS "<<endl;
 }
+void MainWindow::showVizualizer()
+{
 
+}
+void launch_viewer(pcl::visualization::PCLVisualizer::Ptr v)
+{
+	while (!v->wasStopped ())
+	{
+			v->spinOnce (100);
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
+}
 void MainWindow::draw()
 {
 		/* initialize random seed: */
@@ -1021,13 +1032,13 @@ void MainWindow::draw()
     repereRoom(viewer, list);
 		//copyPointCloud(clouds_union(vector_cloud),*cloud); //pour se servir de la fonction il faut copier dans un pointeur
 		//this->viewer = simpleVis(cloud);
-    while (!this->viewer->wasStopped ())
-    {
-        this->viewer->spinOnce (100);
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
 
-
+		while (!this->viewer->wasStopped ())
+		{
+				this->viewer->spinOnce (100);
+				std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		}
+		ui->btn_modelize->setVisible(true);
 }
 
 void MainWindow::modelize()
@@ -1088,10 +1099,10 @@ void MainWindow::modelize()
             for(int i = 0; i<eq_planes.size(); i++)
             {
                 std::vector<QVector3D> plane_points;
-								float r = (rand()%255)/255.0;
+								/*float r = (rand()%255)/255.0;
 								float g = (rand()%255)/255.0;
 								float b = (rand()%255)/255.0;
-								float a = (rand()%255)/255.0;
+								float a = (rand()%255)/255.0;*/
 								//r = 1.0; g = 0.0; b = 0.0; a = 1.0;
                 for(int j = 0; j<inter_points.size();j++)
                 {
@@ -1184,7 +1195,7 @@ void MainWindow::modelize()
                     pl.push_back(p); //pour afficher les plans
 										//pl.push_back(pt);
 
-										Vertex v1(0.30,plane_points.at(flag1)[0]/100.0,plane_points.at(flag1)[1]/100.0,plane_points.at(flag1)[2]/100.0);
+										/*Vertex v1(0.30,plane_points.at(flag1)[0]/100.0,plane_points.at(flag1)[1]/100.0,plane_points.at(flag1)[2]/100.0);
 										v1.setColor(r,g,b,a);
 										vertices.push_back(v1);
 										Vertex v2(0.30,plane_points.at(flag2)[0]/100.0,plane_points.at(flag2)[1]/100.0,plane_points.at(flag2)[2]/100.0);
@@ -1195,7 +1206,7 @@ void MainWindow::modelize()
 										vertices.push_back(v3);
 										Vertex v4(0.30,plane_points.at(flag4)[0]/100.0,plane_points.at(flag4)[1]/100.0,plane_points.at(flag4)[2]/100.0);
 										v4.setColor(r,g,b,a);
-										vertices.push_back(v4);
+										vertices.push_back(v4);*/
 
                 }
                 else
@@ -1215,14 +1226,14 @@ void MainWindow::modelize()
     {
         Vertex v(0.30,inter_points.at(i)[0]/100.0,inter_points.at(i)[1]/100.0,inter_points.at(i)[2]/100.0);
 				//v.setColor((rand()%255)/255.0,(rand()%255)/255.0,(rand()%255)/255.0,(rand()%255)/255.0);
-        //vertices.push_back(v);//to decoche
+        vertices.push_back(v);//to decoche
 
     }
 		for(int i = 0; i < cloud_xyzrgb->points.size();i = i + 15 )
 		{
 				Vertex v(0.05,cloud_xyzrgb->points[i].x/100.0,cloud_xyzrgb->points[i].y/100.0,cloud_xyzrgb->points[i].z/100.0);
 				v.setColor(1.0,1.0,1.0,1.0);
-				//vertices.push_back(v);//to decoche
+				vertices.push_back(v);//to decoche
 		}
     ui->glarea->addVertex(vertices);
     ui->glarea->addPlanes(pl);
