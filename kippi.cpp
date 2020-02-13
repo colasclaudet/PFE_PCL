@@ -12,6 +12,11 @@ vector<Primitive> Kippi::primitives()
 }
 
 
+vector<vector<Point2f> > Kippi::finalLines()
+{
+    return m_finalLines;
+}
+
 Point2f Kippi::middleOfSegment(const Point2f &segmentStart, const Point2f &segmentEnd){
     Point2f middle;
 
@@ -27,8 +32,8 @@ bool Kippi::almostEqual(double number1, double number2){
 }
 
 double Kippi::distanceBetweenPoints(const Point2f &a, const Point2f &b){
-    double xDiff = b.x - a.x;
-    double yDiff = b.y - a.y;
+    double xDiff = a.x - b.x;
+    double yDiff = a.y - b.y;
 
     return sqrt((xDiff * xDiff) + (yDiff * yDiff));
 }
@@ -40,7 +45,7 @@ bool Kippi::arePointsColinear(const Point2f &a, const Point2f &b, const Point2f 
 }
 
 bool Kippi::pointOnSegment(const Point2f &segmentStart, const Point2f &segmentEnd, const Point2f &toEvaluate){
-    double dStart = distanceBetweenPoints(segmentStart, toEvaluate);
+    double dStart = distanceBetweenPoints(toEvaluate, segmentStart);
     double dEnd = distanceBetweenPoints(toEvaluate, segmentEnd);
     double segmentLength = distanceBetweenPoints(segmentStart, segmentEnd);
 
@@ -61,8 +66,8 @@ bool Kippi::lineIntersection(const Point2f &a1, const Point2f &b1, const Point2f
     double det = (A1 * B2) - (A2 * B1);
 
     if (!almostEqual(det, 0)) {
-        intersection.x = static_cast<float>(((C1 * B2) - (C2 * B1)) / (det));
-        intersection.y = static_cast<float>(((C2 * A1) - (C1 * A2)) / (det));
+        intersection.x = ((C1 * B2) - (C2 * B1)) / (det);
+        intersection.y = ((C2 * A1) - (C1 * A2)) / (det);
 
         //std::cout << "X: " << intersection.x << std::endl;
         //std::cout << "Y: " << intersection.y << std::endl;
@@ -82,36 +87,84 @@ bool Kippi::isPropagationLeft(){
 }
 
 void Kippi::propagation(double t, const Mat &image){
-    for(int i = 0; i < m_primitives.size(); ++i){
+    for(int i = 4; i < m_primitives.size(); ++i){
         if(m_primitives[i].K() == 0) continue;
         Point2f end(m_primitives[i].end());
         Point2f direction = m_primitives[i].direction();
         end.x += direction.x * t;
         end.y += direction.y * t;
         m_primitives[i].setCurrent(end);
-        if(m_primitives[i].current().x < 0 ||m_primitives[i].current().y < 0 ||
-                m_primitives[i].current().x > image.cols || m_primitives[i].current().y > image.rows) m_primitives[i].setK(0);
+        if(m_primitives[i].current().x < 0 || m_primitives[i].current().y < 0 ||
+                m_primitives[i].current().x >= image.cols || m_primitives[i].current().y >= image.rows) m_primitives[i].setK(0);
     }
 
     for(int i = 0; i < m_primitives.size(); ++i){
         if(m_primitives[i].K() == 0) continue;
         for(int j = 0; j < m_primitives.size(); ++j){
             if(i == j) continue;
+            if(m_primitives[i].certificates().at(j) == 0) continue;
+            if(m_primitives[j].certificates().at(i) == 0) continue;
             if(m_primitives[i].idSegment() == m_primitives[j].idSegment()) continue;
+
             Point2f current = m_primitives[i].current();
             Point2f origin = m_primitives[j].origin();
             Point2f end = m_primitives[j].current();
 
-            if(!arePointsColinear(origin, end, current)) continue;
-            if(!pointOnSegment(origin, end, current)) continue;
+            //if(arePointsColinear(m_primitives[j].origin(), m_primitives[j].end(), m_primitives[i].end())) continue;
 
-            m_primitives[i].certificates().at(j) = 0;
 
-            GraphVertex v(i, j, current);
-            add_vertex(v, m_g);
+            Point2f intersection;
+            if(lineIntersection(m_primitives[i].origin(), m_primitives[i].current(), m_primitives[j].origin(), m_primitives[j].current(), intersection)){
 
-            m_primitives[i].setK(m_primitives[i].K() - 1);
+                m_primitives[i].flipCertificate(j);
+                m_primitives[j].flipCertificate(i);
+                m_primitives[i].setCurrent(intersection);
+                GraphVertex v(i, j, intersection);
+                add_vertex(v, m_g);
+                m_primitives[i].setK(m_primitives[i].K() - 1);
+            }
+
         }
+    }
+}
+
+void Kippi::propagationPriorityQueue(double t, priority_queue<Primitive> primitivesPriorityQueue, const Mat &image){
+    Primitive source = primitivesPriorityQueue.top();
+    primitivesPriorityQueue.pop();
+
+    if(m_primitives[source.idPrimitive()].K() == 0) return;
+    Point2f end(m_primitives[source.idPrimitive()].end());
+    Point2f direction = m_primitives[source.idPrimitive()].direction();
+    end.x += direction.x * t;
+    end.y += direction.y * t;
+    m_primitives[source.idPrimitive()].setCurrent(end);
+    if(m_primitives[source.idPrimitive()].current().x < 0 || m_primitives[source.idPrimitive()].current().y < 0 ||
+            m_primitives[source.idPrimitive()].current().x >= image.cols || m_primitives[source.idPrimitive()].current().y >= image.rows) m_primitives[source.idPrimitive()].setK(0);
+
+    while(!primitivesPriorityQueue.empty()){
+        Primitive target = primitivesPriorityQueue.top();
+
+        if(m_primitives[source.idPrimitive()].certificates().at(target.idPrimitive()) == 0) continue;
+        if(m_primitives[target.idPrimitive()].certificates().at(source.idPrimitive()) == 0) continue;
+        if(m_primitives[source.idPrimitive()].idSegment() == m_primitives[target.idPrimitive()].idSegment()) continue;
+
+        Point2f current = m_primitives[source.idPrimitive()].current();
+        Point2f origin = m_primitives[target.idPrimitive()].origin();
+        Point2f end = m_primitives[target.idPrimitive()].current();
+
+        Point2f intersection;
+        if(lineIntersection(m_primitives[source.idPrimitive()].origin(), m_primitives[source.idPrimitive()].current(),
+                            m_primitives[target.idPrimitive()].origin(), m_primitives[target.idPrimitive()].current(), intersection)){
+
+            m_primitives[source.idPrimitive()].flipCertificate(target.idPrimitive());
+            m_primitives[target.idPrimitive()].flipCertificate(source.idPrimitive());
+            m_primitives[source.idPrimitive()].setCurrent(intersection);
+            GraphVertex v(source.idPrimitive(), target.idPrimitive(), intersection);
+            add_vertex(v, m_g);
+            m_primitives[source.idPrimitive()].setK(m_primitives[source.idPrimitive()].K() - 1);
+        }
+
+        //if(arePointsColinear(m_primitives[target.idPrimitive()].origin(), m_primitives[target.idPrimitive()].end(), m_primitives[source.idPrimitive()].end())) continue;
     }
 }
 
@@ -152,25 +205,39 @@ void Kippi::partition(string imgName){
 
     map<pair<int, int>, Point2f> intersections;
 
-    GraphVertex cornerUpperLeft(-1, -1, Point2f(0, 0));
-    GraphVertex cornerUpperRight(-2, -2, Point2f(0, image.cols));
-    GraphVertex cornerLowerRight(-3, -3, Point2f(image.rows, image.cols));
-    GraphVertex cornerLowerLeft(-4, -4, Point2f(image.rows, 0));
+    GraphVertex cornerUpperLeft(-1, -1, Point2f(2, 2));
+    GraphVertex cornerUpperRight(-2, -2, Point2f(image.cols - 3, 2));
+    GraphVertex cornerLowerRight(-3, -3, Point2f(image.cols - 3, image.rows - 3));
+    GraphVertex cornerLowerLeft(-4, -4, Point2f(2, image.rows - 3));
 
     add_vertex(cornerUpperLeft, m_g);
     add_vertex(cornerUpperRight, m_g);
     add_vertex(cornerLowerRight, m_g);
     add_vertex(cornerLowerLeft, m_g);
 
-    int idPrimitive = 0;
+    Primitive UpPrim(Point2f(cornerUpperLeft.intersection()), Point2f(cornerUpperRight.intersection()), lines_fld.size() * 2 + 4, 0, 0, -1);
+    m_primitives.push_back(UpPrim);
+
+    Primitive RightPrim(Point2f(cornerUpperRight.intersection()), Point2f(cornerLowerRight.intersection()), lines_fld.size() * 2 + 4, 0, 1, -1);
+    m_primitives.push_back(RightPrim);
+
+    Primitive BottomPrim(Point2f(cornerLowerRight.intersection()), Point2f(cornerLowerLeft.intersection()), lines_fld.size() * 2 + 4, 0, 2, -1);
+    m_primitives.push_back(BottomPrim);
+
+    Primitive LeftPrim(Point2f(cornerLowerLeft.intersection()), Point2f(cornerUpperLeft.intersection()), lines_fld.size() * 2 + 4, 0, 3, -1);
+    m_primitives.push_back(LeftPrim);
+
+
+
+    int idPrimitive = 4;
     for(int i = 0 ; i < lines_fld.size() ; ++i){
-        Point2f origin0(lines_fld[i][0], lines_fld[i][1]);
-        Point2f end0(lines_fld[i][2], lines_fld[i][3]);
-        Point2f middle = middleOfSegment(origin0, end0);
+        Point2f origin(lines_fld[i][0], lines_fld[i][1]);
+        Point2f end(lines_fld[i][2], lines_fld[i][3]);
+        Point2f middle = middleOfSegment(origin, end);
         GraphVertex v(i, i, middle);
-        Primitive p0(middle, origin0, lines_fld.size() * 2, 1, idPrimitive, i);
+        Primitive p0(middle, origin, lines_fld.size() * 2 + 4, 1, idPrimitive, i);
         ++idPrimitive;
-        Primitive p1(middle, end0, lines_fld.size() * 2, 1, idPrimitive, i);
+        Primitive p1(middle, end, lines_fld.size() * 2 + 4, 1, idPrimitive, i);
         ++idPrimitive;
         m_primitives.push_back(p0);
         m_primitives.push_back(p1);
@@ -179,13 +246,14 @@ void Kippi::partition(string imgName){
 
     for(int i = 0 ; i < m_primitives.size() ; ++i){
         for(int j = i + 1 ; j < m_primitives.size() ; ++j){
-            //if(primitives[i].m_idSegment == primitives[j].m_idSegment) continue;
+            if(m_primitives[i].idSegment() == m_primitives[j].idSegment()) continue;
             Point2f intersection;
             if(lineIntersection(m_primitives[i].origin(), m_primitives[i].end(), m_primitives[j].origin(), m_primitives[j].end(), intersection)){
+
                 pair<pair<int, int>, Point2f> p(make_pair(i, j), intersection);
                 intersections.insert(p);
-                m_primitives[i].certificates().at(j) = 0;
-                m_primitives[j].certificates().at(i) = 0;
+                m_primitives[i].flipCertificate(j);
+                m_primitives[j].flipCertificate(i);
             }
         }
     }
@@ -196,22 +264,29 @@ void Kippi::partition(string imgName){
     }
 
     double t = 0;
-    double delta = 0.1;
+    double delta = 0.001;
     while(isPropagationLeft()){
-        /*priority_queue<PRIMITIVE> primitivesPriorityQueue;
-        for(int i = 0 ; i < primitives.size() ; ++i){
-            if(primitives[i].m_K > 0)
-                primitivesPriorityQueue.push(primitives[i]);
+        /*priority_queue<Primitive> primitivesPriorityQueue;
+        for(int i = 4 ; i < m_primitives.size() ; ++i){
+            if(m_primitives[i].K() != 0)
+                primitivesPriorityQueue.push(m_primitives[i]);
         }*/
         propagation(t, image);
-        //propagationPriorityQueue(t, primitivesPriorityQueue, primitives, g, line_image_fld);
+        //propagationPriorityQueue(t, primitivesPriorityQueue, image);
         t += delta;
     }
 
     pair<GRAPH::vertex_iterator, GRAPH::vertex_iterator> v_it = vertices(m_g);
     for(; v_it.first != v_it.second; ++v_it.first){
         GRAPH::vertex_descriptor v = *v_it.first;
-        std::cout << m_g[v].i() << " " << m_g[v].j() << " " << m_g[v].intersection().x << " " << m_g[v].intersection().y << endl;
+        //std::cout << m_g[v].i() << " " << m_g[v].j() << " " << m_g[v].intersection().x << " " << m_g[v].intersection().y << endl;
+
+        circle( image_fld,
+                 m_g[v].intersection(),
+                 96.0/32.0,
+                 Scalar( 0, 0, 255 ),
+                 -1,
+                 8 );
     }
 
     for(int i = 0 ; i < m_primitives.size() ; ++i){

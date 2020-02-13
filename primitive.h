@@ -4,6 +4,8 @@
 #include <cmath>
 #include <vector>
 #include <opencv2/core/types.hpp>
+#include <boost/graph/graph_traits.hpp>
+#include <boost/graph/adjacency_list.hpp>
 
 using namespace std;
 using namespace cv;
@@ -15,6 +17,9 @@ private:
     Point2f m_end;
     Point2f m_current;
     Point2f m_direction;
+
+    //Vertex représentant la dernière intersection référencée
+
     //id du segment dans lines_fld
     int m_idSegment;
     //id de la primitve en elle-même
@@ -40,6 +45,7 @@ public:
     int idPrimitive() const;
 
     vector<bool> certificates();
+    void flipCertificate(int index);
 
     int K() const;
     void setK(int K);

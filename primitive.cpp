@@ -75,6 +75,10 @@ int Primitive::nbCertificates() const
     return nb;
 }
 
+void Primitive::flipCertificate(int index){
+    m_certificates[index] = 1 - m_certificates[index];
+}
+
 bool Primitive::operator <(const Primitive & p) const
 {
     return nbCertificates() < p.nbCertificates();

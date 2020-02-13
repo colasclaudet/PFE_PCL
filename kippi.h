@@ -26,7 +26,7 @@ using namespace cv;
 using namespace cv::ximgproc;
 using namespace boost;
 
-#define EPSILON 0.5
+#define EPSILON 0.001
 
 
 
@@ -35,6 +35,7 @@ class Kippi
 private:
     typedef adjacency_list<vecS, vecS, undirectedS, GraphVertex> GRAPH;
     vector<Primitive> m_primitives;
+    vector<vector<Point2f>> m_finalLines;
 
     Point2f middleOfSegment(const Point2f &segmentStart, const Point2f &segmentEnd);
 
@@ -50,12 +51,14 @@ private:
 
     bool isPropagationLeft();
     void propagation(double t, const Mat &image);
+    void propagationPriorityQueue(double t, priority_queue<Primitive> primitivesPriorityQueue, const Mat &image);
 
 public:
     Kippi();
     vector<Primitive> primitives();
     GRAPH m_g;
     void partition(string imgName);
+    vector<vector<Point2f> > finalLines();
 };
 
 #endif // KIPPI_H
