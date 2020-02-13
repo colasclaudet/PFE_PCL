@@ -68,6 +68,10 @@
 #include <pcl/features/normal_3d_omp.h>
 #include <pcl/segmentation/sac_segmentation.h>
 #include <pcl/filters/voxel_grid.h>
+
+#include <pcl/sample_consensus/method_types.h>
+#include <pcl/sample_consensus/model_types.h>
+#include <pcl/segmentation/sac_segmentation.h>
 //#include <pcl/common/impl/intersections.hpp>
 //#include <pcl/common/impl/intersections.hpp>
 /********** FIN INCLUDE PCL *********************/
@@ -115,6 +119,8 @@ public:
     double computeDistance(QVector3D p1, QVector3D p2);
     bool normalesAreSimilar(QVector3D p1, QVector3D p2);
     int axeViaNormal(QVector3D n);
+    void createRoom();
+
     /**********************
            OBSOLETE
     **********************/
@@ -132,10 +138,12 @@ public:
      get plane equation
      **********************/
     double * equation_plane(QVector3D P1, QVector3D P2, QVector3D P3);
+    double * equation_plane2(pcl::PointCloud<pcl::PointXYZ> pcloud);
     /**********************
             Add xyzrgb point cloud
      *********************/
     pcl::visualization::PCLVisualizer::Ptr addPtsCloudXYZRGB (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
+    pcl::PointCloud<pcl::PointXYZRGB> clouds_union(std::vector<pcl::PointCloud<pcl::PointXYZRGB>> v_cloud);
     /**********************
               Direction Of Normal Segmentation
      *********************/
@@ -175,6 +183,8 @@ private:
     std::vector<pcl::PointCloud<pcl::PointXYZRGB>> vector_cloud_RGB;
 
     std::vector<Fragment> list_limits;
+    std::vector<pcl::PointCloud<pcl::PointXYZRGB>> room;
+
 
     std::vector<double *> eq_planes;
     std::vector<QVector3D> inter_points;

@@ -81,4 +81,3 @@ void Fragment::attributeColorAuto(){
     std::cout << "couleur " << r << ", " << g << ", " << b << "attribué, type : " << getStringType() << std::endl;
 }
 
-
