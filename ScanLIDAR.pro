@@ -32,7 +32,10 @@ SOURCES += \
         plane.cpp \
         planes.cpp \
         vertex.cpp \
-        vertices.cpp
+        vertices.cpp \
+        primitive.cpp \
+        kippi.cpp \
+        graphvertex.cpp
 
 HEADERS += \
         fragment.h \
@@ -41,7 +44,10 @@ HEADERS += \
         plane.h \
         planes.h \
         vertex.h \
-        vertices.h
+        vertices.h \
+        primitive.h \
+        kippi.h \
+        graphvertex.h
 
 FORMS += \
         mainwindow.ui
