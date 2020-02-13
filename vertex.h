@@ -13,6 +13,11 @@ class Vertex
 public:
     Vertex(GLfloat size, float x, float y, float z);
     void display(QOpenGLShaderProgram * buffer);
+
+    void setColor(float r,float g, float b, float a);
+
+    float x,y,z;
+
 private:
 
     QOpenGLBuffer vbo;

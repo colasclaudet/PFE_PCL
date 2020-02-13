@@ -16,6 +16,7 @@
 #include "fragment.h"
 #include <iostream>
 
+
 /********** INCLUDE PCL *********************/
 
 //#include <pcl/impl/point_types.hpp>
@@ -72,6 +73,10 @@
 #include <pcl/sample_consensus/method_types.h>
 #include <pcl/sample_consensus/model_types.h>
 #include <pcl/segmentation/sac_segmentation.h>
+
+
+#include <QThread>
+
 //#include <pcl/common/impl/intersections.hpp>
 //#include <pcl/common/impl/intersections.hpp>
 /********** FIN INCLUDE PCL *********************/
@@ -99,6 +104,7 @@ public:
     pcl::visualization::PCLVisualizer::Ptr finaliseVis(pcl::visualization::PCLVisualizer::Ptr viewer);
     pcl::visualization::PCLVisualizer::Ptr addPtsCloudColor(pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud, pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color);
     pcl::visualization::PCLVisualizer::Ptr addPtsCloud (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointNormal>::Ptr cloud);
+    static void showVizualizer();
     /**********************
           DEBRUITAGE
     **********************/
@@ -108,6 +114,13 @@ public:
     **********************/
     pcl::visualization::PCLVisualizer::Ptr addPlane (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::ModelCoefficients planeCoef);
     pcl::PointXYZ threePlaneIntersection(pcl::ModelCoefficients plane_coeff1, pcl::ModelCoefficients plane_coeff2, pcl::ModelCoefficients plane_coeff3);
+    pcl::PointCloud<pcl::PointXYZ> clouds_union(std::vector<pcl::PointCloud<pcl::PointXYZ>> v_cloud);
+    /**********************
+           CALCUL
+    **********************/
+    void repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_planes);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe);
+
     /**********************
            CALCUL
     **********************/
@@ -125,7 +138,7 @@ public:
            OBSOLETE
     **********************/
     pcl::PointCloud<pcl::PointXYZ>::Ptr regroup_plane(); //not use
-    
+
     /**********************
               PFE
      *********************/
@@ -139,11 +152,16 @@ public:
      **********************/
     double * equation_plane(QVector3D P1, QVector3D P2, QVector3D P3);
     double * equation_plane2(pcl::PointCloud<pcl::PointXYZ> pcloud);
+
+    double * moy_eq_plane(pcl::PointCloud<pcl::PointXYZ> pcloud);
+
     /**********************
             Add xyzrgb point cloud
      *********************/
     pcl::visualization::PCLVisualizer::Ptr addPtsCloudXYZRGB (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
+
     pcl::PointCloud<pcl::PointXYZRGB> clouds_union(std::vector<pcl::PointCloud<pcl::PointXYZRGB>> v_cloud);
+
     /**********************
               Direction Of Normal Segmentation
      *********************/
@@ -167,8 +185,10 @@ public slots:
 private:
     // initialize PointClouds
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud; //(new pcl::PointCloud<pcl::PointXYZ>);
+
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_xyzrgb;
     pcl::PointCloud<pcl::PointXYZ>::Ptr final; //(new pcl::PointCloud<pcl::PointXYZ>);
-    
+
     bool file_is_ply = false;
 
     Ui::MainWindow *ui;
@@ -177,6 +197,7 @@ private:
     bool view_plan = true;
     bool have_plane = false;
 
+
     std::vector<pcl::PointCloud<pcl::PointXYZ>> vector_cloud;
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloudToSave;
     std::vector<pcl::ModelCoefficients> vector_eq;
@@ -184,7 +205,6 @@ private:
 
     std::vector<Fragment> list_limits;
     std::vector<pcl::PointCloud<pcl::PointXYZRGB>> room;
-
 
     std::vector<double *> eq_planes;
     std::vector<QVector3D> inter_points;
@@ -195,6 +215,10 @@ private:
 
     double xmin,ymin,zmin = 10000000000;
     double xmax,ymax,zmax = -10000000000;
+
+
+    QThread processViewer;
+
 //new
 protected:
     pcl::visualization::PCLVisualizer::Ptr viewer;
