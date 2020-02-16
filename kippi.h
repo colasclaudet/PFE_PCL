@@ -3,14 +3,12 @@
 
 #include <stdio.h>
 #include <iostream>
-#include <opencv2/opencv_modules.hpp>
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc.hpp>
 #include "opencv2/ximgproc.hpp"
 #include <opencv2/core/utility.hpp>
 #include <opencv2/features2d.hpp>
 #include <opencv2/highgui.hpp>
-#include <opencv2/line_descriptor.hpp>
 #include <vector>
 #include <map>
 #include <cmath>
@@ -26,7 +24,7 @@ using namespace cv;
 using namespace cv::ximgproc;
 using namespace boost;
 
-#define EPSILON 0.001
+#define EPSILON 1E-10
 
 
 
@@ -51,7 +49,7 @@ private:
 
     bool isPropagationLeft();
     void propagation(double t, const Mat &image);
-    void propagationPriorityQueue(double t, priority_queue<Primitive> primitivesPriorityQueue, const Mat &image);
+    void propagationPriorityQueue(double t, const Mat &image);
 
 public:
     Kippi();

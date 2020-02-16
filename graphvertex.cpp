@@ -4,6 +4,11 @@ using namespace std;
 using namespace cv;
 
 GraphVertex::GraphVertex(int i, int j, Point2f intersection) : m_i(i), m_j(j), m_intersection(intersection) {}
+
+GraphVertex::GraphVertex() {}
+
+GraphVertex::GraphVertex(const GraphVertex &g) : m_i(g.i()), m_j(g.j()), m_intersection(g.intersection()) {}
+
 int GraphVertex::j() const
 {
     return m_j;

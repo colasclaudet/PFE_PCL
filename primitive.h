@@ -6,9 +6,11 @@
 #include <opencv2/core/types.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
+#include "graphvertex.h"
 
 using namespace std;
 using namespace cv;
+using namespace boost;
 
 class Primitive
 {
@@ -17,6 +19,8 @@ private:
     Point2f m_end;
     Point2f m_current;
     Point2f m_direction;
+    adjacency_list<vecS, vecS, undirectedS, GraphVertex>::vertex_descriptor m_lastIntersection;
+
 
     //Vertex représentant la dernière intersection référencée
 
@@ -49,6 +53,9 @@ public:
 
     int K() const;
     void setK(int K);
+
+    adjacency_list<vecS, vecS, undirectedS, GraphVertex>::vertex_descriptor lastIntersection() const;
+    void setLastIntersection(const adjacency_list<vecS, vecS, undirectedS, GraphVertex>::vertex_descriptor &value);
 };
 
 #endif // PRIMITIVE_H

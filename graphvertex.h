@@ -15,6 +15,8 @@ private:
     Point2f m_intersection;
 public:
     GraphVertex(int i, int j, Point2f intersection);
+    GraphVertex();
+    GraphVertex(const GraphVertex &g);
 
     int i() const;
 
