@@ -3,12 +3,12 @@
 using namespace std;
 using namespace cv;
 
-adjacency_list<vecS, vecS, undirectedS, GraphVertex>::vertex_descriptor Primitive::lastIntersection() const
+adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor Primitive::lastIntersection() const
 {
     return m_lastIntersection;
 }
 
-void Primitive::setLastIntersection(const adjacency_list<vecS, vecS, undirectedS, GraphVertex>::vertex_descriptor &value)
+void Primitive::setLastIntersection(const adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor &value)
 {
     m_lastIntersection = value;
 }

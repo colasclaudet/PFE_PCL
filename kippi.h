@@ -31,7 +31,7 @@ using namespace boost;
 class Kippi
 {
 private:
-    typedef adjacency_list<vecS, vecS, undirectedS, GraphVertex> GRAPH;
+    typedef adjacency_list<listS, listS, undirectedS, GraphVertex> GRAPH;
     vector<Primitive> m_primitives;
     vector<vector<Point2f>> m_finalLines;
 

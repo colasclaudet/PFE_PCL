@@ -171,8 +171,6 @@ void Kippi::propagationPriorityQueue(double t, const Mat &image){
         end.x += direction.x * t;
         end.y += direction.y * t;
         m_primitives[i].setCurrent(end);
-        /*if(m_primitives[i].current().x < 0 || m_primitives[i].current().y < 0 ||
-                m_primitives[i].current().x >= image.cols || m_primitives[i].current().y >= image.rows) m_primitives[i].setK(0);*/
 
         if(m_primitives[i].current().x <= 2){
             m_primitives[i].setK(0);
@@ -245,7 +243,7 @@ void Kippi::propagationPriorityQueue(double t, const Mat &image){
                 m_primitives[i].setCurrent(intersection);
 
                 GraphVertex v(i, j, intersection);
-                adjacency_list<vecS, vecS, undirectedS, GraphVertex>::vertex_descriptor vertexDescriptor = add_vertex(v, m_g);
+                adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor vertexDescriptor = add_vertex(v, m_g);
 
                 //add_edge(m_primitives[i].lastIntersection(), vertexDescriptor, m_g);
                 //add_edge(m_primitives[j].lastIntersection(), vertexDescriptor, m_g);
@@ -334,7 +332,7 @@ void Kippi::partition(string imgName){
         ++idPrimitive;
         m_primitives.push_back(p0);
         m_primitives.push_back(p1);
-        adjacency_list<vecS, vecS, undirectedS, GraphVertex>::vertex_descriptor vertexDescriptor = add_vertex(v, m_g);
+        adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor vertexDescriptor = add_vertex(v, m_g);
         p0.setLastIntersection(vertexDescriptor);
         p1.setLastIntersection(vertexDescriptor);
     }
@@ -355,7 +353,7 @@ void Kippi::partition(string imgName){
 
     for (std::map<pair<int,int>, Point2f>::iterator it=intersections.begin(); it!=intersections.end(); ++it){
         GraphVertex v(it->first.first, it->first.second, it->second);
-        adjacency_list<vecS, vecS, undirectedS, GraphVertex>::vertex_descriptor vertexDescriptor = add_vertex(v, m_g);
+        adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor vertexDescriptor = add_vertex(v, m_g);
 
         //add_edge(m_primitives[it->first.first].lastIntersection(), vertexDescriptor, m_g);
         //add_edge(m_primitives[it->first.second].lastIntersection(), vertexDescriptor, m_g);

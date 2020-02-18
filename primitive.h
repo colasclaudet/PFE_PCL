@@ -19,7 +19,7 @@ private:
     Point2f m_end;
     Point2f m_current;
     Point2f m_direction;
-    adjacency_list<vecS, vecS, undirectedS, GraphVertex>::vertex_descriptor m_lastIntersection;
+    adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor m_lastIntersection;
 
 
     //Vertex représentant la dernière intersection référencée
@@ -54,8 +54,8 @@ public:
     int K() const;
     void setK(int K);
 
-    adjacency_list<vecS, vecS, undirectedS, GraphVertex>::vertex_descriptor lastIntersection() const;
-    void setLastIntersection(const adjacency_list<vecS, vecS, undirectedS, GraphVertex>::vertex_descriptor &value);
+    adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor lastIntersection() const;
+    void setLastIntersection(const adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor &value);
 };
 
 #endif // PRIMITIVE_H
