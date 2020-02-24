@@ -118,11 +118,11 @@ public:
     /**********************
            CALCUL
     **********************/
-    void repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_planes);
+    void repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> list_planes);
     pcl::PointCloud<pcl::PointXYZ>::Ptr rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe);
-    void searchLimit (std::vector<pcl::PointCloud<pcl::PointXYZRGB>::Ptr> list_planes, std::vector<double *> list_equat_planes, std::vector<QVector3D> list_normale_planes, std::vector<QVector3D> list_meanPosition);
-    QVector3D computeNormalePlane(pcl::PointCloud<pcl::PointXYZRGB>::Ptr plane);
-    QVector3D computeMeanPositionPlane(pcl::PointCloud<pcl::PointXYZRGB>::Ptr plane);
+    void searchLimit (std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> list_planes, std::vector<double *> list_equat_planes, std::vector<QVector3D> list_normale_planes, std::vector<QVector3D> list_meanPosition);
+    QVector3D computeNormalePlane(pcl::PointCloud<pcl::PointXYZ>::Ptr plane);
+    QVector3D computeMeanPositionPlane(pcl::PointCloud<pcl::PointXYZ>::Ptr plane);
     double computeDistance(QVector3D p1, QVector3D p2);
     bool normalesAreSimilar(QVector3D p1, QVector3D p2);
     int axeViaNormal(QVector3D n);
@@ -152,16 +152,14 @@ public:
     /**********************
             Add xyzrgb point cloud
      *********************/
-    pcl::visualization::PCLVisualizer::Ptr addPtsCloudXYZRGB (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
-
-    pcl::PointCloud<pcl::PointXYZRGB> clouds_union(std::vector<pcl::PointCloud<pcl::PointXYZRGB>> v_cloud);
+    // pcl::visualization::PCLVisualizer::Ptr addPtsCloudXYZRGB (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
 
     /**********************
               Direction Of Normal Segmentation
      *********************/
 
 
-    void don_segmentation(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr cloud, double angle, double threshold,double scale1, double scale2);
+    void don_segmentation(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud, double angle, double threshold,double scale1, double scale2);
 
     void ransac_segmentation();
     void calc_bounding_box(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
@@ -180,7 +178,7 @@ private:
     // initialize PointClouds
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud; //(new pcl::PointCloud<pcl::PointXYZ>);
 
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_xyzrgb;
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_xyzrgb;
     pcl::PointCloud<pcl::PointXYZ>::Ptr final; //(new pcl::PointCloud<pcl::PointXYZ>);
 
     bool file_is_ply = false;
@@ -195,10 +193,10 @@ private:
     std::vector<pcl::PointCloud<pcl::PointXYZ>> vector_cloud;
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloudToSave;
     std::vector<pcl::ModelCoefficients> vector_eq;
-    std::vector<pcl::PointCloud<pcl::PointXYZRGB>> vector_cloud_RGB;
+    std::vector<pcl::PointCloud<pcl::PointXYZ>> vector_cloud_RGB;
 
     std::vector<Fragment> list_limits;
-    std::vector<pcl::PointCloud<pcl::PointXYZRGB>> room;
+    std::vector<pcl::PointCloud<pcl::PointXYZ>> room;
 
     std::vector<double *> eq_planes;
     std::vector<QVector3D> inter_points;

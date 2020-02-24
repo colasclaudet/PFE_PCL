@@ -13,7 +13,7 @@ class Fragment
 public:
     enum Type { Mur, Plafond, Sol, Autre, A_Calculer, Inconnu };
     Fragment();
-    void addPlane(pcl::PointCloud<pcl::PointXYZRGB>);
+    void addPlane(pcl::PointCloud<pcl::PointXYZ>);
     void setType(Type);
     void computeMeanPosition();
     QVector3D getMeanPosition();
@@ -21,7 +21,7 @@ public:
     Type getType();
 
     std::string getStringType();
-    std::vector<pcl::PointCloud<pcl::PointXYZRGB>> planes;
+    std::vector<pcl::PointCloud<pcl::PointXYZ>> planes;
 private :
     Type type;
     QVector3D meanPosition = QVector3D(0,0,0);

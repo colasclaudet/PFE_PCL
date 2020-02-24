@@ -28,7 +28,7 @@ std::string Fragment::getStringType(){
 QVector3D Fragment::getMeanPosition(){
     return meanPosition;
 }
-void Fragment::addPlane(pcl::PointCloud<pcl::PointXYZRGB> plane){
+void Fragment::addPlane(pcl::PointCloud<pcl::PointXYZ> plane){
     planes.push_back(plane);    
 }
 
@@ -71,13 +71,13 @@ void Fragment::attributeColorAuto(){
 
     for (unsigned i = 0; i < planes.size(); i++){
         std::cout << "nb point dansplan : " << planes[i].points.size()<< std::endl;
-        for (size_t j=0;j< planes[i].points.size();j++){
-            planes[i].points[j].r = r;
-            planes[i].points[j].g = g;
-            planes[i].points[j].b = b;
-        }
+        // for (size_t j=0;j< planes[i].points.size();j++){
+        //     planes[i].points[j].r = r;
+        //     planes[i].points[j].g = g;
+        //     planes[i].points[j].b = b;
+        // }
+        //TODO  coloriage 
     }
-    //TODO  coloriage marche aps
-    std::cout << "couleur " << r << ", " << g << ", " << b << "attribué, type : " << getStringType() << std::endl;
+    
 }
 
