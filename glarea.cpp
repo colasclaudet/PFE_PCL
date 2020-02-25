@@ -97,22 +97,19 @@ void GLArea::draw_bounding_box(GLfloat xmax, GLfloat ymax, GLfloat zmax, GLfloat
 void GLArea::addPlanes(QList<Plane> lplanes)
 {
     this->list_plane = lplanes;
-    initializeGL();
+    makeGLObjects();
 }
 
 void GLArea::addVertex(QList<Vertex> lvertex)
 {
     this->list_vertices = lvertex;
-    initializeGL();
+    makeGLObjects();
 }
 
 
 void GLArea::initializeGL()
 {
-    if(list_plane.size()>0)
-        this->planes = new Planes(this->list_plane);
-    if(list_vertices.size()>0)
-        this->vertices = new Vertices(0.5,this->list_vertices);
+
     initializeOpenGLFunctions();
     glClearColor(r_light,g_light,b_light,a_light);
     glEnable(GL_DEPTH_TEST);
@@ -163,6 +160,16 @@ void GLArea::makeGLObjects()
 {
     // Création du sol
     draw_bounding_box();
+    if(list_plane.size()>0)
+    {
+        this->planes = new Planes(this->list_plane);
+    }
+
+    if(list_vertices.size()>0)
+    {
+        this->vertices = new Vertices(0.5,this->list_vertices);
+    }
+
     /*float tailleSol = 20.0f;
 
     GLfloat vertices_sol[] = {

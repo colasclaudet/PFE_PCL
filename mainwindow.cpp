@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		connect(ui->btn_import, SIGNAL(clicked()), this, SLOT(chooseFile())); //connexion selection de fichier
 		connect(ui->btn_draw, SIGNAL(clicked()), this, SLOT(draw())); //connexion bouton draw, on lance le viewer
 		connect(ui->btn_modelize, SIGNAL(clicked()), this, SLOT(modelize())); //connexion bouton modelize, on lance la modelisation
-		ui->btn_modelize->setVisible(false);
+        ui->btn_modelize->setVisible(false);
 
 	//save
     //connect(ui->btn_save, SIGNAL(clicked()), this, SLOT(saveCloud()));
@@ -226,7 +226,7 @@ void MainWindow::denoise(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud){
     std::cerr << *cloud << std::endl;
 
     // creer cloud pour futur nuage filtré
-    //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered (new pcl::PointCloud<pcl::PointXYZ>); 
+    //pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered (new pcl::PointCloud<pcl::PointXYZ>);
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered (new pcl::PointCloud<pcl::PointXYZ>);
 
@@ -797,7 +797,7 @@ void MainWindow::ransac_segmentation()
             //attention
             //vector_cloud.push_back(*final); //on ajoute le nuage de plan ransac au vecteur mais inutilisé //marche pas car les finals sont les memes
             //cout << "Taille vector_cloud : " << vector_cloud.size();
-        
+
 
     //        addPtsCloudColor(viewer,final,single_color_gen); //ajout du nuage de plan ransac au viewer
 						pcl::PointCloud<pcl::PointXYZ> cpy;
@@ -927,7 +927,7 @@ void MainWindow::draw()
 				this->viewer->spinOnce (100);
 				std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
-		ui->btn_modelize->setVisible(true);
+        ui->btn_modelize->setVisible(true);
 }
   void MainWindow::showVizualizer()
 {
@@ -963,16 +963,17 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr MainWindow::rotateCloud(pcl::PointCloud<pcl:
     pcl::transformPointCloud (*cloud, *transformed_cloud, transform);
     return transformed_cloud;
 }
-  
+
 void MainWindow::on_action_propos_triggered()
 {
     QMessageBox msgBox;
     msgBox.setText("Developped by: \n Colas CLAUDET, Yoann FOULON, Rachel GLAIDE");
     msgBox.exec();
 }
-  
+
 void MainWindow::modelize()
 {
+    plane_to_pict(); //TODO
     cout<<"Modelize"<<endl;
     //ui->glarea->draw_bounding_box(xmax/100.0,ymax/100.0,zmax/100.0f,xmin/100.0f,ymin/100.0f,zmin/100.0f);
 
@@ -1020,19 +1021,10 @@ void MainWindow::modelize()
         if(inter_points.size()>=4)
         {
 
-            /*for(int i = 0; i<inter_points.size()-3;i++)
-            {
-                Plane p(inter_points.at(i)/100.0,inter_points.at(i+1)/100.0,inter_points.at(i+2)/100.0,inter_points.at(i+3)/100.0);
-                pl.push_back(p);
-            }*/
-
             for(int i = 0; i<eq_planes.size(); i++)
             {
                 std::vector<QVector3D> plane_points;
-								/*float r = (rand()%255)/255.0;
-								float g = (rand()%255)/255.0;
-								float b = (rand()%255)/255.0;
-								float a = (rand()%255)/255.0;*/
+
 								//r = 1.0; g = 0.0; b = 0.0; a = 1.0;
                 for(int j = 0; j<inter_points.size();j++)
                 {
@@ -1045,9 +1037,7 @@ void MainWindow::modelize()
                         cout<<" POINT(S) FOUND IN PLANE n°"<<i<<endl;
 												cout<<"ax + by + cz + d = "<< eq_planes.at(i)[0]*inter_points.at(j)[0] + eq_planes.at(i)[1]*inter_points.at(j)[1]
 																										+ eq_planes.at(i)[2]*inter_points.at(j)[2] + eq_planes.at(i)[3]<<endl;
-												/*Vertex v(0.30,inter_points.at(i)[0]/100.0,inter_points.at(i)[1]/100.0,inter_points.at(i)[2]/100.0);
-												v.setColor(r,g,b,a);
-								        vertices.push_back(v);*/
+
                     }
                 }
                 if(plane_points.size()>=4)
@@ -1076,17 +1066,17 @@ void MainWindow::modelize()
 										(plane_points.at(flag1)[2]+plane_points.at(flag2)[2])/2);
 										dist = 0.0;
 										int flag3 = 0;
-										/*for(int l = 0; l<plane_points.size();l++)
-										{
-												float dist_temp = sqrt(pow(center[0]-plane_points.at(l)[0],2) +
-												pow(center[1]-plane_points.at(l)[1],2) +
-												pow(center[2]-plane_points.at(l)[2],2));
-												if(l != flag1 && dist<dist_temp && l != flag2)
-												{
-														dist = dist_temp;
-														flag3 = l;
-												}
-										}*/
+                                        //for(int l = 0; l<plane_points.size();l++)
+                                        //{
+                                                //float dist_temp = sqrt(pow(center[0]-plane_points.at(l)[0],2) +
+                                                //pow(center[1]-plane_points.at(l)[1],2) +
+                                                //pow(center[2]-plane_points.at(l)[2],2));
+                                                //if(l != flag1 && dist<dist_temp && l != flag2)
+                                                //{
+                                                        //dist = dist_temp;
+                                                        //flag3 = l;
+                                                //}
+                                        //}
 										for(int l = 0; l<plane_points.size();l++)
 										{
 												float dist_temp = sqrt(pow(plane_points.at(flag1)[0]-plane_points.at(l)[0],2) +
@@ -1120,23 +1110,12 @@ void MainWindow::modelize()
 										}
 										cout<<eq_planes.at(i)[0]<<"x + "<<eq_planes.at(i)[1]<<"y + "<<eq_planes.at(i)[2]<<"z + "<<eq_planes.at(i)[3]<<endl;
 										cout<<" FLAG 1 : "<<flag1<<" FLAG 2 : "<<flag2<<" FLAG 3 : "<<flag3<<" FLAG 4 : "<<flag4<<endl;
-                    Plane pt(plane_points.at(0)/100.0,plane_points.at(2)/100.0,plane_points.at(1)/100.0,plane_points.at(3)/100.0);
+                                        Plane pt(plane_points.at(0)/100.0,plane_points.at(2)/100.0,plane_points.at(1)/100.0,plane_points.at(3)/100.0);
 										Plane p(plane_points.at(flag1)/100.0,plane_points.at(flag3)/100.0,plane_points.at(flag2)/100.0,plane_points.at(flag4)/100.0);
-                    pl.push_back(p); //pour afficher les plans
+                                        pl.push_back(p); //pour afficher les plans
 										//pl.push_back(pt);
 
-										/*Vertex v1(0.30,plane_points.at(flag1)[0]/100.0,plane_points.at(flag1)[1]/100.0,plane_points.at(flag1)[2]/100.0);
-										v1.setColor(r,g,b,a);
-										vertices.push_back(v1);
-										Vertex v2(0.30,plane_points.at(flag2)[0]/100.0,plane_points.at(flag2)[1]/100.0,plane_points.at(flag2)[2]/100.0);
-										v2.setColor(r,g,b,a);
-										vertices.push_back(v2);
-										Vertex v3(0.30,plane_points.at(flag3)[0]/100.0,plane_points.at(flag3)[1]/100.0,plane_points.at(flag3)[2]/100.0);
-										v3.setColor(r,g,b,a);
-										vertices.push_back(v3);
-										Vertex v4(0.30,plane_points.at(flag4)[0]/100.0,plane_points.at(flag4)[1]/100.0,plane_points.at(flag4)[2]/100.0);
-										v4.setColor(r,g,b,a);
-										vertices.push_back(v4);*/
+
 
                 }
                 else
@@ -1159,12 +1138,12 @@ void MainWindow::modelize()
         vertices.push_back(v);//to decoche
 
     }
-		for(int i = 0; i < cloud_xyzrgb->points.size();i = i + 15 )
+        for(int i = 0; i < cloud_xyzrgb->points.size();i = i + 10 )
 		{
 				Vertex v(0.05,cloud_xyzrgb->points[i].x/100.0,cloud_xyzrgb->points[i].y/100.0,cloud_xyzrgb->points[i].z/100.0);
 				v.setColor(1.0,1.0,1.0,1.0);
 				vertices.push_back(v);//to decoche
-		}
+        }
     ui->glarea->addVertex(vertices);
     ui->glarea->addPlanes(pl);
     ui->glarea->draw_bounding_box(xmax/100.0,ymax/100.0,zmax/100.0f,xmin/100.0f,ymin/100.0f,zmin/100.0f);
@@ -1209,7 +1188,7 @@ void MainWindow::repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::
     //cout << "Il y a " << cpt_mur << " mur, " << cpt_plafond << " plafond, " << cpt_sol << "sol et " << cpt_autre << "autres." << endl;
 
     //visualisation.
-   // cout << "list_limits.size()" << list_limits.size() << endl;
+    // cout << "list_limits.size()" << list_limits.size() << endl;
     // for (unsigned i = 0; i < list_limits.size(); i++)
     // {
     //     list_limits[i].attributeColorAuto();
@@ -1233,7 +1212,7 @@ void MainWindow::repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::
             b = 155;
             r = 155;
         } else {
-            r = 255; 
+            r = 255;
         }
         pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ>
         single_color_gen (tmp, r, g, b); //la couleur de chaque nuage de plan ransac est différente
@@ -1499,7 +1478,7 @@ double MainWindow::computeDistance(QVector3D p1, QVector3D p2){
 }
 
 bool MainWindow::normalesAreSimilar(QVector3D p1, QVector3D p2){
-    double seuil = 0.1;
+    double seuil = 0.4;
     p1.normalize();
     p2.normalize();
     // cout << "-----------------------" << endl;
@@ -1695,4 +1674,152 @@ void MainWindow::calc_inter_planes()
                 }
         }
         cout<<"FIN INTERSECTIONS DES PLANS "<<endl;
+}
+
+
+void MainWindow::plane_to_pict() //try to optimise
+{
+    //std::vector<pcl::PointCloud<pcl::PointXYZRGB>> room
+    for(int i = 0; i<room.size();i++)
+    {
+        double distmax = 0.0;
+        double distmin = 999999999.9;
+        double xmin = 999999999.9;
+        double ymin = 999999999.9;
+        double xmax = -999999999.9;
+        double ymax = -999999999.9;
+        /*for(int j=0;j<room.at(i).points.size();j++)
+        {
+            for(int k=0;k<room.at(i).points.size();k++)
+            {
+                float dist_temp = sqrt(pow(room.at(i).points[k].x-room.at(i).points[j].x,2) +
+                pow(room.at(i).points[k].y-room.at(i).points[j].y,2) +
+                pow(room.at(i).points[k].z-room.at(i).points[j].z,2));
+                if(j != k && distmax<dist_temp)
+                {
+                        distmax = dist_temp;
+
+                }
+                else if(j != k && distmin>dist_temp)
+                {
+                    distmin = dist_temp;
+                }
+            }
+        }*/
+         //échelle image / nuage de points
+        pcl::PointCloud<pcl::PointXYZ> ccpy;
+        pcl::PointCloud<pcl::PointXYZ>::Ptr ccpy_ptr (new pcl::PointCloud<pcl::PointXYZ>);
+
+        copyPointCloud (room.at(i), ccpy);
+        copyPointCloud (room.at(i), *ccpy_ptr);
+        double * eq = equation_plane2(ccpy);
+        //orientation par rapport à l'axe y
+        /*float normU1 = sqrt(pow(0,2)+pow(eq[1],2));//+pow(eq[2],2));
+        float normV1 = sqrt(pow(0,2)+pow(1,2));//+pow(1,2));
+        float uv1 = 0*0+eq[1]*1;
+        float angle1 = acos(uv1/(normU1*normV1));
+        //orientation par rapport à l'axe x
+        float normU2 = sqrt(pow(0,2)+pow(eq[2],2));//+pow(eq[2],2));
+        float normV2 = sqrt(pow(0,2)+pow(1,2));
+        float uv2 = 0*0+eq[2]*1;
+        float angle2 = acos(uv2/(normU2*normV2));
+        cout<<"picture ANGLE 1 : "<<angle1<<endl;
+        cout<<"picture ANGLE 2 : "<<angle2<<endl;*/
+        if((1.2>eq[0] && eq[0]>0.8) ||(-1.2<eq[0] && eq[0]<-0.8))
+        {
+            ccpy_ptr = rotateCloud(ccpy_ptr, 90.0, 1);
+        }
+        else if((1.2>eq[1] && eq[1]>0.8) ||(-1.2<eq[1] && eq[1]<-0.8))
+        {
+            ccpy_ptr = rotateCloud(ccpy_ptr, 90.0, 0);
+        }
+        /*else if((1.2>eq[2] && eq[2]>0.8) ||(-1.2<eq[2] && eq[2]<-0.8))
+        {
+            ccpy_ptr = rotateCloud(ccpy_ptr, 90.0, 0);
+        }*/
+        /*ccpy_ptr = rotateCloud(ccpy_ptr, angle1, 0);
+        ccpy_ptr = rotateCloud(ccpy_ptr, angle2, 2);*/
+
+        copyPointCloud (*ccpy_ptr, ccpy);
+        eq = equation_plane2(ccpy);
+
+        for(int j=0;j<ccpy.points.size();j++)
+        {
+            if(ccpy.points[j].x<xmin)
+            {
+                xmin = ccpy.points[j].x;
+            }
+            else if(ccpy.points[j].x>xmax)
+            {
+                xmax = ccpy.points[j].x;
+            }
+            else if(ccpy.points[j].y<ymin)
+            {
+                ymin = ccpy.points[j].y;
+            }
+            else if(ccpy.points[j].y>ymax)
+            {
+                ymax = ccpy.points[j].y;
+            }
+            for(int k=0;k<ccpy.points.size();k++)
+            {
+                float dist_temp = sqrt(pow(ccpy.points[k].x-ccpy.points[j].x,2) +
+                pow(ccpy.points[k].y-ccpy.points[j].y,2) +
+                pow(ccpy.points[k].z-ccpy.points[j].z,2));
+                if(j != k && distmax<dist_temp)
+                {
+                        distmax = dist_temp;
+                }
+                else if(j != k && distmin>dist_temp)
+                {
+                    distmin = dist_temp;
+                }
+            }
+        }
+        float scale = 1/distmin;
+        int dimX = sqrt(pow(xmax - xmin,2))*scale;
+        int dimY = sqrt(pow(ymax - ymin,2))*scale;
+        int difx = sqrt(pow(xmin,2));
+        int dify = sqrt(pow(ymin,2));
+
+        QImage im(dimX,dimY,QImage::Format_RGB32);
+        for(int x = 0; x<dimX;x++)
+        {
+            for(int y = 0; y<dimY;y++)
+            {
+                QRgb value;
+
+                value = qRgb(255.0, 255.0, 255.0);
+                im.setPixelColor(x,y,value);
+            }
+        }
+        for(int j=0;j<ccpy_ptr->points.size();j++)
+        {
+            int x = ccpy_ptr->points[j].x * scale + difx*scale;
+            int y = ccpy_ptr->points[j].y * scale + dify*scale;
+            float c = eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3];
+            if(c > 255.0)
+            {
+                c = 255.0;
+            }
+            /*else if(c < 0)
+            {
+                c = -c;
+            }*/
+            //QColor color((255.0-c),(255.0-c),(255.0-c));
+            QRgb value;
+
+            value = qRgb(c, c, c);
+            im.setPixelColor(x,y,value);
+            //eq[0]*inter_points.at(j)[0] + eq[1]*inter_points.at(j)[1]+ eq[2]*inter_points.at(j)[2] + eq[3];
+        }
+        std::stringstream st;
+        st<< i;
+
+        std::string s = st.str();
+        QString qs = QString::fromStdString(s);
+        QString src = "pointcloud" + qs +".jpg";
+
+        im.save(src,"JPEG");
+    }
 }

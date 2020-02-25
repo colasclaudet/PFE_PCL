@@ -1,6 +1,7 @@
 // Basé sur :
 // CC-BY Edouard.Thiel@univ-amu.fr - 22/01/2019
 
+
 #ifndef GLAREA_H
 #define GLAREA_H
 

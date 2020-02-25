@@ -77,6 +77,8 @@
 
 #include <QThread>
 
+#include <QImage>
+#include <QColor>
 //#include <pcl/common/impl/intersections.hpp>
 //#include <pcl/common/impl/intersections.hpp>
 /********** FIN INCLUDE PCL *********************/
@@ -164,6 +166,7 @@ public:
     void ransac_segmentation();
     void calc_bounding_box(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
     void calc_inter_planes();
+    void plane_to_pict();
 public slots:
     void chooseViewCloud();
     void chooseViewPlane();
