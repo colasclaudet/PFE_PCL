@@ -96,7 +96,10 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void saveCloud(); //not use
     void showHelp(char *program_name);
+    static void showVizualizer();
+
     /**********************
       VISUALISATION
     **********************/
@@ -106,81 +109,69 @@ public:
     pcl::visualization::PCLVisualizer::Ptr finaliseVis(pcl::visualization::PCLVisualizer::Ptr viewer);
     pcl::visualization::PCLVisualizer::Ptr addPtsCloudColor(pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud, pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color);
     pcl::visualization::PCLVisualizer::Ptr addPtsCloud (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointNormal>::Ptr cloud);
-    static void showVizualizer();
+    
     /**********************
           DEBRUITAGE
     **********************/
     void denoise(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud);
+    
+    /*---------------------------- PFE ---------------------------*/
     /**********************
-          MODELISATION
+       RECHERCHE DE PLAN
     **********************/
-    pcl::visualization::PCLVisualizer::Ptr addPlane (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::ModelCoefficients planeCoef);
-    pcl::PointXYZ threePlaneIntersection(pcl::ModelCoefficients plane_coeff1, pcl::ModelCoefficients plane_coeff2, pcl::ModelCoefficients plane_coeff3);
-    pcl::PointCloud<pcl::PointXYZ> clouds_union(std::vector<pcl::PointCloud<pcl::PointXYZ>> v_cloud);
+    void don_segmentation(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud, double angle, double threshold,double scale1, double scale2);
+    void ransac_segmentation();
+    
     /**********************
-           CALCUL
+        EQUATION DE PLAN
+    **********************/
+    double * equation_plane(QVector3D P1, QVector3D P2, QVector3D P3);
+    double * equation_plane2(pcl::PointCloud<pcl::PointXYZ> pcloud);
+    double * moy_eq_plane(pcl::PointCloud<pcl::PointXYZ> pcloud);
+    QVector3D resol_3eq_3inc(double * eq1, double * eq2, double * eq3);
+
+    /**********************
+           RECHERCHE DE LIMITES DE LA PIECE
     **********************/
     void repereRoom(pcl::visualization::PCLVisualizer::Ptr viewer, std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> list_planes);
     pcl::PointCloud<pcl::PointXYZ>::Ptr rotateCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int degrees, int axe);
     void searchLimit (std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> list_planes, std::vector<double *> list_equat_planes, std::vector<QVector3D> list_normale_planes, std::vector<QVector3D> list_meanPosition);
-    QVector3D computeNormalePlane(pcl::PointCloud<pcl::PointXYZ>::Ptr plane);
+    void createRoom();
+    pcl::PointCloud<pcl::PointXYZ> clouds_union(std::vector<pcl::PointCloud<pcl::PointXYZ>> v_cloud);
+    /*---- calcul ----*/
     QVector3D computeMeanPositionPlane(pcl::PointCloud<pcl::PointXYZ>::Ptr plane);
     double computeDistance(QVector3D p1, QVector3D p2);
     bool normalesAreSimilar(QVector3D p1, QVector3D p2);
     int axeViaNormal(QVector3D n);
-    void createRoom();
 
     /**********************
-           OBSOLETE
+          MODELISATION
     **********************/
-    pcl::PointCloud<pcl::PointXYZ>::Ptr regroup_plane(); //not use
-
-    /**********************
-              PFE
-     *********************/
-
-    /**********************
-     resolve 3 parameters equation
-     **********************/
-    QVector3D resol_3eq_3inc(double * eq1, double * eq2, double * eq3);
-    /**********************
-     get plane equation
-     **********************/
-    double * equation_plane(QVector3D P1, QVector3D P2, QVector3D P3);
-    double * equation_plane2(pcl::PointCloud<pcl::PointXYZ> pcloud);
-
-    double * moy_eq_plane(pcl::PointCloud<pcl::PointXYZ> pcloud);
-
-    /**********************
-            Add xyzrgb point cloud
-     *********************/
-    // pcl::visualization::PCLVisualizer::Ptr addPtsCloudXYZRGB (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
-
-    /**********************
-              Direction Of Normal Segmentation
-     *********************/
-
-
-    void don_segmentation(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud, double angle, double threshold,double scale1, double scale2);
-
-    void ransac_segmentation();
+    pcl::visualization::PCLVisualizer::Ptr addPlane (pcl::visualization::PCLVisualizer::Ptr viewer, pcl::ModelCoefficients planeCoef);
     void calc_bounding_box(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+    //resolve 3 parameters equation
+    pcl::PointXYZ threePlaneIntersection(pcl::ModelCoefficients plane_coeff1, pcl::ModelCoefficients plane_coeff2, pcl::ModelCoefficients plane_coeff3);
     void calc_inter_planes();
+    
+    /**********************
+            DEPTHMAP
+    **********************/
     void plane_to_pict();
+
 public slots:
     void chooseViewCloud();
     void chooseViewPlane();
     void changeThreshold(int th);
     void changeProba(int proba);
+    void on_action_propos_triggered();
+    //----------boutons de processus
     void chooseFile();
     void draw();
     void modelize();
-    void saveCloud(); //not use
 
 private:
     // initialize PointClouds
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud; //(new pcl::PointCloud<pcl::PointXYZ>);
-
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_xyzrgb;
     pcl::PointCloud<pcl::PointXYZ>::Ptr final; //(new pcl::PointCloud<pcl::PointXYZ>);
 
@@ -193,11 +184,12 @@ private:
     bool have_plane = false;
 
 
-    std::vector<pcl::PointCloud<pcl::PointXYZ>> vector_cloud;
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloudToSave;
-    std::vector<pcl::ModelCoefficients> vector_eq;
+    std::vector<pcl::PointCloud<pcl::PointXYZ>> vector_cloud; //liste des plans suite a ransac/don_seg
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloudToSave; 
+    std::vector<pcl::ModelCoefficients> vector_eq; //vector d'equation des plans
     std::vector<pcl::PointCloud<pcl::PointXYZ>> vector_cloud_RGB;
 
+    //recherche des limites
     std::vector<Fragment> list_limits;
     std::vector<pcl::PointCloud<pcl::PointXYZ>> room;
 
@@ -208,6 +200,7 @@ private:
     int nb_cloud = 0;
     int nb_plane = 0;
 
+    //boite englobante
     double xmin,ymin,zmin = 10000000000;
     double xmax,ymax,zmax = -10000000000;
 
@@ -218,8 +211,7 @@ private:
 protected:
     pcl::visualization::PCLVisualizer::Ptr viewer;
 
-private slots:
-    void on_action_propos_triggered();
+
 };
 
 #endif // MAINWINDOW_H
