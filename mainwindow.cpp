@@ -619,9 +619,9 @@ double * MainWindow::equation_plane2(pcl::PointCloud<pcl::PointXYZ> pcloud)
 }
 
 /**
- * @brief MainWindow::moy_eq_plane TODO
+ * @brief MainWindow::moy_eq_plane On prend plusieurs trinômes de points des nuages afin de faire une équation de plan moyenne
  * @param pcloud - nuage de points représentant un plan
- * @return TODO
+ * @return une équation de plan moyenne
  */
 double *MainWindow::moy_eq_plane(pcl::PointCloud<pcl::PointXYZ> pcloud)
 {
@@ -1143,7 +1143,8 @@ void MainWindow::calc_inter_planes()
         DEPTHMAP
 **********************/
 /**
- * @brief MainWindow::plane_to_pict - TODO
+ * @brief MainWindow::plane_to_pict - création de map de profondeur (depthMap) afin de pouvoir par la suite détecter les plans contenus dans les plans trouvés
+ *
  */
 void MainWindow::plane_to_pict() //try to optimise
 {
@@ -1255,31 +1256,42 @@ void MainWindow::plane_to_pict() //try to optimise
         {
             for(int y = 0; y<dimY;y++)
             {
-                QRgb value;
+                if(x> dimX-1 || y>dimY-1)
+                {
+                    break;
+                }
+                else
+                {
+                    QRgb value;
 
-                value = qRgb(255.0, 255.0, 255.0);
-                im.setPixelColor(x,y,value);
+                    value = qRgb(255.0, 255.0, 255.0);
+                    im.setPixelColor(x,y,value);
+                }
             }
         }
         for(int j=0;j<ccpy_ptr->points.size();j++)
         {
             int x = ccpy_ptr->points[j].x * scale + difx*scale;
             int y = ccpy_ptr->points[j].y * scale + dify*scale;
-            float c = eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3];
-            if(c > 255.0)
+            if(x <= dimX-1 || y <= dimY-1)
             {
-                c = 255.0;
-            }
-            /*else if(c < 0)
-            {
-                c = -c;
-            }*/
-            //QColor color((255.0-c),(255.0-c),(255.0-c));
-            QRgb value;
+                float c = eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3];
+                if(c > 255.0)
+                {
+                    c = 255.0;
+                }
+                /*else if(c < 0)
+                {
+                    c = -c;
+                }*/
+                //QColor color((255.0-c),(255.0-c),(255.0-c));
+                QRgb value;
 
-            value = qRgb(c, c, c);
-            im.setPixelColor(x,y,value);
-            //eq[0]*inter_points.at(j)[0] + eq[1]*inter_points.at(j)[1]+ eq[2]*inter_points.at(j)[2] + eq[3];
+                value = qRgb(c, c, c);
+                im.setPixelColor(x,y,value);
+                //eq[0]*inter_points.at(j)[0] + eq[1]*inter_points.at(j)[1]+ eq[2]*inter_points.at(j)[2] + eq[3];
+            }
+
         }
         std::stringstream st;
         st<< i;
@@ -1330,7 +1342,7 @@ void MainWindow::changeProba(int proba){
 
 
 /**
- * @brief launch_viewer - TODO
+ * @brief launch_viewer - fonction permettant de lancer le viewer (créée à la base pour de la paralélisation)
  * @param v
  */
 void launch_viewer(pcl::visualization::PCLVisualizer::Ptr v)
@@ -1400,38 +1412,43 @@ void MainWindow::draw()
 
   	viewer = addVisualiser(); //initialisation du visualiseur
 
-  	if(this->view_plan){ //a modifier sur le long terme
+    if(this->view_plan)
+    {
+        //a modifier sur le long terme
         calc_bounding_box(cloud);
         ransac_segmentation();
         //calc_inter_planes();
-        for(int i = 0; i < vector_cloud.size(); i++){
+        for(int i = 0; i < vector_cloud.size(); i++)
+        {
             double * plane_eq = equation_plane2(vector_cloud.at(i));
             eq_planes.push_back(plane_eq);
         }
-    } else { //affichage du nuage initial
+        //Copie du nuage pour l'appel de RepereRoom
+        std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> list;
+        cout << "vector_cloud.size()" << vector_cloud.size() << endl;
+        for (unsigned i = 0; i < vector_cloud.size(); i++)
+        {
+            pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+            copyPointCloud( vector_cloud[i], *cloud); // copyPointCloud( vector_cloud[i], *cloud_rgb); de base
+            list.push_back(cloud);
+        }
+
+        repereRoom(viewer, list);
+
+        calc_inter_planes();
+        ui->btn_modelize->setVisible(true);
+    }
+    else
+    {
+        //affichage du nuage initial
         this->viewer = simpleVis(cloud);
         this->nb_cloud++;
     }
-
-    //Copie du nuage pour l'appel de RepereRoom
-    std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> list;
-    cout << "vector_cloud.size()" << vector_cloud.size() << endl;
-    for (unsigned i = 0; i < vector_cloud.size(); i++){
-        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
-        copyPointCloud( vector_cloud[i], *cloud); // copyPointCloud( vector_cloud[i], *cloud_rgb); de base
-        list.push_back(cloud);
-    }
-
-    repereRoom(viewer, list);
-
-    calc_inter_planes();
-
 	while (!this->viewer->wasStopped ())
 	{
 			this->viewer->spinOnce (100);
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
-    ui->btn_modelize->setVisible(true);
 }
 
 /**

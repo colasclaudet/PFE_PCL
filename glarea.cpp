@@ -5,7 +5,10 @@
 #include <QDebug>
 #include <QSurfaceFormat>
 #include <QMatrix4x4>
-
+/**
+ * @brief GLArea::GLArea - constructeur du openGL widget
+ * @param parent - classe parent
+ */
 GLArea::GLArea(QWidget *parent) :
     QOpenGLWidget(parent)
 {
@@ -25,7 +28,9 @@ GLArea::GLArea(QWidget *parent) :
     elapsedTimer.start();
 }
 
-
+/**
+ * @brief GLArea::~GLArea - destructeur du openGL widget
+ */
 GLArea::~GLArea()
 {
     delete timer;
@@ -37,6 +42,15 @@ GLArea::~GLArea()
     doneCurrent();
 }
 
+/**
+ * @brief GLArea::draw_bounding_box - initialisation de la boite englobante du nuage de point
+ * @param xmax
+ * @param ymax
+ * @param zmax
+ * @param xmin
+ * @param ymin
+ * @param zmin
+ */
 void GLArea::draw_bounding_box(GLfloat xmax, GLfloat ymax, GLfloat zmax, GLfloat xmin, GLfloat ymin, GLfloat zmin)
 {
     //float tailleaq = 15.0f;
@@ -93,20 +107,28 @@ void GLArea::draw_bounding_box(GLfloat xmax, GLfloat ymax, GLfloat zmax, GLfloat
     vbo_sol.allocate(vertData_aq.constData(), vertData_aq.count() * int(sizeof(GLfloat)));
 
 }
-
+/**
+ * @brief GLArea::addPlanes - Ajout de la liste de plan à la classe pour initialisation
+ * @param lplane - liste de plan
+ */
 void GLArea::addPlanes(QList<Plane> lplanes)
 {
     this->list_plane = lplanes;
     makeGLObjects();
 }
-
+/**
+ * @brief GLArea::addVertex - Ajout de la liste de vertex à la classe pour initialisation
+ * @param lvertex - liste de vertex
+ */
 void GLArea::addVertex(QList<Vertex> lvertex)
 {
     this->list_vertices = lvertex;
     makeGLObjects();
 }
 
-
+/**
+ * @brief GLArea::initializeGL - initialisation de l'environnement 3D
+ */
 void GLArea::initializeGL()
 {
 
@@ -155,7 +177,9 @@ void GLArea::initializeGL()
 
 }
 
-
+/**
+ * @brief GLArea::makeGLObjects - initialisation des objets
+ */
 void GLArea::makeGLObjects()
 {
     // Création du sol
@@ -222,7 +246,9 @@ void GLArea::makeGLObjects()
     textures[1] = new QOpenGLTexture(image_particule);
 }
 
-
+/**
+ * @brief GLArea::tearGLObjects - destruction des objets
+ */
 void GLArea::tearGLObjects()
 {
     vbo_sol.destroy();
@@ -231,9 +257,11 @@ void GLArea::tearGLObjects()
         delete textures[i];
 }
 
-
-
-
+/**
+ * @brief GLArea::resizeGL - modification de la taille de la fenêtre
+ * @param w - width
+ * @param h - height
+ */
 void GLArea::resizeGL(int w, int h)
 {
     glViewport(0, 0, w, h);
@@ -241,7 +269,9 @@ void GLArea::resizeGL(int w, int h)
 }
 
 
-
+/**
+ * @brief GLArea::paintGL - affichage des objets 3D
+ */
 void GLArea::paintGL()
 {
 
@@ -281,9 +311,6 @@ void GLArea::paintGL()
     program_sol->disableAttributeArray("in_uv");
     program_sol->release();
 
-
-    // Affichage d'une particule
-    //vbo_particule.bind();
     program_particule->bind(); // active le shader program des particules
 
     QMatrix4x4 modelMatrixParticule;
@@ -292,20 +319,6 @@ void GLArea::paintGL()
 
     program_particule->setUniformValue("projectionMatrix", projectionMatrix);
     program_particule->setUniformValue("viewMatrix", viewMatrix);
-    //program_particule->setUniformValue("modelMatrix", modelMatrixParticule);
-    //program_particule->setUniformValue("particleSize", 1.0f);
-
-    //program_particule->setAttributeBuffer("in_position", GL_FLOAT, 0, 3, 5 * sizeof(GLfloat));
-    //program_particule->setAttributeBuffer("in_uv", GL_FLOAT, 3 * sizeof(GLfloat), 2, 5 * sizeof(GLfloat));
-    //program_particule->enableAttributeArray("in_position");
-    //program_particule->enableAttributeArray("in_uv");
-
-    //textures[1]->bind();
-    //glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-    //glEnable(GL_BLEND);
-    //glDrawArrays(GL_TRIANGLES, 0, 6);
-    //glDisable(GL_BLEND);
-    //textures[1]->release();
     if(list_vertices.size()>0)
     {
         vertices->display(program_particule);
@@ -334,7 +347,10 @@ void GLArea::paintGL()
 
 }
 
-
+/**
+ * @brief GLArea::keyPressEvent - gestion des événements clavier
+ * @param ev - événement clavier
+ */
 void GLArea::keyPressEvent(QKeyEvent *ev)
 {
     float da = 1.0f;
@@ -393,25 +409,37 @@ void GLArea::keyPressEvent(QKeyEvent *ev)
     }
 }
 
-
+/**
+ * @brief GLArea::keyReleaseEvent - gestion des touches clavier relachées
+ * @param ev - événement clavier
+ */
 void GLArea::keyReleaseEvent(QKeyEvent *ev)
 {
     qDebug() << __FUNCTION__ << ev->text();
 }
 
-
+/**
+ * @brief GLArea::mousePressEvent - gestion des clics souris
+ * @param ev - événement souris
+ */
 void GLArea::mousePressEvent(QMouseEvent *ev)
 {
     lastPos = ev->pos();
 }
 
-
+/**
+ * @brief GLArea::mouseReleaseEvent - gestion des clics souris relachés
+ * @param ev - événement souris
+ */
 void GLArea::mouseReleaseEvent(QMouseEvent *ev)
 {
     qDebug() << __FUNCTION__ << ev->x() << ev->y() << ev->button();
 }
 
-
+/**
+ * @brief GLArea::mouseMoveEvent - gestion des mouvements souris
+ * @param ev - événement souris
+ */
 void GLArea::mouseMoveEvent(QMouseEvent *ev)
 {
     int dx = ev->x() - lastPos.x();
@@ -433,7 +461,10 @@ void GLArea::mouseMoveEvent(QMouseEvent *ev)
 
     lastPos = ev->pos();
 }
-
+/**
+ * @brief GLArea::wheelEvent - Gestion de la molette souris
+ * @param ev - événement souris
+ */
 void GLArea::wheelEvent(QWheelEvent *event)
 {
     if(event->delta()>0)
@@ -448,7 +479,9 @@ void GLArea::wheelEvent(QWheelEvent *event)
 
     event->accept();
 }
-
+/**
+ * @brief GLArea::onTimeout - gestion de la position des objets en fonction du temps par raffraichissement
+ */
 void GLArea::onTimeout()
 {
     static qint64 old_chrono = elapsedTimer.elapsed(); // static : initialisation la première fois et conserve la dernière valeur
