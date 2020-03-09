@@ -22,15 +22,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->qvtkWidget->update ();*/
     //endNew
 
-		connect(ui->radio_cloud, SIGNAL(clicked()), this, SLOT(chooseViewCloud())); //si cloud radio button sélectionné
-		connect(ui->radio_plane, SIGNAL(clicked()), this, SLOT(chooseViewPlane())); //si plane radio button selectionné
-		connect(ui->slider_threshold, SIGNAL(valueChanged(int)), this, SLOT(changeThreshold(int))); //connexion slidebar threshold
-		connect(ui->slider_proba, SIGNAL(valueChanged(int)), this, SLOT(changeProba(int))); //connexion slidebar proba
-		connect(ui->btn_import, SIGNAL(clicked()), this, SLOT(chooseFile())); //connexion selection de fichier
-		connect(ui->btn_draw, SIGNAL(clicked()), this, SLOT(draw())); //connexion bouton draw, on lance le viewer
-		connect(ui->btn_modelize, SIGNAL(clicked()), this, SLOT(modelize())); //connexion bouton modelize, on lance la modelisation
-        ui->btn_modelize->setVisible(false);
+    connect(ui->radio_cloud, SIGNAL(clicked()), this, SLOT(chooseViewCloud())); //si cloud radio button sélectionné
+    connect(ui->radio_plane, SIGNAL(clicked()), this, SLOT(chooseViewPlane())); //si plane radio button selectionné
+    connect(ui->slider_threshold, SIGNAL(valueChanged(int)), this, SLOT(changeThreshold(int))); //connexion slidebar threshold
+    connect(ui->slider_proba, SIGNAL(valueChanged(int)), this, SLOT(changeProba(int))); //connexion slidebar proba
+    connect(ui->btn_import, SIGNAL(clicked()), this, SLOT(chooseFile())); //connexion selection de fichier
+    connect(ui->btn_draw, SIGNAL(clicked()), this, SLOT(draw())); //connexion bouton draw, on lance le viewer
+    connect(ui->btn_modelize, SIGNAL(clicked()), this, SLOT(modelize())); //connexion bouton modelize, on lance la modelisation
+    ui->btn_modelize->setVisible(false);
 
+    /*processViewer = new QThread();
+    this->moveToThread(processViewer);
+    processViewer->start();*/
 	//save
     //connect(ui->btn_save, SIGNAL(clicked()), this, SLOT(saveCloud()));
 
@@ -1149,14 +1152,19 @@ void MainWindow::calc_inter_planes()
 void MainWindow::plane_to_pict() //try to optimise
 {
     //std::vector<pcl::PointCloud<pcl::PointXYZRGB>> room
+    double distmax = 0.0;
+    double distmoy = 0.0;
+    double distmin = 999999999.9;
     for(int i = 0; i<room.size();i++)
     {
-        double distmax = 0.0;
-        double distmin = 999999999.9;
+
         double xmin = 999999999.9;
         double ymin = 999999999.9;
         double xmax = -999999999.9;
         double ymax = -999999999.9;
+        double zmin = 999999999.9;
+        double zmax = -999999999.9;
+        bool scale_find = false;
         /*for(int j=0;j<room.at(i).points.size();j++)
         {
             for(int k=0;k<room.at(i).points.size();k++)
@@ -1211,7 +1219,7 @@ void MainWindow::plane_to_pict() //try to optimise
 
         copyPointCloud (*ccpy_ptr, ccpy);
         eq = equation_plane2(ccpy);
-
+        int div = 0;
         for(int j=0;j<ccpy.points.size();j++)
         {
             if(ccpy.points[j].x<xmin)
@@ -1230,27 +1238,65 @@ void MainWindow::plane_to_pict() //try to optimise
             {
                 ymax = ccpy.points[j].y;
             }
-            for(int k=0;k<ccpy.points.size();k++)
+            else if(eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3] > zmax)
             {
-                float dist_temp = sqrt(pow(ccpy.points[k].x-ccpy.points[j].x,2) +
-                pow(ccpy.points[k].y-ccpy.points[j].y,2) +
-                pow(ccpy.points[k].z-ccpy.points[j].z,2));
-                if(j != k && distmax<dist_temp)
-                {
-                        distmax = dist_temp;
-                }
-                else if(j != k && distmin>dist_temp)
-                {
-                    distmin = dist_temp;
-                }
+                zmax = eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3];
             }
+            else if(eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3] < zmin)
+            {
+                zmin = eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3];
+            }
+            if(!scale_find)
+            {
+                for(int k=0;k<ccpy.points.size();k++)
+                {
+                    float dist_temp = sqrt(pow(ccpy.points[k].x-ccpy.points[j].x,2) +
+                    pow(ccpy.points[k].y-ccpy.points[j].y,2) +
+                    pow(ccpy.points[k].z-ccpy.points[j].z,2));
+                    if(j != k && distmax<dist_temp)
+                    {
+                            distmax = dist_temp;
+                    }
+                    else if(j != k && distmin>dist_temp)
+                    {
+                        distmin = dist_temp;
+                    }
+                }
+                scale_find = true;
+            }
+            if(distmin>distmoy)
+            {
+                distmoy = distmin;
+            }
+            //distmoy +=distmin;
+            //div++;
         }
-        float scale = 1/distmin;
+        //float scale = 1/distmin;
+        //distmoy = distmoy/div;
+        //calculer la distance moyenne des 2 voisins
+        //utiliser un certain nombre de minima ?
+        float scale = 1/distmoy;
         int dimX = sqrt(pow(xmax - xmin,2))*scale;
         int dimY = sqrt(pow(ymax - ymin,2))*scale;
         int difx = sqrt(pow(xmin,2));
         int dify = sqrt(pow(ymin,2));
-
+        if(zmin < 0)
+        {
+            zmin = -zmin;
+        }
+        if(zmax<0)
+        {
+            zmax = -zmax;
+        }
+        float z_scale = 0.0;
+        if(zmax > zmin)
+        {
+            z_scale = zmax;
+        }
+        else
+        {
+            z_scale = zmin;
+        }
         QImage im(dimX,dimY,QImage::Format_RGB32);
         for(int x = 0; x<dimX;x++)
         {
@@ -1269,6 +1315,7 @@ void MainWindow::plane_to_pict() //try to optimise
                 }
             }
         }
+
         for(int j=0;j<ccpy_ptr->points.size();j++)
         {
             int x = ccpy_ptr->points[j].x * scale + difx*scale;
@@ -1276,19 +1323,36 @@ void MainWindow::plane_to_pict() //try to optimise
             if(x <= dimX-1 || y <= dimY-1)
             {
                 float c = eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3];
+                c = c*255/z_scale;
+                if(c < 0)
+                {
+                    c = -c;
+                }
                 if(c > 255.0)
                 {
                     c = 255.0;
                 }
-                /*else if(c < 0)
+                /*else if(c<(255/3))
                 {
-                    c = -c;
+                    c = 255.0;
                 }*/
+
                 //QColor color((255.0-c),(255.0-c),(255.0-c));
                 QRgb value;
 
                 value = qRgb(c, c, c);
                 im.setPixelColor(x,y,value);
+                /*if(x > 0 && y > 0 && x < dimX && y < dimY)
+                {
+                    im.setPixelColor(x-1,y-1,value);
+                    im.setPixelColor(x+1,y+1,value);
+                    im.setPixelColor(x-1,y,value);
+                    im.setPixelColor(x,y-1,value);
+                    im.setPixelColor(x+1,y,value);
+                    im.setPixelColor(x,y+1,value);
+                    im.setPixelColor(x+1,y-1,value);
+                    im.setPixelColor(x-1,y+1,value);
+                }*/
                 //eq[0]*inter_points.at(j)[0] + eq[1]*inter_points.at(j)[1]+ eq[2]*inter_points.at(j)[2] + eq[3];
             }
 
@@ -1444,6 +1508,7 @@ void MainWindow::draw()
         this->viewer = simpleVis(cloud);
         this->nb_cloud++;
     }
+    //viewer->runOnVisualisationThread();
 	while (!this->viewer->wasStopped ())
 	{
 			this->viewer->spinOnce (100);
@@ -1456,12 +1521,12 @@ void MainWindow::draw()
  */
 void MainWindow::modelize()
 {
-    //plane_to_pict(); //TODO
+    plane_to_pict(); //TODO
     cout<<"Modelize"<<endl;
     //ui->glarea->draw_bounding_box(xmax/100.0,ymax/100.0,zmax/100.0f,xmin/100.0f,ymin/100.0f,zmin/100.0f);
 
     QList<Plane> pl;
-		QList<Vertex> vertices;
+    QList<Vertex> vertices;
     {
         QVector3D p1(0.0,-1.0,-1.0);
         QVector3D p2(0.0,1.0,-1.0);
@@ -1508,125 +1573,120 @@ void MainWindow::modelize()
             {
                 std::vector<QVector3D> plane_points;
 
-								//r = 1.0; g = 0.0; b = 0.0; a = 1.0;
+                //r = 1.0; g = 0.0; b = 0.0; a = 1.0;
                 for(int j = 0; j<inter_points.size();j++)
                 {
                     if((eq_planes.at(i)[0]*inter_points.at(j)[0] + eq_planes.at(i)[1]*inter_points.at(j)[1]
-                            + eq_planes.at(i)[2]*inter_points.at(j)[2] + eq_planes.at(i)[3] <= 1) &&
-                            (eq_planes.at(i)[0]*inter_points.at(j)[0] + eq_planes.at(i)[1]*inter_points.at(j)[1]
-                                                        + eq_planes.at(i)[2]*inter_points.at(j)[2] + eq_planes.at(i)[3] >= -1))
+                        + eq_planes.at(i)[2]*inter_points.at(j)[2] + eq_planes.at(i)[3] <= 1) &&
+                        (eq_planes.at(i)[0]*inter_points.at(j)[0] + eq_planes.at(i)[1]*inter_points.at(j)[1]
+                        + eq_planes.at(i)[2]*inter_points.at(j)[2] + eq_planes.at(i)[3] >= -1))
                     {
                         plane_points.push_back(inter_points.at(j));
                         cout<<" POINT(S) FOUND IN PLANE n°"<<i<<endl;
-												cout<<"ax + by + cz + d = "<< eq_planes.at(i)[0]*inter_points.at(j)[0] + eq_planes.at(i)[1]*inter_points.at(j)[1]
-																										+ eq_planes.at(i)[2]*inter_points.at(j)[2] + eq_planes.at(i)[3]<<endl;
+                        cout<<"ax + by + cz + d = "<< eq_planes.at(i)[0]*inter_points.at(j)[0] + eq_planes.at(i)[1]*inter_points.at(j)[1]
+                        + eq_planes.at(i)[2]*inter_points.at(j)[2] + eq_planes.at(i)[3]<<endl;
 
                     }
                 }
                 if(plane_points.size()>=4)
                 {
-										//dans un premier temps il faut qu'on trouve la distance la plus grande entre 2 POINTS
-										int flag1 = 0;
-										int flag2 = 0;
-										float dist = 0.0;
-										for(int k = 0; k<plane_points.size();k++)
-										{
-												for(int l = 0; l<plane_points.size();l++)
-												{
-														float dist_temp = sqrt(pow(plane_points.at(k)[0]-plane_points.at(l)[0],2) +
-														pow(plane_points.at(k)[1]-plane_points.at(l)[1],2) +
-														pow(plane_points.at(k)[2]-plane_points.at(l)[2],2));
-														if(l != k && dist<dist_temp)
-														{
-																dist = dist_temp;
-																flag1 = k;
-																flag2 = l;
-														}
-												}
-										}
-										QVector3D center((plane_points.at(flag1)[0]+plane_points.at(flag2)[0])/2,
-										(plane_points.at(flag1)[1]+plane_points.at(flag2)[1])/2,
-										(plane_points.at(flag1)[2]+plane_points.at(flag2)[2])/2);
-										dist = 0.0;
-										int flag3 = 0;
-                                        //for(int l = 0; l<plane_points.size();l++)
-                                        //{
-                                                //float dist_temp = sqrt(pow(center[0]-plane_points.at(l)[0],2) +
-                                                //pow(center[1]-plane_points.at(l)[1],2) +
-                                                //pow(center[2]-plane_points.at(l)[2],2));
-                                                //if(l != flag1 && dist<dist_temp && l != flag2)
-                                                //{
-                                                        //dist = dist_temp;
-                                                        //flag3 = l;
-                                                //}
-                                        //}
-										for(int l = 0; l<plane_points.size();l++)
-										{
-												float dist_temp = sqrt(pow(plane_points.at(flag1)[0]-plane_points.at(l)[0],2) +
-												pow(plane_points.at(flag1)[1]-plane_points.at(l)[1],2) +
-												pow(plane_points.at(flag1)[2]-plane_points.at(l)[2],2)) +
-												sqrt(pow(plane_points.at(flag2)[0]-plane_points.at(l)[0],2) +
-												pow(plane_points.at(flag2)[1]-plane_points.at(l)[1],2) +
-												pow(plane_points.at(flag2)[2]-plane_points.at(l)[2],2));
-												if(l != flag1 && dist<dist_temp && l != flag2)
-												{
-														dist = dist_temp;
-														flag3 = l;
-												}
-										}
-										dist = 0.0;
-										int flag4 = 0;
-										for(int l = 0; l<plane_points.size();l++)
-										{
-												float dist_temp = sqrt(pow(plane_points.at(flag3)[0]-plane_points.at(l)[0],2) +
-												pow(plane_points.at(flag3)[1]-plane_points.at(l)[1],2) +
-												pow(plane_points.at(flag3)[2]-plane_points.at(l)[2],2));
-												if(l != flag1 && dist<dist_temp && l != flag2 && l != flag3)
-												{
-														dist = dist_temp;
-														flag4 = l;
-												}
-										}
-										if(flag1 == flag2 || flag1 == flag3 || flag1 == flag4 || flag2 == flag3 || flag2 == flag4 || flag3 == flag4)
-										{
-												cout<<"_______PROBLEM OF FLAG_______"<<endl;
-										}
-										cout<<eq_planes.at(i)[0]<<"x + "<<eq_planes.at(i)[1]<<"y + "<<eq_planes.at(i)[2]<<"z + "<<eq_planes.at(i)[3]<<endl;
-										cout<<" FLAG 1 : "<<flag1<<" FLAG 2 : "<<flag2<<" FLAG 3 : "<<flag3<<" FLAG 4 : "<<flag4<<endl;
-                                        Plane pt(plane_points.at(0)/100.0,plane_points.at(2)/100.0,plane_points.at(1)/100.0,plane_points.at(3)/100.0);
-										Plane p(plane_points.at(flag1)/100.0,plane_points.at(flag3)/100.0,plane_points.at(flag2)/100.0,plane_points.at(flag4)/100.0);
-                                        pl.push_back(p); //pour afficher les plans
-										//pl.push_back(pt);
-
-
-
+                    //dans un premier temps il faut qu'on trouve la distance la plus grande entre 2 POINTS
+                    int flag1 = 0;
+                    int flag2 = 0;
+                    float dist = 0.0;
+                    for(int k = 0; k<plane_points.size();k++)
+                    {
+                        for(int l = 0; l<plane_points.size();l++)
+                        {
+                            float dist_temp = sqrt(pow(plane_points.at(k)[0]-plane_points.at(l)[0],2) +
+                            pow(plane_points.at(k)[1]-plane_points.at(l)[1],2) +
+                            pow(plane_points.at(k)[2]-plane_points.at(l)[2],2));
+                            if(l != k && dist<dist_temp)
+                            {
+                                dist = dist_temp;
+                                flag1 = k;
+                                flag2 = l;
+                            }
+                        }
+                    }
+                    QVector3D center((plane_points.at(flag1)[0]+plane_points.at(flag2)[0])/2,
+                    (plane_points.at(flag1)[1]+plane_points.at(flag2)[1])/2,
+                    (plane_points.at(flag1)[2]+plane_points.at(flag2)[2])/2);
+                    dist = 0.0;
+                    int flag3 = 0;
+                    //for(int l = 0; l<plane_points.size();l++)
+                    //{
+                        //float dist_temp = sqrt(pow(center[0]-plane_points.at(l)[0],2) +
+                        //pow(center[1]-plane_points.at(l)[1],2) +
+                        //pow(center[2]-plane_points.at(l)[2],2));
+                        //if(l != flag1 && dist<dist_temp && l != flag2)
+                        //{
+                            //dist = dist_temp;
+                            //flag3 = l;
+                        //}
+                    //}
+                    for(int l = 0; l<plane_points.size();l++)
+                    {
+                        float dist_temp = sqrt(pow(plane_points.at(flag1)[0]-plane_points.at(l)[0],2) +
+                        pow(plane_points.at(flag1)[1]-plane_points.at(l)[1],2) +
+                        pow(plane_points.at(flag1)[2]-plane_points.at(l)[2],2)) +
+                        sqrt(pow(plane_points.at(flag2)[0]-plane_points.at(l)[0],2) +
+                        pow(plane_points.at(flag2)[1]-plane_points.at(l)[1],2) +
+                        pow(plane_points.at(flag2)[2]-plane_points.at(l)[2],2));
+                        if(l != flag1 && dist<dist_temp && l != flag2)
+                        {
+                            dist = dist_temp;
+                            flag3 = l;
+                        }
+                    }
+                    dist = 0.0;
+                    int flag4 = 0;
+                    for(int l = 0; l<plane_points.size();l++)
+                    {
+                        float dist_temp = sqrt(pow(plane_points.at(flag3)[0]-plane_points.at(l)[0],2) +
+                        pow(plane_points.at(flag3)[1]-plane_points.at(l)[1],2) +
+                        pow(plane_points.at(flag3)[2]-plane_points.at(l)[2],2));
+                        if(l != flag1 && dist<dist_temp && l != flag2 && l != flag3)
+                        {
+                            dist = dist_temp;
+                            flag4 = l;
+                        }
+                    }
+                    if(flag1 == flag2 || flag1 == flag3 || flag1 == flag4 || flag2 == flag3 || flag2 == flag4 || flag3 == flag4)
+                    {
+                        cout<<"_______PROBLEM OF FLAG_______"<<endl;
+                    }
+                    cout<<eq_planes.at(i)[0]<<"x + "<<eq_planes.at(i)[1]<<"y + "<<eq_planes.at(i)[2]<<"z + "<<eq_planes.at(i)[3]<<endl;
+                    cout<<" FLAG 1 : "<<flag1<<" FLAG 2 : "<<flag2<<" FLAG 3 : "<<flag3<<" FLAG 4 : "<<flag4<<endl;
+                    Plane pt(plane_points.at(0)/100.0,plane_points.at(2)/100.0,plane_points.at(1)/100.0,plane_points.at(3)/100.0);
+                    Plane p(plane_points.at(flag1)/100.0,plane_points.at(flag3)/100.0,plane_points.at(flag2)/100.0,plane_points.at(flag4)/100.0);
+                    pl.push_back(p); //pour afficher les plans
+                    //pl.push_back(pt);
                 }
                 else
                 {
                     cout<<"ERROR plane points : n°"<<plane_points.size()<<endl;
                 }
-								plane_points.clear();
+                plane_points.clear();
             }
         }
         else
         {
-            cout<<"ERROR : NO INTER POINTS"<<endl;
+             cout<<"ERROR : NO INTER POINTS"<<endl;
         }
     }
-
     for(int i = 0; i<inter_points.size();i++)
     {
         Vertex v(0.30,inter_points.at(i)[0]/100.0,inter_points.at(i)[1]/100.0,inter_points.at(i)[2]/100.0);
-				//v.setColor((rand()%255)/255.0,(rand()%255)/255.0,(rand()%255)/255.0,(rand()%255)/255.0);
+        //v.setColor((rand()%255)/255.0,(rand()%255)/255.0,(rand()%255)/255.0,(rand()%255)/255.0);
         vertices.push_back(v);//to decoche
-
     }
-        for(int i = 0; i < cloud_xyzrgb->points.size();i = i + 10 )
-		{
-				Vertex v(0.05,cloud_xyzrgb->points[i].x/100.0,cloud_xyzrgb->points[i].y/100.0,cloud_xyzrgb->points[i].z/100.0);
-				v.setColor(1.0,1.0,1.0,1.0);
-				vertices.push_back(v);//to decoche
-        }
+    for(int i = 0; i < cloud_xyzrgb->points.size();i = i + 10 )
+    {
+        Vertex v(0.05,cloud_xyzrgb->points[i].x/100.0,cloud_xyzrgb->points[i].y/100.0,cloud_xyzrgb->points[i].z/100.0);
+        v.setColor(1.0,1.0,1.0,1.0);
+        vertices.push_back(v);//to decoche
+    }
     ui->glarea->addVertex(vertices);
     ui->glarea->addPlanes(pl);
     ui->glarea->draw_bounding_box(xmax/100.0,ymax/100.0,zmax/100.0f,xmin/100.0f,ymin/100.0f,zmin/100.0f);

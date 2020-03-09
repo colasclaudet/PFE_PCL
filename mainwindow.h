@@ -205,7 +205,7 @@ private:
     double xmax,ymax,zmax = -10000000000;
 
 
-    QThread processViewer;
+    QThread * processViewer;
 
 //new
 protected:
