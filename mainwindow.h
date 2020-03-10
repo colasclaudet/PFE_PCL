@@ -159,19 +159,21 @@ public:
     void plane_to_pict();
 
 public slots:
-    void chooseViewCloud();
-    void chooseViewPlane();
     void changeThreshold(int th);
     void changeProba(int proba);
     void on_action_propos_triggered();
     //----------boutons de processus
     void chooseFile();
+    void displayBasic();
+    void segmente();
     void draw();
     void modelize();
 
 private:
     // initialize PointClouds
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud; //(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_basic; //(new pcl::PointCloud<pcl::PointXYZ>);
+
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_xyzrgb;
     pcl::PointCloud<pcl::PointXYZ>::Ptr final; //(new pcl::PointCloud<pcl::PointXYZ>);
 
@@ -204,6 +206,10 @@ private:
     double xmin,ymin,zmin = 10000000000;
     double xmax,ymax,zmax = -10000000000;
 
+    std::vector<int> rotate_room;
+    std::vector<float * > scale_xy;
+    std::vector<float * > dif_xy;
+    float scale_depth;
 
     QThread * processViewer;
 

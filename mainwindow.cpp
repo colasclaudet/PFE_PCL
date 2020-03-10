@@ -21,15 +21,13 @@ MainWindow::MainWindow(QWidget *parent) :
     viewer->setupInteractor (ui->qvtkWidget->GetInteractor (), ui->qvtkWidget->GetRenderWindow ());
     ui->qvtkWidget->update ();*/
     //endNew
-
-    connect(ui->radio_cloud, SIGNAL(clicked()), this, SLOT(chooseViewCloud())); //si cloud radio button sélectionné
-    connect(ui->radio_plane, SIGNAL(clicked()), this, SLOT(chooseViewPlane())); //si plane radio button selectionné
     connect(ui->slider_threshold, SIGNAL(valueChanged(int)), this, SLOT(changeThreshold(int))); //connexion slidebar threshold
     connect(ui->slider_proba, SIGNAL(valueChanged(int)), this, SLOT(changeProba(int))); //connexion slidebar proba
     connect(ui->btn_import, SIGNAL(clicked()), this, SLOT(chooseFile())); //connexion selection de fichier
+    connect(ui->btn_displayBasic, SIGNAL(clicked()), this, SLOT(displayBasic())); //connexion bouton draw, on lance le viewer
     connect(ui->btn_draw, SIGNAL(clicked()), this, SLOT(draw())); //connexion bouton draw, on lance le viewer
+    connect(ui->btn_segmente, SIGNAL(clicked()), this, SLOT(segmente())); //connexion bouton
     connect(ui->btn_modelize, SIGNAL(clicked()), this, SLOT(modelize())); //connexion bouton modelize, on lance la modelisation
-    ui->btn_modelize->setVisible(false);
 
     /*processViewer = new QThread();
     this->moveToThread(processViewer);
@@ -538,7 +536,7 @@ void MainWindow::ransac_segmentation()
             pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ>
             single_color_gen (final, (j*100)%255, (j*20)%255, (j*30)%255); //la couleur de chaque nuage de plan ransac est différente
 
-    		// addPtsCloudColor(viewer,final,single_color_gen); //ajout du nuage de plan ransac au viewer
+            addPtsCloudColor(viewer,final,single_color_gen); //ajout du nuage de plan ransac au viewer
 			pcl::PointCloud<pcl::PointXYZ> cpy;
 			copyPointCloud(*final, cpy);
 			vector_cloud.push_back(cpy);
@@ -1205,11 +1203,18 @@ void MainWindow::plane_to_pict() //try to optimise
         if((1.2>eq[0] && eq[0]>0.8) ||(-1.2<eq[0] && eq[0]<-0.8))
         {
             ccpy_ptr = rotateCloud(ccpy_ptr, 90.0, 1);
+            rotate_room.push_back(1);
         }
         else if((1.2>eq[1] && eq[1]>0.8) ||(-1.2<eq[1] && eq[1]<-0.8))
         {
             ccpy_ptr = rotateCloud(ccpy_ptr, 90.0, 0);
+            rotate_room.push_back(0);
         }
+        else
+        {
+            rotate_room.push_back(2);
+        }
+
         /*else if((1.2>eq[2] && eq[2]>0.8) ||(-1.2<eq[2] && eq[2]<-0.8))
         {
             ccpy_ptr = rotateCloud(ccpy_ptr, 90.0, 0);
@@ -1297,6 +1302,8 @@ void MainWindow::plane_to_pict() //try to optimise
         {
             z_scale = zmin;
         }
+        this->scale_depth = z_scale;
+
         QImage im(dimX,dimY,QImage::Format_RGB32);
         for(int x = 0; x<dimX;x++)
         {
@@ -1315,7 +1322,14 @@ void MainWindow::plane_to_pict() //try to optimise
                 }
             }
         }
-
+        float * xy = new float[2];
+        xy[0] = dimX;
+        xy[1] = dimY;
+        scale_xy.push_back(xy);
+        float * dxy = new float[2];
+        dxy[0] = difx;
+        dxy[1] = dify;
+        dif_xy.push_back(dxy);
         for(int j=0;j<ccpy_ptr->points.size();j++)
         {
             int x = ccpy_ptr->points[j].x * scale + difx*scale;
@@ -1375,20 +1389,6 @@ void MainWindow::plane_to_pict() //try to optimise
 *********************************/
 
 /**
- * @brief MainWindow::chooseViewCloud - affichage du nuage de point original
- */
-void MainWindow::chooseViewCloud(){
-	this->view_plan = false;
-}
-
-/**
- * @brief MainWindow::chooseViewPlane - affichage du plan après les différents traitements/calculs/modélisations
- */
-void MainWindow::chooseViewPlane(){
-	this->view_plan = true;
-}
-
-/**
  * @brief MainWindow::changeThreshold - changement de la valeur du slider threshold
  * @param th
  */
@@ -1434,28 +1434,74 @@ void MainWindow::on_action_propos_triggered()
  */
 void MainWindow::chooseFile(){
     // initialize PointClouds
-    cloud = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
+    cloud_basic = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
     final = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
 	this->file = QFileDialog::getOpenFileName(this,
-	tr("Ouvrir fichier"), "",
-	tr("Polygon File Format(*.ply);;"
-	"Tous les fichiers(*)"));
+        tr("Ouvrir fichier"), "",
+        tr("Polygon File Format(*.ply);;"
+        "Tous les fichiers(*)"));
 
     if (this->file == ""){
         std::cout << "Aucun fichier choisi." << std::endl;
         return;
     }
     if (file_is_ply) { //not use
-        if (pcl::io::loadPLYFile (this->file.toStdString(), *cloud) < 0)  {
+        if (pcl::io::loadPLYFile (this->file.toStdString(), *cloud_basic) < 0)  {
             qDebug() << "Error loading point cloud " << this->file;
             return;
         }
     } else {
-        if (pcl::io::loadPLYFile (this->file.toStdString(), *cloud) < 0)  {
+        if (pcl::io::loadPLYFile (this->file.toStdString(), *cloud_basic) < 0)  {
             qDebug() << "Error loading point cloud " << this->file;
             return;
         }
     }
+    ui->btn_segmente->setEnabled(true);
+    ui->btn_displayBasic->setEnabled(true);
+
+}
+/**
+ * @brief MainWindow::displayBasic - affiche un nuage de point basique
+ */
+void MainWindow::displayBasic()
+{
+    viewer = addVisualiser(); //initialisation du visualiseur
+    //affichage du nuage initial
+    this->viewer = simpleVis(cloud_basic);
+    while (!this->viewer->wasStopped ())
+    {
+        this->viewer->spinOnce (100);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+    viewer->close();
+}
+
+void MainWindow::segmente()
+{
+    /* initialize random seed: */
+    srand (time(NULL));
+
+    qDebug() << "draw";
+    std::cout << "proba " << this->proba << std::endl;
+    std::cout << "threshold " << this->threshold << std::endl;
+    //cloud = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
+    cloud = rotateCloud(cloud_basic, 270, 0);
+
+    cloud_xyzrgb = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
+    copyPointCloud(*cloud,*cloud_xyzrgb);
+
+    viewer = addVisualiser(); //initialisation du visualiseur
+
+    calc_bounding_box(cloud);
+    ransac_segmentation();
+    while (!this->viewer->wasStopped ())
+    {
+        this->viewer->spinOnce (100);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+    viewer->close();
+    ui->btn_draw->setEnabled(true);
+
 }
 
 /**
@@ -1463,51 +1509,31 @@ void MainWindow::chooseFile(){
  */
 void MainWindow::draw()
 {
-	/* initialize random seed: */
-	srand (time(NULL));
+    viewer = addVisualiser(); //initialisation du visualiseur
 
-	qDebug() << "draw";
-	std::cout << "proba " << this->proba << std::endl;
-	std::cout << "threshold " << this->threshold << std::endl;
-	cloud = rotateCloud(cloud, 270, 0);
-	cloud_xyzrgb = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
-
-	copyPointCloud(*cloud,*cloud_xyzrgb);
-
-  	viewer = addVisualiser(); //initialisation du visualiseur
-
-    if(this->view_plan)
+    //calc_inter_planes();
+    for(int i = 0; i < vector_cloud.size(); i++)
     {
-        //a modifier sur le long terme
-        calc_bounding_box(cloud);
-        ransac_segmentation();
-        //calc_inter_planes();
-        for(int i = 0; i < vector_cloud.size(); i++)
-        {
-            double * plane_eq = equation_plane2(vector_cloud.at(i));
-            eq_planes.push_back(plane_eq);
-        }
-        //Copie du nuage pour l'appel de RepereRoom
-        std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> list;
-        cout << "vector_cloud.size()" << vector_cloud.size() << endl;
-        for (unsigned i = 0; i < vector_cloud.size(); i++)
-        {
-            pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
-            copyPointCloud( vector_cloud[i], *cloud); // copyPointCloud( vector_cloud[i], *cloud_rgb); de base
-            list.push_back(cloud);
-        }
-
-        repereRoom(viewer, list);
-
-        calc_inter_planes();
-        ui->btn_modelize->setVisible(true);
+        double * plane_eq = equation_plane2(vector_cloud.at(i));
+        eq_planes.push_back(plane_eq);
     }
-    else
+    //Copie du nuage pour l'appel de RepereRoom
+    std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> list;
+    cout << "vector_cloud.size()" << vector_cloud.size() << endl;
+    for (unsigned i = 0; i < vector_cloud.size(); i++)
     {
-        //affichage du nuage initial
-        this->viewer = simpleVis(cloud);
-        this->nb_cloud++;
+        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+        copyPointCloud( vector_cloud[i], *cloud); // copyPointCloud( vector_cloud[i], *cloud_rgb); de base
+        list.push_back(cloud);
     }
+
+    repereRoom(viewer, list);
+
+    calc_inter_planes();
+    ui->btn_modelize->setEnabled(true);
+
+
+
     //viewer->runOnVisualisationThread();
 	while (!this->viewer->wasStopped ())
 	{
