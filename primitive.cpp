@@ -3,6 +3,16 @@
 using namespace std;
 using namespace cv;
 
+adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor Primitive::lastIntersection() const
+{
+    return m_lastIntersection;
+}
+
+void Primitive::setLastIntersection(const adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor &value)
+{
+    m_lastIntersection = value;
+}
+
 Primitive::Primitive(Point2f origin, Point2f end, int size, int K, int idPrimitive, int idSegment) : m_origin(origin), m_end(end), m_current(end),
     m_K(K), m_idPrimitive(idPrimitive), m_idSegment(idSegment)
 {
@@ -75,7 +85,11 @@ int Primitive::nbCertificates() const
     return nb;
 }
 
+void Primitive::flipCertificate(int index){
+    m_certificates[index] = 1 - m_certificates[index];
+}
+
 bool Primitive::operator <(const Primitive & p) const
 {
-    return nbCertificates() < p.nbCertificates();
+    return nbCertificates() > p.nbCertificates();
 }
