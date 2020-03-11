@@ -11,7 +11,6 @@ vector<Primitive> Kippi::primitives()
     return m_primitives;
 }
 
-
 Point2f Kippi::middleOfSegment(const Point2f &segmentStart, const Point2f &segmentEnd){
     Point2f middle;
 
@@ -23,12 +22,12 @@ Point2f Kippi::middleOfSegment(const Point2f &segmentStart, const Point2f &segme
 
 //Source: https://github.com/opencv/opencv/blob/master/modules/imgproc/src/min_enclosing_triangle.cpp#L1521-L1531
 bool Kippi::almostEqual(double number1, double number2){
-    return (std::abs(number1 - number2) <= (EPSILON * max(max(1.0, std::abs(number1)), std::abs(number2))));
+    return (abs(number1 - number2) <= (EPSILON * max(max(1.0, abs(number1)), abs(number2))));
 }
 
 double Kippi::distanceBetweenPoints(const Point2f &a, const Point2f &b){
-    double xDiff = b.x - a.x;
-    double yDiff = b.y - a.y;
+    double xDiff = a.x - b.x;
+    double yDiff = a.y - b.y;
 
     return sqrt((xDiff * xDiff) + (yDiff * yDiff));
 }
@@ -40,7 +39,7 @@ bool Kippi::arePointsColinear(const Point2f &a, const Point2f &b, const Point2f 
 }
 
 bool Kippi::pointOnSegment(const Point2f &segmentStart, const Point2f &segmentEnd, const Point2f &toEvaluate){
-    double dStart = distanceBetweenPoints(segmentStart, toEvaluate);
+    double dStart = distanceBetweenPoints(toEvaluate, segmentStart);
     double dEnd = distanceBetweenPoints(toEvaluate, segmentEnd);
     double segmentLength = distanceBetweenPoints(segmentStart, segmentEnd);
 
@@ -61,8 +60,8 @@ bool Kippi::lineIntersection(const Point2f &a1, const Point2f &b1, const Point2f
     double det = (A1 * B2) - (A2 * B1);
 
     if (!almostEqual(det, 0)) {
-        intersection.x = static_cast<float>(((C1 * B2) - (C2 * B1)) / (det));
-        intersection.y = static_cast<float>(((C2 * A1) - (C1 * A2)) / (det));
+        intersection.x = ((C1 * B2) - (C2 * B1)) / (det);
+        intersection.y = ((C2 * A1) - (C1 * A2)) / (det);
 
         //std::cout << "X: " << intersection.x << std::endl;
         //std::cout << "Y: " << intersection.y << std::endl;
@@ -81,48 +80,117 @@ bool Kippi::isPropagationLeft(){
     return false;
 }
 
-void Kippi::propagation(double t, const Mat &image){
-    for(int i = 0; i < m_primitives.size(); ++i){
+void Kippi::propagationPriorityQueue(double t, const Mat &image){
+    for(int i = 4; i < m_primitives.size(); ++i){
         if(m_primitives[i].K() == 0) continue;
         Point2f end(m_primitives[i].end());
         Point2f direction = m_primitives[i].direction();
         end.x += direction.x * t;
         end.y += direction.y * t;
         m_primitives[i].setCurrent(end);
-        if(m_primitives[i].current().x < 0 ||m_primitives[i].current().y < 0 ||
-                m_primitives[i].current().x > image.cols || m_primitives[i].current().y > image.rows) m_primitives[i].setK(0);
+
+        if(m_primitives[i].current().x < 0){
+            m_primitives[i].setK(0);
+            Point2f newCurrent(m_primitives[i].current());
+            newCurrent.x = 0;
+            m_primitives[i].setCurrent(newCurrent);
+            /*GraphVertex v(i, 3, m_primitives[i].current(), 0);
+            add_vertex(v, m_g);*/
+        }
+
+        if(m_primitives[i].current().y < 0){
+            m_primitives[i].setK(0);
+            Point2f newCurrent(m_primitives[i].current());
+            newCurrent.y = 0;
+            m_primitives[i].setCurrent(newCurrent);
+            /*GraphVertex v(i, 0, m_primitives[i].current(), 0);
+            add_vertex(v, m_g);*/
+        }
+
+        if(m_primitives[i].current().x > image.cols){
+            m_primitives[i].setK(0);
+            Point2f newCurrent(m_primitives[i].current());
+            newCurrent.x = image.cols - 1;
+            m_primitives[i].setCurrent(newCurrent);
+            /*GraphVertex v(i, 1, m_primitives[i].current(), 0);
+            add_vertex(v, m_g);*/
+        }
+
+        if(m_primitives[i].current().y > image.rows){
+            m_primitives[i].setK(0);
+            Point2f newCurrent(m_primitives[i].current());
+            newCurrent.y = image.rows - 1;
+            m_primitives[i].setCurrent(newCurrent);
+            /*GraphVertex v(i, 2, m_primitives[i].current(), 0);
+            add_vertex(v, m_g);*/
+        }
     }
 
-    for(int i = 0; i < m_primitives.size(); ++i){
-        if(m_primitives[i].K() == 0) continue;
-        for(int j = 0; j < m_primitives.size(); ++j){
+    priority_queue<Primitive> primitivesPriorityQueue;
+    for(int i = 4 ; i < m_primitives.size() ; ++i){
+        primitivesPriorityQueue.push(m_primitives[i]);
+    }
+
+    while(!primitivesPriorityQueue.empty()){
+
+        Primitive source = primitivesPriorityQueue.top();
+        primitivesPriorityQueue.pop();
+
+        if(source.K() == 0) continue;
+
+        int i = source.idPrimitive();
+
+        for(int j = 4; j < m_primitives.size(); ++j){
             if(i == j) continue;
+            if(m_primitives[i].certificates().at(j) == 0) continue;
+            if(m_primitives[j].certificates().at(i) == 0) continue;
             if(m_primitives[i].idSegment() == m_primitives[j].idSegment()) continue;
+
             Point2f current = m_primitives[i].current();
             Point2f origin = m_primitives[j].origin();
             Point2f end = m_primitives[j].current();
 
-            if(!arePointsColinear(origin, end, current)) continue;
-            if(!pointOnSegment(origin, end, current)) continue;
 
-            m_primitives[i].certificates().at(j) = 0;
+            Point2f intersection;
+            if(lineIntersection(m_primitives[i].origin(), m_primitives[i].current(), m_primitives[j].origin(), m_primitives[j].current(), intersection)){
 
-            GraphVertex v(i, j, current);
-            add_vertex(v, m_g);
+                m_primitives[i].flipCertificate(j);
+                m_primitives[j].flipCertificate(i);
 
-            m_primitives[i].setK(m_primitives[i].K() - 1);
+                m_primitives[i].setCurrent(intersection);
+
+                /*GraphVertex v(i, j, intersection, 0);
+                adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor vertexDescriptor = add_vertex(v, m_g);*/
+
+                //add_edge(m_primitives[i].lastIntersection(), vertexDescriptor, m_g);
+                //add_edge(m_primitives[j].lastIntersection(), vertexDescriptor, m_g);
+
+                //m_primitives[i].setLastIntersection(vertexDescriptor);
+                //m_primitives[j].setLastIntersection(vertexDescriptor);
+
+                m_primitives[i].setK(0);
+            }
+
         }
+
     }
 }
 
-void Kippi::partition(string imgName){
+pair<vector<vector<Point>>, vector<double>> Kippi::partition(string imgName, bool display){
+    RNG rng(12345);
+
     Mat image = imread(imgName, IMREAD_GRAYSCALE);
     if( image.empty() )
     {
         exit(0);
     }
 
-    Mat image_fld(image);
+    Mat imgCopy = Mat(image.rows, image.cols, CV_8UC3, Scalar(255,255, 255));
+    cvtColor(image, imgCopy, COLOR_GRAY2RGB);
+
+    Mat image_fld = Mat::zeros( image.size(), CV_8UC1 );
+    image_fld.setTo(cv::Scalar(255));
+    Mat linesImg = Mat(image.rows, image.cols, CV_8UC3, Scalar(255,255, 255));
 
     // Create FLD detector
     // Param               Default value   Description
@@ -138,7 +206,7 @@ void Kippi::partition(string imgName){
     //                                     operator in Canny()
     // do_merge            false         - If true, incremental merging of segments
     //                                     will be perfomred
-    int length_threshold = 20;
+    int length_threshold = 15;
     float distance_threshold = 1.41421356f;
     double canny_th1 = 50.0;
     double canny_th2 = 50.0;
@@ -152,74 +220,207 @@ void Kippi::partition(string imgName){
 
     map<pair<int, int>, Point2f> intersections;
 
-    GraphVertex cornerUpperLeft(-1, -1, Point2f(0, 0));
-    GraphVertex cornerUpperRight(-2, -2, Point2f(0, image.cols));
-    GraphVertex cornerLowerRight(-3, -3, Point2f(image.rows, image.cols));
-    GraphVertex cornerLowerLeft(-4, -4, Point2f(image.rows, 0));
+    GraphVertex cornerUpperLeft(-1, -1, Point2f(1, 1), 0);
+    GraphVertex cornerUpperRight(-2, -2, Point2f(image.cols - 2, 1), 0);
+    GraphVertex cornerLowerRight(-3, -3, Point2f(image.cols - 2, image.rows - 2), 0);
+    GraphVertex cornerLowerLeft(-4, -4, Point2f(1, image.rows - 2), 0);
 
-    add_vertex(cornerUpperLeft, m_g);
-    add_vertex(cornerUpperRight, m_g);
-    add_vertex(cornerLowerRight, m_g);
-    add_vertex(cornerLowerLeft, m_g);
+    /*adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor vd_cornerUpperLeft = add_vertex(cornerUpperLeft, m_g);
+    adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor vd_cornerUpperRight = add_vertex(cornerUpperRight, m_g);
+    adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor vd_cornerLowerRight = add_vertex(cornerLowerRight, m_g);
+    adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor vd_cornerLowerLeft = add_vertex(cornerLowerLeft, m_g);
 
-    int idPrimitive = 0;
+    add_edge(vd_cornerUpperLeft, vd_cornerUpperRight, m_g);
+    add_edge(vd_cornerUpperRight, vd_cornerLowerRight, m_g);
+    add_edge(vd_cornerLowerRight, vd_cornerLowerLeft, m_g);
+    add_edge(vd_cornerLowerLeft, vd_cornerUpperLeft, m_g);*/
+
+    Primitive UpPrim(Point2f(cornerUpperLeft.intersection()), Point2f(cornerUpperRight.intersection()), lines_fld.size() * 2 + 4, 0, 0, -1);
+    m_primitives.push_back(UpPrim);
+
+    Primitive RightPrim(Point2f(cornerUpperRight.intersection()), Point2f(cornerLowerRight.intersection()), lines_fld.size() * 2 + 4, 0, 1, -1);
+    m_primitives.push_back(RightPrim);
+
+    Primitive BottomPrim(Point2f(cornerLowerRight.intersection()), Point2f(cornerLowerLeft.intersection()), lines_fld.size() * 2 + 4, 0, 2, -1);
+    m_primitives.push_back(BottomPrim);
+
+    Primitive LeftPrim(Point2f(cornerLowerLeft.intersection()), Point2f(cornerUpperLeft.intersection()), lines_fld.size() * 2 + 4, 0, 3, -1);
+    m_primitives.push_back(LeftPrim);
+
+    //cout << num_vertices(m_g);
+
+    int idPrimitive = 4;
     for(int i = 0 ; i < lines_fld.size() ; ++i){
-        Point2f origin0(lines_fld[i][0], lines_fld[i][1]);
-        Point2f end0(lines_fld[i][2], lines_fld[i][3]);
-        Point2f middle = middleOfSegment(origin0, end0);
-        GraphVertex v(i, i, middle);
-        Primitive p0(middle, origin0, lines_fld.size() * 2, 1, idPrimitive, i);
+        Point2f origin(lines_fld[i][0], lines_fld[i][1]);
+        Point2f end(lines_fld[i][2], lines_fld[i][3]);
+        Point2f middle = middleOfSegment(origin, end);
+        //GraphVertex v(i, i, middle, 0);
+        Primitive p0(middle, origin, lines_fld.size() * 2 + 4, 1, idPrimitive, i);
         ++idPrimitive;
-        Primitive p1(middle, end0, lines_fld.size() * 2, 1, idPrimitive, i);
+        Primitive p1(middle, end, lines_fld.size() * 2 + 4, 1, idPrimitive, i);
         ++idPrimitive;
         m_primitives.push_back(p0);
         m_primitives.push_back(p1);
-        add_vertex(v, m_g);
+        /*adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor vertexDescriptor = add_vertex(v, m_g);
+        p0.setLastIntersection(vertexDescriptor);
+        p1.setLastIntersection(vertexDescriptor);*/
     }
 
-    for(int i = 0 ; i < m_primitives.size() ; ++i){
+    //cout << num_vertices(m_g);
+
+    for(int i = 4 ; i < m_primitives.size() ; ++i){
         for(int j = i + 1 ; j < m_primitives.size() ; ++j){
-            //if(primitives[i].m_idSegment == primitives[j].m_idSegment) continue;
+            if(m_primitives[i].idSegment() == m_primitives[j].idSegment()) continue;
             Point2f intersection;
             if(lineIntersection(m_primitives[i].origin(), m_primitives[i].end(), m_primitives[j].origin(), m_primitives[j].end(), intersection)){
+
                 pair<pair<int, int>, Point2f> p(make_pair(i, j), intersection);
                 intersections.insert(p);
-                m_primitives[i].certificates().at(j) = 0;
-                m_primitives[j].certificates().at(i) = 0;
+                m_primitives[i].flipCertificate(j);
+                m_primitives[j].flipCertificate(i);
             }
         }
     }
 
-    for (std::map<pair<int,int>, Point2f>::iterator it=intersections.begin(); it!=intersections.end(); ++it){
-        GraphVertex v(it->first.first, it->first.second, it->second);
-        add_vertex(v, m_g);
-    }
+    /*for (std::map<pair<int,int>, Point2f>::iterator it=intersections.begin(); it!=intersections.end(); ++it){
+        GraphVertex v(it->first.first, it->first.second, it->second, 0);
+        adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor vertexDescriptor = add_vertex(v, m_g);
+        adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor fli = m_primitives[it->first.first].lastIntersection();
+        adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor sli = m_primitives[it->first.second].lastIntersection();
+
+        //A chaque tour ce boucle, semble causer l'erreur décrite ci-après
+        //add_edge(fli, vertexDescriptor, m_g);
+
+        //Fonctionne à chaque tour de boucle
+        //add_edge(sli, vertexDescriptor, m_g);
+
+        m_primitives[it->first.first].setLastIntersection(vertexDescriptor);
+        m_primitives[it->first.second].setLastIntersection(vertexDescriptor);
+    }*/
 
     double t = 0;
-    double delta = 0.1;
+    double delta = 0.5;
     while(isPropagationLeft()){
-        /*priority_queue<PRIMITIVE> primitivesPriorityQueue;
-        for(int i = 0 ; i < primitives.size() ; ++i){
-            if(primitives[i].m_K > 0)
-                primitivesPriorityQueue.push(primitives[i]);
-        }*/
-        propagation(t, image);
-        //propagationPriorityQueue(t, primitivesPriorityQueue, primitives, g, line_image_fld);
+        propagationPriorityQueue(t, image);
         t += delta;
     }
 
-    pair<GRAPH::vertex_iterator, GRAPH::vertex_iterator> v_it = vertices(m_g);
-    for(; v_it.first != v_it.second; ++v_it.first){
+    //pair<GRAPH::vertex_iterator, GRAPH::vertex_iterator> v_it = vertices(m_g);
+    /*for(; v_it.first != v_it.second; ++v_it.first){
         GRAPH::vertex_descriptor v = *v_it.first;
-        std::cout << m_g[v].i() << " " << m_g[v].j() << " " << m_g[v].intersection().x << " " << m_g[v].intersection().y << endl;
-    }
+        //std::cout << m_g[v].i() << " " << m_g[v].j() << " " << m_g[v].intersection().x << " " << m_g[v].intersection().y << endl;
 
-    for(int i = 0 ; i < m_primitives.size() ; ++i){
+        circle( image_fld,
+                 m_g[v].intersection(),
+                 96.0/32.0,
+                 Scalar( 100, 100, 100 ),
+                 -1,
+                 8 );
+    }*/
+
+    for(int i = 4 ; i < m_primitives.size() ; ++i){
         Point2f origin(m_primitives[i].origin());
         Point2f end(m_primitives[i].current());
-        line(image_fld, origin, end, CV_RGB(255, 0, 0), 1, LINE_AA);
+        line(linesImg, origin, end, CV_RGB(0, 0, 0), 1, 4);
+        line(imgCopy, origin, end, CV_RGB(255,0,0), 1, 4);
     }
 
-    imshow("FLD result", image_fld);
-    waitKey();
+    Mat linesGray;
+
+    cvtColor(linesImg, linesGray, COLOR_BGR2GRAY );
+    //blur(linesGray, linesGray, Size(3,3));
+    threshold(linesGray, linesGray, 0, 255, THRESH_BINARY + THRESH_OTSU);
+
+    Mat canny_output;
+    vector<vector<Point>> contours;
+    vector<Vec4i> hierarchy;
+
+
+    int thresh = 50;
+    /// Detect edges using canny
+    Canny( linesGray, canny_output, thresh, thresh*2, 5 );
+    /// Find contours
+    findContours( linesGray, contours, hierarchy, RETR_TREE,
+                  CHAIN_APPROX_TC89_L1, Point(1, 1) );
+
+
+    Mat drawing = Mat::zeros( canny_output.size(), CV_8UC1 );
+
+    vector<double> medianValues;
+    vector<pair<int, int>> coordinates;
+
+    for( int i = 0; i < contours.size(); i++ )
+    {
+        /*for(int k = 0 ; k < contours[i].size() ; k++){
+            cout << contours[i][k].x << endl;
+        }*/
+
+        if(hierarchy[i][1] >= 0){
+            vector<pair<int, int>> toRecolor;
+            vector<int> colorValues;
+            Mat drawing = Mat::zeros( canny_output.size(), CV_8UC1 );
+            Scalar color = Scalar(255);
+            drawContours( drawing, contours, i, color, FILLED, LINE_AA );
+
+            for(int y = 0 ; y < drawing.cols ; ++y){
+                for(int x = 0 ; x < drawing.rows ; ++x){
+                    Scalar intensity = drawing.at<uchar>(Point(y, x));
+                    int intensityValue = intensity.val[0];
+                    //cout << intensityValue << endl;
+                    if(intensityValue != 0){
+                        Scalar imageIntensity = image.at<uchar>(Point(y, x));
+                        int imageIntensityValue = imageIntensity.val[0];
+                        if(imageIntensityValue != 0){
+                            colorValues.push_back(imageIntensityValue);
+                            //cout << "Y: " << y << " X: " << x << endl;
+                        }
+                        pair<int, int> p(x, y);
+                        //cout << "Y: " << p.first << " X: " << p.second << endl;
+                        toRecolor.push_back(p);
+
+                    }
+                }
+            }
+
+            sort(colorValues.begin(), colorValues.end());
+            double medianValue = 0.0f;
+
+            if(colorValues.size() == 0) continue;
+            if(colorValues.size() == 1) {
+                medianValue = colorValues[0];
+            }
+            else{
+                if (colorValues.size() % 2 == 0) {
+                  medianValue = (colorValues[colorValues.size() / 2 - 1] + colorValues[colorValues.size() / 2]) / 2;
+                }
+
+                else {
+                  medianValue = colorValues[floor(colorValues.size() / 2)];
+                }
+            }
+
+            cout << endl;
+            for(int j = 0 ; j < toRecolor.size() ; ++j){
+                pair<int, int> current = toRecolor[j];
+                //cout << "Y: " << current.first << " X: " << current.second << endl;
+                image_fld.at<uchar>(current.first, current.second) = medianValue;
+            }
+
+            //imshow("Contours" + to_string(i), drawing);
+            medianValues.push_back(medianValue);
+        }
+        else{
+            medianValues.push_back(-1.0f);
+        }
+    }
+
+    if(display){
+        imshow("Lines", imgCopy);
+        imshow("FLD result", linesGray);
+        imshow("Median Result", image_fld);
+    }
+
+
+    pair<vector<vector<Point>>, vector<double>> contoursValues(contours, medianValues);
+    return contoursValues;
 }
