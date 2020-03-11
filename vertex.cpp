@@ -49,6 +49,21 @@ void Vertex::setColor(float r,float g, float b, float a)
     this->color = QVector4D(r,g,b,a);
 }
 
+float Vertex::getZ() const
+{
+    return z;
+}
+
+float Vertex::getX() const
+{
+    return x;
+}
+
+float Vertex::getY() const
+{
+    return y;
+}
+
 void Vertex::display(QOpenGLShaderProgram *buffer)
 {
     vbo.create();

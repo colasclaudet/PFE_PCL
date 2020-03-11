@@ -18,6 +18,12 @@ public:
 
     float x,y,z;
 
+    float getX() const;
+
+    float getY() const;
+
+    float getZ() const;
+
 private:
 
     QOpenGLBuffer vbo;
