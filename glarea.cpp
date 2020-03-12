@@ -122,6 +122,7 @@ void GLArea::addPlanes(QList<Plane> lplanes)
  */
 void GLArea::addVertex(QList<Vertex> lvertex)
 {
+    //à changer => plutot faire des push backs
     this->list_vertices = lvertex;
     makeGLObjects();
 }

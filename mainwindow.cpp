@@ -58,7 +58,8 @@ void MainWindow::saveCloud()
 	fileName = QFileDialog::getSaveFileName(this,
 	tr("Sauvegarder votre image"), "cloud_plane.ply",
 	tr("Polygon File Format(.ply);;Tous les fichiers()"));
-	if(this->cloudToSave->size() == 0){
+    if(this->cloudToSave->size() == 0)
+    {
 		QMessageBox msgBox;
 		msgBox.setText("The cloud is empty. Save impossible.");
 		msgBox.exec();
@@ -183,7 +184,8 @@ pcl::visualization::PCLVisualizer::Ptr MainWindow::addPtsCloud (pcl::visualizati
 /**********************
       DEBRUITAGE
 **********************/
-void MainWindow::denoise(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud){
+void MainWindow::denoise(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud)
+{
     std::cerr << "denoising running " << std::endl;
 
     //creer nuage inliers
@@ -222,7 +224,7 @@ void MainWindow::denoise(pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud){
 
     std::cerr << "denoising end " << std::endl;
 }
-    /*------------------------------------------------ PFE ------------------------------------------------*/
+/*------------------------------------------------ PFE ------------------------------------------------*/
 
 /**********************
    RECHERCHE DE PLAN
@@ -834,20 +836,27 @@ void MainWindow::searchLimit (std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> l
 	//    1 - parcourir tous les plans
 	//        2 - chercher les plans pour chaque axe (comparer les normales) trier en trois
 	for(unsigned i = 0; i < list_planes.size(); i++){
-	    if(normalesAreSimilar(axe_x, list_normale_planes[i])){
+        if(normalesAreSimilar(axe_x, list_normale_planes[i]))
+        {
 	        // cout << "je suis sur x" << endl;
 	        planes_axe_x.push_back(list_planes[i]);
 	        corres_axe_x.push_back(i);
-	    } else if(normalesAreSimilar(axe_y, list_normale_planes[i])){
+        }
+        else if(normalesAreSimilar(axe_y, list_normale_planes[i]))
+        {
 	        // cout << "je suis sur y" << endl;
 	        planes_axe_y.push_back(list_planes[i]);
 	        corres_axe_y.push_back(i);
 	        // cout << "normale du plan : " << list_equat_planes[i][0] << ", " << list_equat_planes[i][1] << ", " << list_equat_planes[i][2] << endl;
-	    } else if(normalesAreSimilar(axe_z, list_normale_planes[i])){
+        }
+        else if(normalesAreSimilar(axe_z, list_normale_planes[i]))
+        {
 	        // cout << "je suis sur z" << endl;
 	        planes_axe_z.push_back(list_planes[i]);
 	        corres_axe_z.push_back(i);
-	    } else {
+        }
+        else
+        {
 	        // cout << "je suis sur rien" << endl;
 	        planes_others.push_back(list_planes[i]);
 	    }
@@ -865,19 +874,22 @@ void MainWindow::searchLimit (std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> l
     float max_z = FLT_MIN;
 
     //axe x (murs)
-    for(unsigned i = 0; i < planes_axe_x.size(); i++){
+    for(unsigned i = 0; i < planes_axe_x.size(); i++)
+    {
         QVector3D valeur_courante = list_meanPosition[corres_axe_x[i]];
         if(valeur_courante[0] > max_x) max_x = valeur_courante[0];
         else if(valeur_courante[0] < min_x) min_x = valeur_courante[0];
     }
     //axe y (plafond/sol)
-    for(unsigned i = 0; i < planes_axe_y.size(); i++){
+    for(unsigned i = 0; i < planes_axe_y.size(); i++)
+    {
         QVector3D valeur_courante = list_meanPosition[corres_axe_y[i]];
         if(valeur_courante[1] > max_y) max_y = valeur_courante[1];
         else if(valeur_courante[1] < min_y) min_y = valeur_courante[1];
     }
     //axe z (murs)
-    for(unsigned i = 0; i < planes_axe_z.size(); i++){
+    for(unsigned i = 0; i < planes_axe_z.size(); i++)
+    {
         QVector3D valeur_courante = list_meanPosition[corres_axe_z[i]];
         if(valeur_courante[2] > max_z) max_z = valeur_courante[2];
         else if(valeur_courante[2] < min_z) min_z = valeur_courante[2];
@@ -893,44 +905,54 @@ void MainWindow::searchLimit (std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> l
 
     // 6 - parcourir les 3 vecteurs
     //     7 - ajouter les plans en fonctions du seuil d erreur a des fragments
-    for(unsigned i = 0; i < 6; i++){
+    for(unsigned i = 0; i < 6; i++)
+    {
         list_limits.push_back(Fragment());
     }
     //axe x (murs) Fragment 1 et 2
     cout << "Il y a " << planes_axe_x.size() << " plans sur x, " << planes_axe_y.size() << " plans sur y, " << planes_axe_z.size() << " plans sur z." << endl;
-    for(unsigned i = 0; i < planes_axe_x.size(); i++){
+    for(unsigned i = 0; i < planes_axe_x.size(); i++)
+    {
         QVector3D valeur_courante = list_meanPosition[corres_axe_x[i]];
-        if(valeur_courante[0] > (max_x-error_x)  && valeur_courante[0] < (max_x+error_x)){
+        if(valeur_courante[0] > (max_x-error_x)  && valeur_courante[0] < (max_x+error_x))
+        {
             list_limits[0].addPlane(*planes_axe_x[i]);
             // cout << "je suis un mur x 1 " << endl;
         }
-        else if(valeur_courante[0] > (min_x-error_x)  && valeur_courante[0] < (min_x+error_x)){
+        else if(valeur_courante[0] > (min_x-error_x)  && valeur_courante[0] < (min_x+error_x))
+        {
             list_limits[1].addPlane(*planes_axe_x[i]);
             // cout << "je suis un mur x 2" << endl;
         }
     }
     //axe y (plafond/sol) Fragment 3 et 4
-    for(unsigned i = 0; i < planes_axe_y.size(); i++){
+    for(unsigned i = 0; i < planes_axe_y.size(); i++)
+    {
         QVector3D valeur_courante = list_meanPosition[corres_axe_y[i]];
-        if(valeur_courante[1] > (max_y-error_y)  && valeur_courante[1] < (max_y+error_y)){
+        if(valeur_courante[1] > (max_y-error_y)  && valeur_courante[1] < (max_y+error_y))
+        {
             list_limits[2].addPlane(*planes_axe_y[i]);
             cout << "je suis un plafond d equation " << list_equat_planes[corres_axe_x[i]][0] << ", "  << list_equat_planes[corres_axe_x[i]][1]
                     << ", "  << list_equat_planes[corres_axe_x[i]][2] << endl;
 
         }
-        else if(valeur_courante[1] > (min_y-error_y)  && valeur_courante[1] < (min_y+error_y)){
+        else if(valeur_courante[1] > (min_y-error_y)  && valeur_courante[1] < (min_y+error_y))
+        {
             list_limits[3].addPlane(*planes_axe_y[i]);
             // cout << "je suis un sol" << endl;
         }
     }
     //axe z (murs) Fragment 5 et 6
-    for(unsigned i = 0; i < planes_axe_z.size(); i++){
+    for(unsigned i = 0; i < planes_axe_z.size(); i++)
+    {
         QVector3D valeur_courante = list_meanPosition[corres_axe_z[i]];
-        if(valeur_courante[2] > (max_z-error_z)  && valeur_courante[2] < (max_z+error_z)){
+        if(valeur_courante[2] > (max_z-error_z)  && valeur_courante[2] < (max_z+error_z))
+        {
             list_limits[4].addPlane(*planes_axe_z[i]);
             // cout << "je suis un mur z 1" << endl;
         }
-        else if(valeur_courante[2] > (min_z-error_z)  && valeur_courante[2] < (min_z+error_z)){
+        else if(valeur_courante[2] > (min_z-error_z)  && valeur_courante[2] < (min_z+error_z))
+        {
             list_limits[5].addPlane(*planes_axe_z[i]);
             // cout << "je suis un mur z 2" << endl;
         }
@@ -945,7 +967,8 @@ void MainWindow::searchLimit (std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> l
 
     list_limits[4].setType(Fragment::Type::Mur);
     list_limits[5].setType(Fragment::Type::Mur);
-    for(unsigned i = 0; i < list_limits.size(); i++){
+    for(unsigned i = 0; i < list_limits.size(); i++)
+    {
         list_limits[i].attributeColorAuto();
     }
     cout << "Il y a " << list_limits[0].planes.size() << " mur en x1, " << list_limits[1].planes.size() << " mur en x2, " <<
@@ -956,8 +979,10 @@ void MainWindow::searchLimit (std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> l
 /**
  * @brief MainWindow::createRoom - réunis les différents plans formant un pan de la piece pour créer une piece avec un minimum de nuage (un nuage = un pan)
  */
-void MainWindow::createRoom(){
-    for(unsigned i = 0; i < list_limits.size(); i++){
+void MainWindow::createRoom()
+{
+    for(unsigned i = 0; i < list_limits.size(); i++)
+    {
         pcl::PointCloud<pcl::PointXYZ> tmp = clouds_union(list_limits[i].planes);
         room.push_back(tmp);
     }
@@ -968,7 +993,8 @@ void MainWindow::createRoom(){
  * @param v_cloud - tableau de nuages de points
  * @return un nuage qui est l'union de tous les nuages du vector
  */
-pcl::PointCloud<pcl::PointXYZ> MainWindow::clouds_union(std::vector<pcl::PointCloud<pcl::PointXYZ>> v_cloud) {
+pcl::PointCloud<pcl::PointXYZ> MainWindow::clouds_union(std::vector<pcl::PointCloud<pcl::PointXYZ>> v_cloud)
+{
     pcl::PointCloud<pcl::PointXYZ> c_union;
     for(int i = 0; i<v_cloud.size();i++)
     {
@@ -983,11 +1009,13 @@ pcl::PointCloud<pcl::PointXYZ> MainWindow::clouds_union(std::vector<pcl::PointCl
  * @param plane - le nuage de points initial (appelé plane dans notre contexte car n'est intéressant que pour nos nuages de plan)
  * @return un QVector3D représentant le x, y, et z moyen
  */
-QVector3D MainWindow::computeMeanPositionPlane(pcl::PointCloud<pcl::PointXYZ>::Ptr plane){
+QVector3D MainWindow::computeMeanPositionPlane(pcl::PointCloud<pcl::PointXYZ>::Ptr plane)
+{
     int cpt = 0;
     QVector3D pos_mean_plane = QVector3D(0,0,0);
     //calcul de la position moyenne d'un plan
-    for (size_t j=0;j< plane->points.size();j++){
+    for (size_t j=0;j< plane->points.size();j++)
+    {
         pos_mean_plane[0] += plane->points[j].x;
         pos_mean_plane[1] += plane->points[j].y;
         pos_mean_plane[2] += plane->points[j].z;
@@ -1005,7 +1033,8 @@ QVector3D MainWindow::computeMeanPositionPlane(pcl::PointCloud<pcl::PointXYZ>::P
  * @param p2 - QVector3D d'un point
  * @return une distance
  */
-double MainWindow::computeDistance(QVector3D p1, QVector3D p2){
+double MainWindow::computeDistance(QVector3D p1, QVector3D p2)
+{
     return sqrt( pow(p1[0]-p2[0],2) + pow(p1[1]-p2[1],2) + pow(p1[2]-p2[2],2) );
 }
 
@@ -1016,7 +1045,8 @@ double MainWindow::computeDistance(QVector3D p1, QVector3D p2){
  * @note le seuil est le seuil d'erreur dans la comparaison
  * @return vrai si les normales sont similaires, faux sinon
  */
-bool MainWindow::normalesAreSimilar(QVector3D p1, QVector3D p2){
+bool MainWindow::normalesAreSimilar(QVector3D p1, QVector3D p2)
+{
     double seuil = 0.4;
     p1.normalize();
     p2.normalize();
@@ -1025,7 +1055,8 @@ bool MainWindow::normalesAreSimilar(QVector3D p1, QVector3D p2){
     // cout << p2[0] << ", " << p2[1] << ", " << p2[2] << endl;
 
     if( (p1[0]<p2[0]+seuil && p1[0]>p2[0]-seuil) && (p1[1]<p2[1]+seuil&& p1[1]>p2[1]-seuil) && (p1[2]<p2[2]+seuil && p1[2]>p2[2]-seuil) ||
-            ((-p1[0])<p2[0]+seuil && (-p1[0])>p2[0]-seuil) && ((-p1[1])<p2[1]+seuil&& (-p1[1])>p2[1]-seuil) && ((-p1[2])<p2[2]+seuil && (-p1[2])>p2[2]-seuil)){
+            ((-p1[0])<p2[0]+seuil && (-p1[0])>p2[0]-seuil) && ((-p1[1])<p2[1]+seuil&& (-p1[1])>p2[1]-seuil) && ((-p1[2])<p2[2]+seuil && (-p1[2])>p2[2]-seuil))
+    {
         // cout << "sont similaires."<< endl;
         return true;
     }
@@ -1038,20 +1069,28 @@ bool MainWindow::normalesAreSimilar(QVector3D p1, QVector3D p2){
  * @param n - normale
  * @return 0 pour x, 1 pour y, 2 pour z
  */
-int MainWindow::axeViaNormal(QVector3D n){
+int MainWindow::axeViaNormal(QVector3D n)
+{
     n.normalize();
     double seuil = 0.6;
     // cout << "Normale : " << n[0] << ", "<< n[1] << ", "<< n[2] << endl;
-    if ((n[0] > seuil || n[0] < -seuil) && (n[1] < seuil && n[1] > -seuil) && (n[2] < seuil && n[2] > -seuil)){
+    if ((n[0] > seuil || n[0] < -seuil) && (n[1] < seuil && n[1] > -seuil) && (n[2] < seuil && n[2] > -seuil))
+    {
         // cout << "axe x" << endl;
         return 0;
-    } else if ((n[0] < seuil && n[0] > -seuil) && (n[1] > seuil || n[1] < -seuil) && (n[2] < seuil && n[2] > -seuil)){
+    }
+    else if ((n[0] < seuil && n[0] > -seuil) && (n[1] > seuil || n[1] < -seuil) && (n[2] < seuil && n[2] > -seuil))
+    {
         // cout << "axe y" << endl;
         return 1;
-    } else if ((n[0] < seuil && n[0] > -seuil) && (n[1] < seuil && n[1] > -seuil) && (n[2] > seuil || n[2] < -seuil)){
+    }
+    else if ((n[0] < seuil && n[0] > -seuil) && (n[1] < seuil && n[1] > -seuil) && (n[2] > seuil || n[2] < -seuil))
+    {
         // cout << "axe z" << endl;
         return 2;
-    } else {
+    }
+    else
+    {
         // cout << "axe autre" << endl;
         // cout << "x : " << n[0] << ", y : " << n[1] << ", z: " << n[2] << endl;
         return 4;
@@ -1138,6 +1177,58 @@ void MainWindow::calc_inter_planes()
         }
     }
     cout<<"FIN INTERSECTIONS DES PLANS "<<endl;
+}
+
+//void MainWindow::advanced_modelization(QList<Vertex> p, unsigned int plane_id)
+void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> contours,std::vector<double> value_contour, int plane_id)
+{
+    /*std::vector<int> rotate_room;
+    std::vector<float * > scale_xy;
+    std::vector<float * > dif_xy;
+    float scale_depth;*/
+
+    for(int i = 0;i<contours.size();i++)
+    {
+        for(int j = 0; j<contours.at(i).size();j++)
+        {
+            contours.at(i).at(j)[0] = (contours.at(i).at(j)[0] - dif_xy.at(plane_id)[0]*scalexy)/scalexy;
+            contours.at(i).at(j)[1] = (contours.at(i).at(j)[1] - dif_xy.at(plane_id)[1]*scalexy)/scalexy;
+
+
+            //INIT Rz
+            //this->Rz[0][0] = 1.0; this->Rz[0][1] = -1.0; this->Rz[0][2] = 0.0;
+            //this->Rz[1][0] = 1.0; this->Rz[1][1] = 1.0; this->Rz[1][2] = 0.0;
+            //this->Rz[2][0] = 0.0; this->Rz[2][1] = 0.0; this->Rz[2][2] = 1.0;
+            QVector3D my_point(contours.at(i).at(j)[0],contours.at(i).at(j)[1],value_contour.at(i) * scale_depth / 255.0);
+            if(rotate_room.at(plane_id) == 0)
+            {
+                float Rx[3][3];
+                //INIT Rx
+                Rx[0][0] = 1.0; Rx[0][1] = 0.0; Rx[0][2] = 0.0;
+                Rx[1][0] = 0.0; Rx[1][1] = cos(-90.0); Rx[1][2] = -sin(-90.0);
+                Rx[2][0] = 0.0; Rx[2][1] = sin(-90.0); Rx[2][2] = cos(-90.0);
+
+                my_point[0] = Rx[0][0] * my_point[0] + Rx[0][1] * my_point[0] +Rx[0][2] * my_point[0];
+                my_point[1] = Rx[1][0] * my_point[1] + Rx[1][1] * my_point[1] +Rx[1][2] * my_point[1];
+                my_point[2] = Rx[2][0] * my_point[2] + Rx[2][1] * my_point[2] +Rx[2][2] * my_point[2];
+            }
+            else if(rotate_room.at(plane_id) == 1)
+            {
+                float Ry[3][3];
+                //INIT Ry
+                Ry[0][0] = cos(-90.0); Ry[0][1] = 0.0; Ry[0][2] = sin(-90.0);
+                Ry[1][0] = 0.0; Ry[1][1] = 1.0; Ry[1][2] = 0.0;
+                Ry[2][0] = -sin(-90.0); Ry[2][1] = 0.0; Ry[2][2] = cos(-90.0);
+
+                my_point[0] = Ry[0][0] * my_point[0] + Ry[0][1] * my_point[0] +Ry[0][2] * my_point[0];
+                my_point[1] = Ry[1][0] * my_point[1] + Ry[1][1] * my_point[1] +Ry[1][2] * my_point[1];
+                my_point[2] = Ry[2][0] * my_point[2] + Ry[2][1] * my_point[2] +Ry[2][2] * my_point[2];
+            }
+            Vertex v(0.60,my_point[0]/100.0,my_point[1]/100.0,my_point[2]/100.0);
+            v.setColor(255.0,0.0,0.0,255.0);
+            //vertices.push_back(v);//to decoche
+        }
+    }
 }
 
 /**********************
@@ -1281,6 +1372,7 @@ void MainWindow::plane_to_pict() //try to optimise
         //calculer la distance moyenne des 2 voisins
         //utiliser un certain nombre de minima ?
         float scale = 1/distmoy;
+        this->scalexy = scale;
         int dimX = sqrt(pow(xmax - xmin,2))*scale;
         int dimY = sqrt(pow(ymax - ymin,2))*scale;
         int difx = sqrt(pow(xmin,2));

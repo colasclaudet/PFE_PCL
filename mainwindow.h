@@ -152,7 +152,8 @@ public:
     //resolve 3 parameters equation
     pcl::PointXYZ threePlaneIntersection(pcl::ModelCoefficients plane_coeff1, pcl::ModelCoefficients plane_coeff2, pcl::ModelCoefficients plane_coeff3);
     void calc_inter_planes();
-    
+    void advanced_modelization(std::vector<std::vector<QVector2D>> contours,std::vector<double> value_contour, int plane_id);
+
     /**********************
             DEPTHMAP
     **********************/
@@ -209,6 +210,7 @@ private:
     std::vector<int> rotate_room;
     std::vector<float * > scale_xy;
     std::vector<float * > dif_xy;
+    float scalexy;
     float scale_depth;
 
     QThread * processViewer;
