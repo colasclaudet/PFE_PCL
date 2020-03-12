@@ -19,6 +19,7 @@
 #include <queue> //priority_queue
 #include "primitive.h"
 #include "graphvertex.h"
+#include <QVector2D>
 
 using namespace std;
 using namespace cv;
@@ -142,7 +143,7 @@ public:
      * @param imgName: Chemin de l'image à partitionner
      * @param display: True: Affiche la partition de l'image
      */
-    pair<vector<vector<Point>>, vector<double>> partition(string imgName, bool display = false);
+    pair<vector<vector<QVector2D>>, vector<double>> partition(string imgName, bool display = false);
 };
 
 #endif // KIPPI_H
