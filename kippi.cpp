@@ -176,7 +176,7 @@ void Kippi::propagationPriorityQueue(double t, const Mat &image){
     }
 }
 
-pair<vector<vector<Point>>, vector<double>> Kippi::partition(string imgName, bool display){
+pair<vector<vector<QVector2D>>, vector<double>> Kippi::partition(string imgName, bool display){
     RNG rng(12345);
 
     Mat image = imread(imgName, IMREAD_GRAYSCALE);
@@ -347,16 +347,19 @@ pair<vector<vector<Point>>, vector<double>> Kippi::partition(string imgName, boo
     Mat drawing = Mat::zeros( canny_output.size(), CV_8UC1 );
 
     vector<double> medianValues;
-    vector<pair<int, int>> coordinates;
+    vector<vector<QVector2D>> coordinates;
 
     for( int i = 0; i < contours.size(); i++ )
     {
-        /*for(int k = 0 ; k < contours[i].size() ; k++){
-            cout << contours[i][k].x << endl;
-        }*/
+        vector<QVector2D> pointsContours;
+        vector<pair<int, int>> toRecolor;
 
         if(hierarchy[i][1] >= 0){
-            vector<pair<int, int>> toRecolor;
+            for(int j = 0 ; j < contours[i].size() ; j++){
+                QVector2D point(contours[i][j].x, contours[i][j].y);
+                pointsContours.push_back(point);
+            }
+
             vector<int> colorValues;
             Mat drawing = Mat::zeros( canny_output.size(), CV_8UC1 );
             Scalar color = Scalar(255);
@@ -366,18 +369,14 @@ pair<vector<vector<Point>>, vector<double>> Kippi::partition(string imgName, boo
                 for(int x = 0 ; x < drawing.rows ; ++x){
                     Scalar intensity = drawing.at<uchar>(Point(y, x));
                     int intensityValue = intensity.val[0];
-                    //cout << intensityValue << endl;
                     if(intensityValue != 0){
                         Scalar imageIntensity = image.at<uchar>(Point(y, x));
                         int imageIntensityValue = imageIntensity.val[0];
                         if(imageIntensityValue != 0){
                             colorValues.push_back(imageIntensityValue);
-                            //cout << "Y: " << y << " X: " << x << endl;
                         }
                         pair<int, int> p(x, y);
-                        //cout << "Y: " << p.first << " X: " << p.second << endl;
                         toRecolor.push_back(p);
-
                     }
                 }
             }
@@ -399,7 +398,6 @@ pair<vector<vector<Point>>, vector<double>> Kippi::partition(string imgName, boo
                 }
             }
 
-            cout << endl;
             for(int j = 0 ; j < toRecolor.size() ; ++j){
                 pair<int, int> current = toRecolor[j];
                 //cout << "Y: " << current.first << " X: " << current.second << endl;
@@ -408,9 +406,7 @@ pair<vector<vector<Point>>, vector<double>> Kippi::partition(string imgName, boo
 
             //imshow("Contours" + to_string(i), drawing);
             medianValues.push_back(medianValue);
-        }
-        else{
-            medianValues.push_back(-1.0f);
+            coordinates.push_back(pointsContours);
         }
     }
 
@@ -421,6 +417,6 @@ pair<vector<vector<Point>>, vector<double>> Kippi::partition(string imgName, boo
     }
 
 
-    pair<vector<vector<Point>>, vector<double>> contoursValues(contours, medianValues);
+    pair<vector<vector<QVector2D>>, vector<double>> contoursValues(coordinates, medianValues);
     return contoursValues;
 }
