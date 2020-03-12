@@ -1,5 +1,5 @@
-#ifndef VERTEX_H
-#define VERTEX_H
+#ifndef GRAPHVERTEX_H
+#define GRAPHVERTEX_H
 
 #include <opencv2/core/types.hpp> //Point2f
 #include <set>
@@ -91,5 +91,5 @@ public:
     void flipActive();
 };
 
-#endif // VERTEX_H
+#endif // GRAPHVERTEX_H
 
