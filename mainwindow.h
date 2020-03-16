@@ -84,6 +84,14 @@
 /********** FIN INCLUDE PCL *********************/
 #include "ui_mainwindow.h"
 
+
+/********** KIPPI **********/
+#include "kippi.h"
+#include <QVector2D>
+#include <utility>
+#include <opencv2/core/types.hpp>
+/********** FIN K **********/
+
 namespace Ui {
 class MainWindow;
 }
@@ -158,6 +166,7 @@ public:
             DEPTHMAP
     **********************/
     void plane_to_pict();
+    void search_planes(std::string filename,int plane_id);
 
 public slots:
     void changeThreshold(int th);
@@ -195,6 +204,9 @@ private:
     //recherche des limites
     std::vector<Fragment> list_limits;
     std::vector<pcl::PointCloud<pcl::PointXYZ>> room;
+
+    QList<Plane> pl;
+    QList<Vertex> vertices;
 
     std::vector<double *> eq_planes;
     std::vector<QVector3D> inter_points;

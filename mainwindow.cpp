@@ -1224,9 +1224,9 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
                 my_point[1] = Ry[1][0] * my_point[1] + Ry[1][1] * my_point[1] +Ry[1][2] * my_point[1];
                 my_point[2] = Ry[2][0] * my_point[2] + Ry[2][1] * my_point[2] +Ry[2][2] * my_point[2];
             }
-            Vertex v(0.60,my_point[0]/100.0,my_point[1]/100.0,my_point[2]/100.0);
+            Vertex v(0.20,my_point[0]/100.0,my_point[1]/100.0,my_point[2]/100.0);
             v.setColor(255.0,0.0,0.0,255.0);
-            //vertices.push_back(v);//to decoche
+            vertices.push_back(v);//to decoche
         }
     }
 }
@@ -1471,7 +1471,40 @@ void MainWindow::plane_to_pict() //try to optimise
         QString src = "pointcloud" + qs +".jpg";
 
         im.save(src,"JPEG");
+        search_planes(src.toStdString(),i);
     }
+}
+
+void MainWindow::search_planes(std::string filename,int plane_id)
+{
+    // DEBUT KIPPI, A COMMENTER SI VOUS N'AVEZ PAS OPENCV
+    std::string in;
+    /*cv::CommandLineParser parser(argc, argv, "{@input|../samples/data/corridor.jpg|input image}{help h||show help message}");
+    if (parser.has("help"))
+    {
+        parser.printMessage();
+        return 0;
+    }
+    in = parser.get<string>("@input");
+    */
+    in = filename;
+    Kippi k;
+
+    //Ajouter un second paramètre "true" à partition pour afficher les images de Kippi
+    std::pair<std::vector<std::vector<QVector2D>>, std::vector<double>> p = k.partition(in, true);
+    std::vector<std::vector<QVector2D>> contours = p.first;
+    std::vector<double> medianValues = p.second;
+
+    for(int i = 0 ; i < contours.size() ; ++i )
+    {
+        for(int j = 0 ; j < contours[i].size() ; ++j )
+        {
+            std::cout << "Contour " << i << ", Point " << j << ", X: " << contours[i][j].x() << ", Y: " << contours[i][j].y() << std::endl;
+        }
+        std::cout << "Contour " << i << ", Valeur médiane: " << medianValues[i] << std::endl << std::endl;
+    }
+    advanced_modelization(contours,medianValues,plane_id);
+    //FIN KIPPI
 }
 
 /*********************************
@@ -1484,7 +1517,8 @@ void MainWindow::plane_to_pict() //try to optimise
  * @brief MainWindow::changeThreshold - changement de la valeur du slider threshold
  * @param th
  */
-void MainWindow::changeThreshold(int th){
+void MainWindow::changeThreshold(int th)
+{
 	this->threshold = th * 1.0f;
 }
 
@@ -1492,7 +1526,8 @@ void MainWindow::changeThreshold(int th){
  * @brief MainWindow::changeProba - changement de la valeur du slider proba
  * @param proba
  */
-void MainWindow::changeProba(int proba){
+void MainWindow::changeProba(int proba)
+{
 	this->proba = proba / 100.0f;
 }
 
@@ -1643,8 +1678,7 @@ void MainWindow::modelize()
     cout<<"Modelize"<<endl;
     //ui->glarea->draw_bounding_box(xmax/100.0,ymax/100.0,zmax/100.0f,xmin/100.0f,ymin/100.0f,zmin/100.0f);
 
-    QList<Plane> pl;
-    QList<Vertex> vertices;
+
     {
         QVector3D p1(0.0,-1.0,-1.0);
         QVector3D p2(0.0,1.0,-1.0);
