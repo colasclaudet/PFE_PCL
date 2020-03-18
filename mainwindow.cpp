@@ -1187,24 +1187,28 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
     std::vector<float * > dif_xy;
     float scale_depth;*/
 
-
+    float r = (rand()%255)/255.0;
+    float g = (rand()%255)/255.0;
+    float b = (rand()%255)/255.0;
     //rotate_cloud = rotateCloud(rotate_cloud, 90.0, 1);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr rotate_cloud (new pcl::PointCloud<pcl::PointXYZ>);
     for(int i = 0;i<contours.size();i++)
     {
-        pcl::PointCloud<pcl::PointXYZ>::Ptr rotate_cloud (new pcl::PointCloud<pcl::PointXYZ>);
+
         for(int j = 0; j<contours.at(i).size();j++)
         {
             contours.at(i).at(j)[0] = (contours.at(i).at(j)[0] - dif_xy.at(plane_id)[0]*scalexy)/scalexy;
             contours.at(i).at(j)[1] = (contours.at(i).at(j)[1] - dif_xy.at(plane_id)[1]*scalexy)/scalexy;
-
 
             //INIT Rz
             //this->Rz[0][0] = 1.0; this->Rz[0][1] = -1.0; this->Rz[0][2] = 0.0;
             //this->Rz[1][0] = 1.0; this->Rz[1][1] = 1.0; this->Rz[1][2] = 0.0;
             //this->Rz[2][0] = 0.0; this->Rz[2][1] = 0.0; this->Rz[2][2] = 1.0;
 
-            pcl::PointXYZ pts(contours.at(i).at(j)[0],contours.at(i).at(j)[1],value_contour.at(i) * scale_depth / 255.0);
+            pcl::PointXYZ pts(contours.at(i).at(j)[0],contours.at(i).at(j)[1],(value_contour.at(i) * scale_depth / 255.0 + dist_plane.at(plane_id)) );
             rotate_cloud->push_back(pts);
+
+            //rotate_cloud->push_back(pts);
 
             /*QVector3D my_point(contours.at(i).at(j)[0],contours.at(i).at(j)[1],value_contour.at(i) * scale_depth / 255.0);
             if(rotate_room.at(plane_id) == 0)
@@ -1238,20 +1242,22 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
             v.setColor(255.0,0.0,0.0,255.0);
             vertices.push_back(v);//to decoche*/
         }
-        if(rotate_room.at(plane_id) == 0)
-        {
-            rotate_cloud = rotateCloud(rotate_cloud, -90.0, 0);
-        }
-        else if(rotate_room.at(plane_id) == 1)
-        {
-            rotate_cloud = rotateCloud(rotate_cloud, -90.0, 1);
-        }
-        for(int p = 0; p<rotate_cloud->points.size();p++)
-        {
-            Vertex v(0.20,rotate_cloud->points[p].x/100.0,rotate_cloud->points[p].y/100.0,rotate_cloud->points[p].z/100.0);
-            v.setColor(255.0,0.0,0.0,255.0);
-            vertices.push_back(v);
-        }
+
+    }
+    if(rotate_room.at(plane_id) == 0)
+    {
+        rotate_cloud = rotateCloud(rotate_cloud, -90.0, 0);
+    }
+    else if(rotate_room.at(plane_id) == 1)
+    {
+        rotate_cloud = rotateCloud(rotate_cloud, -90.0, 1);
+    }
+    for(int p = 0; p<rotate_cloud->points.size();p++)
+    {
+
+        Vertex v(0.20,rotate_cloud->points[p].x/100.0,rotate_cloud->points[p].y/100.0,rotate_cloud->points[p].z/100.0);
+        v.setColor(r,g,b,255.0);
+        vertices.push_back(v);
     }
 }
 
@@ -1446,10 +1452,16 @@ void MainWindow::plane_to_pict() //try to optimise
         dxy[0] = difx;
         dxy[1] = dify;
         dif_xy.push_back(dxy);
+        float dist_p;
         for(int j=0;j<ccpy_ptr->points.size();j++)
         {
             int x = ccpy_ptr->points[j].x * scale + difx*scale;
             int y = ccpy_ptr->points[j].y * scale + dify*scale;
+            if(eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3] > -1.0 &&
+                    eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3] < 1.0)
+            {
+                dist_p = ccpy_ptr->points[j].z;
+            }
             if(x <= dimX-1 || y <= dimY-1)
             {
                 float c = eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3];
@@ -1487,6 +1499,7 @@ void MainWindow::plane_to_pict() //try to optimise
             }
 
         }
+        dist_plane.push_back(dist_p);
         std::stringstream st;
         st<< i;
 

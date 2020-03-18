@@ -222,6 +222,7 @@ private:
     std::vector<int> rotate_room;
     std::vector<float * > scale_xy;
     std::vector<float * > dif_xy;
+    std::vector<float> dist_plane;
     float scalexy;
     float scale_depth;
 
