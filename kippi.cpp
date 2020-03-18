@@ -354,7 +354,7 @@ pair<vector<vector<QVector2D>>, vector<double>> Kippi::partition(string imgName,
         vector<QVector2D> pointsContours;
         vector<pair<int, int>> toRecolor;
 
-        if(hierarchy[i][1] >= 0){
+        //if(hierarchy[i][1] >= 0){
             for(int j = 0 ; j < contours[i].size() ; j++){
                 QVector2D point(contours[i][j].x, contours[i][j].y);
                 pointsContours.push_back(point);
@@ -407,7 +407,7 @@ pair<vector<vector<QVector2D>>, vector<double>> Kippi::partition(string imgName,
             //imshow("Contours" + to_string(i), drawing);
             medianValues.push_back(medianValue);
             coordinates.push_back(pointsContours);
-        }
+        //}
     }
 
     if(display){
