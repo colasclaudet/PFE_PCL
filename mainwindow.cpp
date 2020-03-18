@@ -1187,8 +1187,11 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
     std::vector<float * > dif_xy;
     float scale_depth;*/
 
+
+    //rotate_cloud = rotateCloud(rotate_cloud, 90.0, 1);
     for(int i = 0;i<contours.size();i++)
     {
+        pcl::PointCloud<pcl::PointXYZ>::Ptr rotate_cloud (new pcl::PointCloud<pcl::PointXYZ>);
         for(int j = 0; j<contours.at(i).size();j++)
         {
             contours.at(i).at(j)[0] = (contours.at(i).at(j)[0] - dif_xy.at(plane_id)[0]*scalexy)/scalexy;
@@ -1199,9 +1202,14 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
             //this->Rz[0][0] = 1.0; this->Rz[0][1] = -1.0; this->Rz[0][2] = 0.0;
             //this->Rz[1][0] = 1.0; this->Rz[1][1] = 1.0; this->Rz[1][2] = 0.0;
             //this->Rz[2][0] = 0.0; this->Rz[2][1] = 0.0; this->Rz[2][2] = 1.0;
-            QVector3D my_point(contours.at(i).at(j)[0],contours.at(i).at(j)[1],value_contour.at(i) * scale_depth / 255.0);
+
+            pcl::PointXYZ pts(contours.at(i).at(j)[0],contours.at(i).at(j)[1],value_contour.at(i) * scale_depth / 255.0);
+            rotate_cloud->push_back(pts);
+
+            /*QVector3D my_point(contours.at(i).at(j)[0],contours.at(i).at(j)[1],value_contour.at(i) * scale_depth / 255.0);
             if(rotate_room.at(plane_id) == 0)
             {
+                rotate_cloud = rotateCloud(rotate_cloud, -90.0, 0);
                 float Rx[3][3];
                 //INIT Rx
                 Rx[0][0] = 1.0; Rx[0][1] = 0.0; Rx[0][2] = 0.0;
@@ -1214,6 +1222,8 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
             }
             else if(rotate_room.at(plane_id) == 1)
             {
+                rotate_cloud = rotateCloud(rotate_cloud, -90.0, 1);
+
                 float Ry[3][3];
                 //INIT Ry
                 Ry[0][0] = cos(-90.0); Ry[0][1] = 0.0; Ry[0][2] = sin(-90.0);
@@ -1226,7 +1236,21 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
             }
             Vertex v(0.20,my_point[0]/100.0,my_point[1]/100.0,my_point[2]/100.0);
             v.setColor(255.0,0.0,0.0,255.0);
-            vertices.push_back(v);//to decoche
+            vertices.push_back(v);//to decoche*/
+        }
+        if(rotate_room.at(plane_id) == 0)
+        {
+            rotate_cloud = rotateCloud(rotate_cloud, -90.0, 0);
+        }
+        else if(rotate_room.at(plane_id) == 1)
+        {
+            rotate_cloud = rotateCloud(rotate_cloud, -90.0, 1);
+        }
+        for(int p = 0; p<rotate_cloud->points.size();p++)
+        {
+            Vertex v(0.20,rotate_cloud->points[p].x/100.0,rotate_cloud->points[p].y/100.0,rotate_cloud->points[p].z/100.0);
+            v.setColor(255.0,0.0,0.0,255.0);
+            vertices.push_back(v);
         }
     }
 }
