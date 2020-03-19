@@ -1180,31 +1180,28 @@ void MainWindow::calc_inter_planes()
 }
 
 //void MainWindow::advanced_modelization(QList<Vertex> p, unsigned int plane_id)
+/**
+ * @brief MainWindow::advanced_modelisation - projection des polygones trouvés avec kippi dans le contexte openGl
+ * @note appelé pour chaque plan
+ */
 void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> contours,std::vector<double> value_contour, int plane_id)
 {
-    /*std::vector<int> rotate_room;
-    std::vector<float * > scale_xy;
-    std::vector<float * > dif_xy;
-    float scale_depth;*/
 
     float r = (rand()%255)/255.0;
     float g = (rand()%255)/255.0;
     float b = (rand()%255)/255.0;
-    //rotate_cloud = rotateCloud(rotate_cloud, 90.0, 1);
+    //création d'un nuage de point pour effectuer les rotations
     pcl::PointCloud<pcl::PointXYZ>::Ptr rotate_cloud (new pcl::PointCloud<pcl::PointXYZ>);
     for(int i = 0;i<contours.size();i++)
     {
 
         for(int j = 0; j<contours.at(i).size();j++)
         {
+            //recalage et mise à l'échelle des plans en x et y (pour les images on les avait recalés en 0 puis diminués de taille pour les faire rentrer dans une image)
             contours.at(i).at(j)[0] = (contours.at(i).at(j)[0] - dif_xy.at(plane_id)[0]*scalexy)/scalexy;
             contours.at(i).at(j)[1] = (contours.at(i).at(j)[1] - dif_xy.at(plane_id)[1]*scalexy)/scalexy;
 
-            //INIT Rz
-            //this->Rz[0][0] = 1.0; this->Rz[0][1] = -1.0; this->Rz[0][2] = 0.0;
-            //this->Rz[1][0] = 1.0; this->Rz[1][1] = 1.0; this->Rz[1][2] = 0.0;
-            //this->Rz[2][0] = 0.0; this->Rz[2][1] = 0.0; this->Rz[2][2] = 1.0;
-
+            //mise à l'échelle de la profondeur (on passe de l'échelle 0-255 à l'échelle de profondeur originale du plan)
             pcl::PointXYZ pts(contours.at(i).at(j)[0],contours.at(i).at(j)[1],(value_contour.at(i) * scale_depth / 255.0 + dist_plane.at(plane_id)) );
             rotate_cloud->push_back(pts);
 
@@ -1244,6 +1241,7 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
         }
 
     }
+    //on effectue la rotation inverse des polygones pour recaler les points par rapport à leurs plans d'origines
     if(rotate_room.at(plane_id) == 0)
     {
         rotate_cloud = rotateCloud(rotate_cloud, -90.0, 0);
@@ -1252,9 +1250,9 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
     {
         rotate_cloud = rotateCloud(rotate_cloud, -90.0, 1);
     }
+    //on ajoute les points au contexte openGl
     for(int p = 0; p<rotate_cloud->points.size();p++)
     {
-
         Vertex v(0.20,rotate_cloud->points[p].x/100.0,rotate_cloud->points[p].y/100.0,rotate_cloud->points[p].z/100.0);
         v.setColor(r,g,b,255.0);
         vertices.push_back(v);
