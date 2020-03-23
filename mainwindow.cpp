@@ -1202,8 +1202,20 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
             contours.at(i).at(j)[1] = (contours.at(i).at(j)[1] - dif_xy.at(plane_id)[1]*scalexy)/scalexy;
 
             //mise à l'échelle de la profondeur (on passe de l'échelle 0-255 à l'échelle de profondeur originale du plan)
-            pcl::PointXYZ pts(contours.at(i).at(j)[0],contours.at(i).at(j)[1],(value_contour.at(i) * scale_depth / 255.0 + dist_plane.at(plane_id)) );
-            rotate_cloud->push_back(pts);
+            //je pense que le problème viens de la :
+            //TODO => se pencher la dessus
+            if(this->invert_z.at(plane_id))
+            {
+                pcl::PointXYZ pts(contours.at(i).at(j)[0],contours.at(i).at(j)[1],(-value_contour.at(i) * scale_depth / 255.0 + dist_plane.at(plane_id)) );
+                rotate_cloud->push_back(pts);
+            }
+            else
+            {
+                pcl::PointXYZ pts(contours.at(i).at(j)[0],contours.at(i).at(j)[1],(value_contour.at(i) * scale_depth / 255.0 + dist_plane.at(plane_id)) );
+                rotate_cloud->push_back(pts);
+            }
+             //TODO revoir le push arrière
+
 
             //rotate_cloud->push_back(pts);
 
@@ -1242,14 +1254,16 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
 
     }
     //on effectue la rotation inverse des polygones pour recaler les points par rapport à leurs plans d'origines
-    if(rotate_room.at(plane_id) == 0)
-    {
-        rotate_cloud = rotateCloud(rotate_cloud, -90.0, 0);
-    }
-    else if(rotate_room.at(plane_id) == 1)
-    {
-        rotate_cloud = rotateCloud(rotate_cloud, -90.0, 1);
-    }
+    //if(rotate_room.at(plane_id) == 0)
+    //{
+
+    rotate_cloud = rotateCloud(rotate_cloud, -rot_yz.at(plane_id), 0);
+    rotate_cloud = rotateCloud(rotate_cloud, -rot_xz.at(plane_id), 1);
+    //}
+    //else if(rotate_room.at(plane_id) == 1)
+    //{
+
+    //}
     //on ajoute les points au contexte openGl
     for(int p = 0; p<rotate_cloud->points.size();p++)
     {
@@ -1266,8 +1280,22 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
  * @brief MainWindow::plane_to_pict - création de map de profondeur (depthMap) afin de pouvoir par la suite détecter les plans contenus dans les plans trouvés
  *
  */
+
+double angle_between_2_vect_x_z(double * vect1, double * vect2)
+{
+    return (atan2(vect2[2], vect2[0]) - atan2(vect1[2], vect1[0]))*180.0/3.1415926535897932;
+}
+double angle_between_2_vect_y_z(double * vect1, double * vect2)
+{
+    return (atan2(vect2[2], vect2[1]) - atan2(vect1[2], vect1[1]))*180.0/3.1415926535897932;
+}
+double angle_between_2_vect_x_y(double * vect1, double * vect2)
+{
+    return (atan2(vect2[1], vect2[0]) - atan2(vect1[1], vect1[0]))*180.0/3.1415926535897932;
+}
 void MainWindow::plane_to_pict() //try to optimise
 {
+    ui->statusBar->showMessage("Création des cartes de profondeurs...");
     //std::vector<pcl::PointCloud<pcl::PointXYZRGB>> room
     double distmax = 0.0;
     double distmoy = 0.0;
@@ -1319,10 +1347,26 @@ void MainWindow::plane_to_pict() //try to optimise
         float angle2 = acos(uv2/(normU2*normV2));
         cout<<"picture ANGLE 1 : "<<angle1<<endl;
         cout<<"picture ANGLE 2 : "<<angle2<<endl;*/
-        if((1.2>eq[0] && eq[0]>0.8) ||(-1.2<eq[0] && eq[0]<-0.8))
+        double * axe_z = new double[3];
+        axe_z[0] = 0.0; axe_z[1] = 0.0; axe_z[2] = 1.0;
+
+        double rot1 = 0.0;
+        rot1 = angle_between_2_vect_x_z(eq, axe_z);
+
+        double rot2 = 0.0;
+        rot2 = angle_between_2_vect_y_z(eq, axe_z);
+
+        ccpy_ptr = rotateCloud(ccpy_ptr, -rot1, 1);
+        this->rot_xz.push_back((-rot1));
+
+        ccpy_ptr = rotateCloud(ccpy_ptr, -rot2, 0);
+        this->rot_yz.push_back((-rot2));
+
+        /*if((1.2>eq[0] && eq[0]>0.8) ||(-1.2<eq[0] && eq[0]<-0.8))
         {
             ccpy_ptr = rotateCloud(ccpy_ptr, 90.0, 1);
             rotate_room.push_back(1);
+
         }
         else if((1.2>eq[1] && eq[1]>0.8) ||(-1.2<eq[1] && eq[1]<-0.8))
         {
@@ -1332,7 +1376,7 @@ void MainWindow::plane_to_pict() //try to optimise
         else
         {
             rotate_room.push_back(2);
-        }
+        }*/
 
         /*else if((1.2>eq[2] && eq[2]>0.8) ||(-1.2<eq[2] && eq[2]<-0.8))
         {
@@ -1451,22 +1495,26 @@ void MainWindow::plane_to_pict() //try to optimise
         dxy[1] = dify;
         dif_xy.push_back(dxy);
         float dist_p;
+        int cpt_neg;
+
         for(int j=0;j<ccpy_ptr->points.size();j++)
         {
-            int x = ccpy_ptr->points[j].x * scale + difx*scale;
+            int x = ccpy_ptr->points[j].x * scale + difx*scale; //TODO retrouver la logique
             int y = ccpy_ptr->points[j].y * scale + dify*scale;
             if(eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3] > -1.0 &&
-                    eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3] < 1.0)
+                    eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3] < 1.0)//TODO -1 1 interval trop large ?
             {
                 dist_p = ccpy_ptr->points[j].z;
             }
             if(x <= dimX-1 || y <= dimY-1)
             {
                 float c = eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3];
-                c = c*255/z_scale;
+                c = c*255/z_scale; //mise à l'échelle
+                //2 if normalement inutiles
                 if(c < 0)
                 {
                     c = -c;
+                    cpt_neg ++;
                 }
                 if(c > 255.0)
                 {
@@ -1497,6 +1545,14 @@ void MainWindow::plane_to_pict() //try to optimise
             }
 
         }
+        if(cpt_neg >= ccpy_ptr->points.size()/2)
+        {
+            this->invert_z.push_back(true);
+        }
+        else
+        {
+            this->invert_z.push_back(false);
+        }
         dist_plane.push_back(dist_p);
         std::stringstream st;
         st<< i;
@@ -1508,6 +1564,7 @@ void MainWindow::plane_to_pict() //try to optimise
         im.save(src,"JPEG");
         search_planes(src.toStdString(),i);
     }
+    ui->statusBar->showMessage("Cartes de profondeur crées.");
 }
 
 void MainWindow::search_planes(std::string filename,int plane_id)
@@ -1526,7 +1583,7 @@ void MainWindow::search_planes(std::string filename,int plane_id)
     Kippi k;
 
     //Ajouter un second paramètre "true" à partition pour afficher les images de Kippi
-    std::pair<std::vector<std::vector<QVector2D>>, std::vector<double>> p = k.partition(in, true);
+    std::pair<std::vector<std::vector<QVector2D>>, std::vector<double>> p = k.partition(in, false);
     std::vector<std::vector<QVector2D>> contours = p.first;
     std::vector<double> medianValues = p.second;
 
@@ -1538,7 +1595,11 @@ void MainWindow::search_planes(std::string filename,int plane_id)
         }
         std::cout << "Contour " << i << ", Valeur médiane: " << medianValues[i] << std::endl << std::endl;
     }
-    advanced_modelization(contours,medianValues,plane_id);
+    if(plane_id != 0 && plane_id != 1)
+    {
+        advanced_modelization(contours,medianValues,plane_id);
+    }
+
     //FIN KIPPI
 }
 

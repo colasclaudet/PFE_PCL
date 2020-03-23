@@ -223,6 +223,9 @@ private:
     std::vector<float * > scale_xy;
     std::vector<float * > dif_xy;
     std::vector<float> dist_plane;
+    std::vector<double> rot_xz;
+    std::vector<double> rot_yz;
+    std::vector<bool> invert_z;
     float scalexy;
     float scale_depth;
 
