@@ -12,6 +12,7 @@
   - [Installer OpenCV et OpenCV Contrib:](#installer-opencv-et-opencv-contrib)
   - [Installer PCL (Point Cloud Library)](#installer-pcl-point-cloud-library)
   - [Configuration du projet](#configuration-du-projet)
+  - [Exécution](#execution)
 
 ## Résumé
 
@@ -122,7 +123,7 @@ Ouvrir ```ScanLIDAR.pro``` avec QtCreator et créez la configuration suivante da
 
 ![Configuration du projet sous QtCreator](/images/config.png)
 
-4. Execution
+### Exécution
 
 Lancez le projet avec QtCreator. Vous devriez obtenir l'interface suivante:
 
