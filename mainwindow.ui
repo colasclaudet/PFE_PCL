@@ -271,7 +271,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Draw</string>
+             <string>Trier</string>
             </property>
            </widget>
           </item>
@@ -287,7 +287,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Modelize</string>
+             <string>Modéliser</string>
             </property>
            </widget>
           </item>

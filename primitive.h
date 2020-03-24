@@ -4,13 +4,9 @@
 #include <cmath> //sqrt
 #include <vector> //vector
 #include <opencv2/core/types.hpp> //Point2f
-#include <boost/graph/graph_traits.hpp> //vertex_descriptor
-#include <boost/graph/adjacency_list.hpp> //adjacency_list
-#include "graphvertex.h"
 
 using namespace std;
 using namespace cv;
-using namespace boost;
 
 /**
  * @brief Classe modélisant un demi-segment de l'image, s'étendant dans une
@@ -45,14 +41,6 @@ private:
      * @brief m_direction: Direction d'extension de la primitive
      */
     Point2f m_direction;
-
-    /**
-     * @brief m_lastIntersection: Descripteur du vertex dans le graphe Kippi::m_g
-     * correspondant à la dernière intersection dans laquelle la primitive à été
-     * impliquée
-     */
-    adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor
-        m_lastIntersection;
 
     /**
      * @brief m_idSegment: Index du segment dont fait partie la primitive dans
@@ -174,20 +162,6 @@ public:
      * @param K: Nouvelle valeur à affecter à m_K
      */
     void setK(int K);
-
-    /**
-     * @brief Getter de m_lastIntersection
-     * @return adjacency_list<listS, listS, undirectedS, GraphVertex>
-     *              ::vertex_descriptor m_lastIntersection
-     */
-    adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor
-        lastIntersection() const;
-
-    /**
-     * @brief Setter de m_lastIntersection
-     * @param Nouvelle valeur à affecter à m_lastIntersection
-     */
-    void setLastIntersection(const adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor &value);
 };
 
 #endif // PRIMITIVE_H

@@ -14,17 +14,13 @@
 #include <vector> //vector
 #include <map> //map
 #include <cmath> //sqrt, abs
-#include <boost/graph/graph_traits.hpp> //vertex_descriptor
-#include <boost/graph/adjacency_list.hpp> //adjacency_list
 #include <queue> //priority_queue
 #include "primitive.h"
-#include "graphvertex.h"
 #include <QVector2D>
 
 using namespace std;
 using namespace cv;
 using namespace cv::ximgproc;
-using namespace boost;
 
 //Définition d'une marge d'approximation pour les égalités.
 #define EPSILON 1E-10
@@ -32,17 +28,12 @@ using namespace boost;
 
 
 /**
- * @brief Classe pirincipale de la partie Kippi de notre application. Regroupe
+ * @brief Classe principale de la partie Kippi de notre application. Regroupe
  * les fonction nécéssaires à l'éxécution de cet algorithme
  */
 class Kippi
 {
 private:
-    /**
-     * @brief GRAPH: Définition du type de graphe Boost que nous allons utiliser
-     */
-    typedef adjacency_list<listS, listS, undirectedS, GraphVertex> GRAPH;
-
     /**
      * @brief m_primitives: Tableau stockant toutes les primitives de l'image
      */
@@ -130,12 +121,6 @@ public:
      * @return vector<Primitive> m_primitives
      */
     vector<Primitive> primitives();
-
-    /**
-     * @brief m_g: Graph Boost référencant les intersections entre primitives et
-     * le lien entre celles-ci
-     */
-    GRAPH m_g;
 
     /**
      * @brief Partitionne l'image passée en paramètre selon une implémentation de

@@ -1533,7 +1533,7 @@ void launch_viewer(pcl::visualization::PCLVisualizer::Ptr v)
 void MainWindow::on_action_propos_triggered()
 {
     QMessageBox msgBox;
-    msgBox.setText("Developped by: \n Colas CLAUDET, Yoann FOULON, Rachel GLAIDE");
+    msgBox.setText("Developped by: \n Colas CLAUDET, Yoann FOULON, Rachel GLAISE");
     msgBox.exec();
 }
 

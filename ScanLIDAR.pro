@@ -36,8 +36,7 @@ SOURCES += \
         vertex.cpp \
         vertices.cpp \
         primitive.cpp \
-        kippi.cpp \
-        graphvertex.cpp
+        kippi.cpp
 
 HEADERS += \
         fragment.h \
@@ -50,8 +49,7 @@ HEADERS += \
         vertex.h \
         vertices.h \
         primitive.h \
-        kippi.h \
-        graphvertex.h
+        kippi.h
 
 FORMS += \
         mainwindow.ui

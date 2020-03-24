@@ -132,6 +132,7 @@ debug/
 ipch/
 release/
 tmp/
+build/
 # ignore both a directory as well as a symlink
 /share/qtcreator/QtProject
 

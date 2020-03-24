@@ -24,7 +24,7 @@ include_directories(${PCL_INCLUDE_DIRS})
 
 add_definitions(${PCL_DEFINITIONS})
 include_directories(${OpenCV_INCLUDE_DIRS})
-set(project_SOURCES main.cpp mainwindow.cpp glarea.cpp plane.cpp planes.cpp vertex.cpp vertices.cpp polygon.cpp polygons.cpp fragment.cpp graphvertex.cpp primitive.cpp kippi.cpp)
+set(project_SOURCES main.cpp mainwindow.cpp glarea.cpp plane.cpp planes.cpp vertex.cpp vertices.cpp polygon.cpp polygons.cpp fragment.cpp  primitive.cpp kippi.cpp)
 
 add_executable(${PROJECT_NAME} ${project_SOURCES})
 
