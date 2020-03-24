@@ -4,6 +4,14 @@
 
 ### Réalisé par Colas Claudet, Yoann Foulon et Rachel Glaise
 
+- [Résumé](#r%c3%a9sum%c3%a9)
+- [Dépendances](#d%c3%a9pendances)
+- [Installation](#installation)
+  - [Installer les outils de compilation](#installer-les-outils-de-compilation)
+  - [Installer Qt et QtCreator](#installer-qt-et-qtcreator)
+  - [Installer OpenCV et OpenCV Contrib:](#installer-opencv-et-opencv-contrib)
+  - [Installer PCL (Point Cloud Library)](#installer-pcl-point-cloud-library)
+  - [Configuration du projet](#configuration-du-projet)
 
 ## Résumé
 
