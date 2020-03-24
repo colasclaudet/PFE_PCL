@@ -129,16 +129,18 @@ Lancez le projet avec QtCreator. Vous devriez obtenir l'interface suivante:
 
 ![Interface générale](/images/interface.png)
 
-L'éxécution du programme se déroule en plusieurs phases successives:
+L'éxécution du programme se déroule en plusieurs phases successives :
 
 - Import d'un nuage de point avec le bouton "Import"
-- EXPLICATION SLIDERS
+- Sliders pour les paramètres de segmentation (ils sont paramétrés de base pour le nuage de points d'exemple)
+  - Slider "thresold" : permet de définir la distance à laquelle un point est considéré comme dans le plan
+  - Slider "proba" : permet de définir le pourcentage de points du nuage qui doit être dans le plan pour que ce plan soit validé
 - (Optionnel) Affichage du nuage de point sans traitement avec le bouton "Affichage basique"
-- Segmentation du nuage en plan avec le bouton "Segmenter":
+- Segmentation du nuage en plan avec le bouton "Segmenter" :
   ![Segmentation](/images/segmentation.png)
-- Tri des plans (Attribution aux murs, plafond, sol) avec le bouton "Trier":
+- Tri des plans (Attribution aux murs, plafond, sol) avec le bouton "Trier" :
   ![Tri des plans](/images/tri.png)
-- Modélisation de la pièce avec le bouton "Modéliser":
+- Modélisation de la pièce avec le bouton "Modéliser" :
   ![Modelisation](/images/modelisation.png)
 
-Chaque nouvelle étape devient accessible une fois la fenêtre de l'étape précédente fermée.
+Chaque nouvelle étape devient accessible une fois la fenêtre de l'étape précédente "fermée" (remarque : la fermeture d'une fenêtre ne la fait pas disparaitre, mais toute manipulation sur celle-ci devient impossible).
