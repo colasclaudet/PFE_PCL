@@ -229,7 +229,6 @@ pair<vector<vector<QVector2D>>, vector<double>> Kippi::partition(string imgName,
     adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor vd_cornerUpperRight = add_vertex(cornerUpperRight, m_g);
     adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor vd_cornerLowerRight = add_vertex(cornerLowerRight, m_g);
     adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor vd_cornerLowerLeft = add_vertex(cornerLowerLeft, m_g);
-
     add_edge(vd_cornerUpperLeft, vd_cornerUpperRight, m_g);
     add_edge(vd_cornerUpperRight, vd_cornerLowerRight, m_g);
     add_edge(vd_cornerLowerRight, vd_cornerLowerLeft, m_g);
@@ -287,13 +286,10 @@ pair<vector<vector<QVector2D>>, vector<double>> Kippi::partition(string imgName,
         adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor vertexDescriptor = add_vertex(v, m_g);
         adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor fli = m_primitives[it->first.first].lastIntersection();
         adjacency_list<listS, listS, undirectedS, GraphVertex>::vertex_descriptor sli = m_primitives[it->first.second].lastIntersection();
-
         //A chaque tour ce boucle, semble causer l'erreur décrite ci-après
         //add_edge(fli, vertexDescriptor, m_g);
-
         //Fonctionne à chaque tour de boucle
         //add_edge(sli, vertexDescriptor, m_g);
-
         m_primitives[it->first.first].setLastIntersection(vertexDescriptor);
         m_primitives[it->first.second].setLastIntersection(vertexDescriptor);
     }*/
@@ -309,7 +305,6 @@ pair<vector<vector<QVector2D>>, vector<double>> Kippi::partition(string imgName,
     /*for(; v_it.first != v_it.second; ++v_it.first){
         GRAPH::vertex_descriptor v = *v_it.first;
         //std::cout << m_g[v].i() << " " << m_g[v].j() << " " << m_g[v].intersection().x << " " << m_g[v].intersection().y << endl;
-
         circle( image_fld,
                  m_g[v].intersection(),
                  96.0/32.0,

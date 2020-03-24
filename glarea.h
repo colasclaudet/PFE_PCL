@@ -16,6 +16,7 @@
 
 #include "planes.h"
 #include "vertices.h"
+#include "polygons.h"
 
 class GLArea : public QOpenGLWidget,
                protected QOpenGLFunctions
@@ -30,8 +31,10 @@ public:
     void draw_bounding_box(GLfloat xmax =0.0f, GLfloat ymax=0.0f, GLfloat zmax=0.0f, GLfloat xmin=0.0f, GLfloat ymin=0.0f, GLfloat zmin=0.0f);
     void addPlanes(QList<Plane> lplanes);
     void addVertex(QList<Vertex> lvertex);
+    void addPolygon(QList<Polygon> lpoly);
     QList<Plane> list_plane;
     QList<Vertex> list_vertices;
+    QList<Polygon> list_polygon;
 
 protected slots:
     void onTimeout();
@@ -57,11 +60,11 @@ private:
     float windowRatio = 1.0f;
     QPoint lastPos;
 
-    QOpenGLShaderProgram *program_sol;
+    QOpenGLShaderProgram *program_boundingBox;
     QOpenGLShaderProgram *program_particule;
-    QOpenGLShaderProgram *program_box;
+    QOpenGLShaderProgram *program_plane;
     //QOpenGLShaderProgram *program_sphere;
-    QOpenGLBuffer vbo_sol;
+    QOpenGLBuffer vbo_box;
     QOpenGLBuffer vbo_particule;
 
     QOpenGLTexture *textures[2];
@@ -79,6 +82,7 @@ private:
 
     Planes * planes;
     Vertices * vertices;
+    Polygons * polygons;
 };
 
 

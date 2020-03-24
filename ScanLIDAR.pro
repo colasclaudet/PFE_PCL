@@ -31,6 +31,8 @@ SOURCES += \
         glarea.cpp \
         plane.cpp \
         planes.cpp \
+        polygon.cpp \
+        polygons.cpp \
         vertex.cpp \
         vertices.cpp \
         primitive.cpp \
@@ -43,6 +45,8 @@ HEADERS += \
         glarea.h \
         plane.h \
         planes.h \
+        polygon.h \
+        polygons.h \
         vertex.h \
         vertices.h \
         primitive.h \
