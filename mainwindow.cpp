@@ -1191,12 +1191,15 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
     float g = (rand()%255)/255.0;
     float b = (rand()%255)/255.0;
     //création d'un nuage de point pour effectuer les rotations
-    pcl::PointCloud<pcl::PointXYZ>::Ptr rotate_cloud (new pcl::PointCloud<pcl::PointXYZ>);
+
+
     for(int i = 0;i<contours.size();i++)
     {
-
+        pcl::PointCloud<pcl::PointXYZ>::Ptr rotate_cloud (new pcl::PointCloud<pcl::PointXYZ>);
         for(int j = 0; j<contours.at(i).size();j++)
         {
+            if(value_contour.at(i) > 1.0 && value_contour.at(i) < 255.0)
+            {
             //recalage et mise à l'échelle des plans en x et y (pour les images on les avait recalés en 0 puis diminués de taille pour les faire rentrer dans une image)
             contours.at(i).at(j)[0] = (contours.at(i).at(j)[0] - dif_xy.at(plane_id)[0]*scalexy)/scalexy;
             contours.at(i).at(j)[1] = (contours.at(i).at(j)[1] - dif_xy.at(plane_id)[1]*scalexy)/scalexy;
@@ -1206,7 +1209,7 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
             //TODO => se pencher la dessus
             if(this->invert_z.at(plane_id))
             {
-                pcl::PointXYZ pts(contours.at(i).at(j)[0],contours.at(i).at(j)[1],(-value_contour.at(i) * scale_depth / 255.0 + dist_plane.at(plane_id)) );
+                pcl::PointXYZ pts(contours.at(i).at(j)[0],contours.at(i).at(j)[1],(-(value_contour.at(i) * scale_depth / 255.0) + dist_plane.at(plane_id)) );
                 rotate_cloud->push_back(pts);
             }
             else
@@ -1251,26 +1254,70 @@ void MainWindow::advanced_modelization(std::vector<std::vector<QVector2D>> conto
             v.setColor(255.0,0.0,0.0,255.0);
             vertices.push_back(v);//to decoche*/
         }
+        }
+        if(plane_id != 0 && plane_id != 1)
+        {
+            rotate_cloud = rotateCloud(rotate_cloud, -rot_yz.at(plane_id), 0);
+            rotate_cloud = rotateCloud(rotate_cloud, -rot_xz.at(plane_id), 1);
+        }
+        else
+        {
+            rotate_cloud = rotateCloud(rotate_cloud, -rot_xz.at(plane_id), 1);
+            rotate_cloud = rotateCloud(rotate_cloud, -rot_yz.at(plane_id), 0);
+        }
 
+        QList<Vertex> vert;
+        for(int j = 0; j<contours.at(i).size();j++)
+        {
+            if(value_contour.at(i) > 1.0 && value_contour.at(i) < 255.0)
+            {
+                Vertex v(0.20,rotate_cloud->points[j].x/100.0,rotate_cloud->points[j].y/100.0,rotate_cloud->points[j].z/100.0);
+                vert.push_back(v);
+
+            }
+        }
+        Polygon P(vert);
+        P.setColor((rand()%255)/255.0,(rand()%255)/255.0,(rand()%255)/255.0,(rand()%255)/255.0);
+        this->polygons.push_back(P);
     }
     //on effectue la rotation inverse des polygones pour recaler les points par rapport à leurs plans d'origines
     //if(rotate_room.at(plane_id) == 0)
     //{
 
-    rotate_cloud = rotateCloud(rotate_cloud, -rot_yz.at(plane_id), 0);
-    rotate_cloud = rotateCloud(rotate_cloud, -rot_xz.at(plane_id), 1);
+
     //}
     //else if(rotate_room.at(plane_id) == 1)
     //{
 
     //}
     //on ajoute les points au contexte openGl
-    for(int p = 0; p<rotate_cloud->points.size();p++)
+    /*
+    rotate_cloud = rotateCloud(rotate_cloud, -rot_yz.at(plane_id), 0);
+    rotate_cloud = rotateCloud(rotate_cloud, -rot_xz.at(plane_id), 1);
+    int k = 0;
+    QList<Vertex> vert;
+    for(int i = 0;i<contours.size();i++)
+    {
+        for(int j = 0; j<contours.at(i).size();j++)
+        {
+            if(value_contour.at(i) > 1.0 && value_contour.at(i) < 255.0)
+            {
+            Vertex v(0.20,rotate_cloud->points[k].x/100.0,rotate_cloud->points[k].y/100.0,rotate_cloud->points[k].z/100.0);
+            vert.push_back(v);
+            k++;
+            }
+        }
+        Polygon P(vert);
+        P.setColor((rand()%255)/255.0,(rand()%255)/255.0,(rand()%255)/255.0,(rand()%255)/255.0);
+        this->polygons.push_back(P);
+    }*/
+
+    /*for(int p = 0; p<rotate_cloud->points.size();p++)
     {
         Vertex v(0.20,rotate_cloud->points[p].x/100.0,rotate_cloud->points[p].y/100.0,rotate_cloud->points[p].z/100.0);
         v.setColor(r,g,b,255.0);
         vertices.push_back(v);
-    }
+    }*/
 }
 
 /**********************
@@ -1355,12 +1402,23 @@ void MainWindow::plane_to_pict() //try to optimise
 
         double rot2 = 0.0;
         rot2 = angle_between_2_vect_y_z(eq, axe_z);
+        if(i !=0 && i!=1)
+        {
+            ccpy_ptr = rotateCloud(ccpy_ptr, -rot1, 1);
+            this->rot_xz.push_back((-rot1));
 
-        ccpy_ptr = rotateCloud(ccpy_ptr, -rot1, 1);
-        this->rot_xz.push_back((-rot1));
+            ccpy_ptr = rotateCloud(ccpy_ptr, -rot2, 0);
+            this->rot_yz.push_back((-rot2));
+        }
+        else
+        {
+            ccpy_ptr = rotateCloud(ccpy_ptr, -rot2, 0);
+            this->rot_yz.push_back((-rot2));
 
-        ccpy_ptr = rotateCloud(ccpy_ptr, -rot2, 0);
-        this->rot_yz.push_back((-rot2));
+            ccpy_ptr = rotateCloud(ccpy_ptr, -rot1, 1);
+            this->rot_xz.push_back((-rot1));
+        }
+
 
         /*if((1.2>eq[0] && eq[0]>0.8) ||(-1.2<eq[0] && eq[0]<-0.8))
         {
@@ -1501,21 +1559,22 @@ void MainWindow::plane_to_pict() //try to optimise
         {
             int x = ccpy_ptr->points[j].x * scale + difx*scale; //TODO retrouver la logique
             int y = ccpy_ptr->points[j].y * scale + dify*scale;
-            if(eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3] > -1.0 &&
-                    eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3] < 1.0)//TODO -1 1 interval trop large ?
+            if(eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3] > -0.1 &&
+                    eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3] < 0.1)//TODO -1 1 interval trop large ?
             {
                 dist_p = ccpy_ptr->points[j].z;
             }
             if(x <= dimX-1 || y <= dimY-1)
             {
                 float c = eq[0]*ccpy_ptr->points[j].x + eq[1]*ccpy_ptr->points[j].y+eq[2]*ccpy_ptr->points[j].z + eq[3];
-                c = c*255/z_scale; //mise à l'échelle
-                //2 if normalement inutiles
                 if(c < 0)
                 {
                     c = -c;
                     cpt_neg ++;
                 }
+                c = c*255/z_scale; //mise à l'échelle
+                //2 if normalement inutiles
+
                 if(c > 255.0)
                 {
                     c = 255.0;
@@ -1530,7 +1589,7 @@ void MainWindow::plane_to_pict() //try to optimise
 
                 value = qRgb(c, c, c);
                 im.setPixelColor(x,y,value);
-                /*if(x > 0 && y > 0 && x < dimX && y < dimY)
+                if(x > 0 && y > 0 && x < dimX && y < dimY)
                 {
                     im.setPixelColor(x-1,y-1,value);
                     im.setPixelColor(x+1,y+1,value);
@@ -1540,7 +1599,7 @@ void MainWindow::plane_to_pict() //try to optimise
                     im.setPixelColor(x,y+1,value);
                     im.setPixelColor(x+1,y-1,value);
                     im.setPixelColor(x-1,y+1,value);
-                }*/
+                }
                 //eq[0]*inter_points.at(j)[0] + eq[1]*inter_points.at(j)[1]+ eq[2]*inter_points.at(j)[2] + eq[3];
             }
 
@@ -1774,7 +1833,7 @@ void MainWindow::modelize()
     cout<<"Modelize"<<endl;
     //ui->glarea->draw_bounding_box(xmax/100.0,ymax/100.0,zmax/100.0f,xmin/100.0f,ymin/100.0f,zmin/100.0f);
 
-
+    /*
     {
         QVector3D p1(0.0,-1.0,-1.0);
         QVector3D p2(0.0,1.0,-1.0);
@@ -1811,7 +1870,7 @@ void MainWindow::modelize()
         Plane p(p1,p2,p3,p4);
 
         pl.push_back(p);
-    }
+    }*/
     {
         cout<<"TRY TO MODELISE PLANE IN OPENGL UI : "<<endl;
         if(inter_points.size()>=4)
@@ -1937,6 +1996,7 @@ void MainWindow::modelize()
     }
     ui->glarea->addVertex(vertices);
     ui->glarea->addPlanes(pl);
+    ui->glarea->addPolygon(polygons);
     ui->glarea->draw_bounding_box(xmax/100.0,ymax/100.0,zmax/100.0f,xmin/100.0f,ymin/100.0f,zmin/100.0f);
 
     //ui->glarea->draw_bounding_box(1.0f,1.0f,1.0f,-1.0f,-1.0f,-1.0f);

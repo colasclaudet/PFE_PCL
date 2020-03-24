@@ -207,6 +207,7 @@ private:
 
     QList<Plane> pl;
     QList<Vertex> vertices;
+    QList<Polygon> polygons;
 
     std::vector<double *> eq_planes;
     std::vector<QVector3D> inter_points;
