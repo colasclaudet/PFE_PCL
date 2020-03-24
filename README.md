@@ -12,7 +12,7 @@
   - [Installer OpenCV et OpenCV Contrib:](#installer-opencv-et-opencv-contrib)
   - [Installer PCL (Point Cloud Library)](#installer-pcl-point-cloud-library)
   - [Configuration du projet](#configuration-du-projet)
-  - [Exécution](#execution)
+  - [Exécution](#exécution)
 
 ## Résumé
 
