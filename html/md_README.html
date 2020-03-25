@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ScanLidar: Extraction d&#39;informations de scans LiDAR intérieurs</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">ScanLidar
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">Extraction d'informations de scans LiDAR intérieurs </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><h3>Projet de fin d'études de Master 2 Géométrie et Informatique Graphique</h3>
+<h3>Réalisé par Colas Claudet, Yoann Foulon et Rachel Glaise</h3>
+<ul>
+<li><a href="#r%c3%a9sum%c3%a9">Résumé</a></li>
+<li><a href="#d%c3%a9pendances">Dépendances</a></li>
+<li><a href="#installation">Installation</a><ul>
+<li><a href="#installer-les-outils-de-compilation">Installer les outils de compilation</a></li>
+<li><a href="#installer-qt-et-qtcreator">Installer Qt et QtCreator</a></li>
+<li><a href="#installer-opencv-et-opencv-contrib">Installer OpenCV et OpenCV Contrib:</a></li>
+<li><a href="#installer-pcl-point-cloud-library">Installer PCL (Point Cloud Library)</a></li>
+<li><a href="#configuration-du-projet">Configuration du projet</a></li>
+<li><a href="#exécution">Exécution</a></li>
+</ul>
+</li>
+</ul>
+<h2>Résumé</h2>
+<p>Les nuages de points sont très utilisés dans de nombreux domaines pour leurs multiples applications. Dans ce contexte, nous avons manipulé des nuages de points provenant de scans intérieurs de pièces pour créer des modélisations simplifiées de ces pièces. Pour cela, nous avons utilisé Point Cloud Library, qui dispose de nombreuses fonctions de manipulation de nuages de points, mais aussi l’algorithme KIPPI, que nous avons implémenté à l’aide de la librairie OpenCV, et qui permet d’extraire des informations sur des images 2D. Ce projet est réalisé dans le cadre de notre Projet de Fin d’Étude et fait suite au TER du même nom réalisé l’année précédente.</p>
+<h2>Dépendances</h2>
+<p>Ce projet nécéssite les éléments suivants pour fonctionner:</p>
+<ul>
+<li>PCL (Point Cloud Library)</li>
+<li>OpenCV et ses contributions</li>
+<li>CMake</li>
+<li>Make</li>
+<li>g++</li>
+<li>Qt</li>
+<li>les dépendances sur lesquelles reposent les éléments ci-dessus</li>
+</ul>
+<p>Notre programme est compatible uniquement avec un système GNU/Linux. L'installation des éléments ci-dessus dépendant des distributions, nous couvrirons dans la partie suivante uniquement un exemple d'installation sur la distribution Ubuntu 18.04, système que nous avons utilisé pour le développement.</p>
+<h2>Installation</h2>
+<h3>Installer les outils de compilation</h3>
+<div class="fragment"><div class="line">sudo apt install build-essential</div></div><!-- fragment --><h3>Installer Qt et QtCreator</h3>
+<div class="fragment"><div class="line">sudo apt-get install qtcreator qt5-default \</div><div class="line">qt5-doc qt5-doc-html qtbase5-doc \</div><div class="line">qtbase5-doc-html qtbase5-examples</div></div><!-- fragment --><h3>Installer OpenCV et OpenCV Contrib:</h3>
+<ol type="1">
+<li>Dépendances:</li>
+</ol>
+<div class="fragment"><div class="line">sudo apt-get install cmake git libgtk2.0-dev \ </div><div class="line">pkg-config libavcodec-dev libavformat-dev \</div><div class="line">libswscale-dev libtbb2 libtbb-dev \</div><div class="line">libjpeg-dev libpng-dev libtiff-dev \</div><div class="line">libdc1394-22-dev</div></div><!-- fragment --><ol type="1">
+<li>Téléchargement:</li>
+</ol>
+<div class="fragment"><div class="line">cd ~/&lt;my_working_directory&gt;</div><div class="line">git clone https://github.com/opencv/opencv.git</div><div class="line">git clone https://github.com/opencv/opencv_contrib.git</div></div><!-- fragment --><ol type="1">
+<li>Création du dossier build:</li>
+</ol>
+<div class="fragment"><div class="line">cd ~/opencv</div><div class="line">mkdir build</div><div class="line">cd build</div></div><!-- fragment --><ol type="1">
+<li>Configuration:</li>
+</ol>
+<div class="fragment"><div class="line">cmake -D CMAKE_BUILD_TYPE=Release \</div><div class="line">-D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \</div><div class="line">-D CMAKE_INSTALL_PREFIX=/usr/local ..</div></div><!-- fragment --><ol type="1">
+<li>Build:</li>
+</ol>
+<div class="fragment"><div class="line">make -jX #Remplacer X par votre nombre de coeurs du processeur</div></div><!-- fragment --><ol type="1">
+<li>Installation:</li>
+</ol>
+<div class="fragment"><div class="line">sudo make install</div></div><!-- fragment --><h3>Installer PCL (Point Cloud Library)</h3>
+<div class="fragment"><div class="line">sudo apt install libpcl-dev</div></div><!-- fragment --><h3>Configuration du projet</h3>
+<ol type="1">
+<li>Télécharger le projet:</li>
+</ol>
+<div class="fragment"><div class="line">git clone https://github.com/colasclaudet/PFE_PCL.git</div></div><!-- fragment --><ol type="1">
+<li>Créer un dossier build:</li>
+</ol>
+<div class="fragment"><div class="line">cd PFE_PCL</div><div class="line">mkdir build</div></div><!-- fragment --><ol type="1">
+<li>Configuration sous QtCreator:</li>
+</ol>
+<p>Ouvrir <code>ScanLIDAR.pro</code> avec QtCreator et créez la configuration suivante dans Projects &gt; Build:</p>
+<div class="image">
+<img src="/images/config.png" alt="Configuration du projet sous QtCreator"/>
+</div>
+<h3>Exécution</h3>
+<p>Lancez le projet avec QtCreator. Vous devriez obtenir l'interface suivante:</p>
+<div class="image">
+<img src="/images/interface.png" alt="Interface générale"/>
+</div>
+<p>L'éxécution du programme se déroule en plusieurs phases successives :</p>
+<ul>
+<li>Import d'un nuage de point avec le bouton "Import"</li>
+<li>Sliders pour les paramètres de segmentation (ils sont paramétrés de base pour le nuage de points d'exemple)<ul>
+<li>Slider "thresold" : permet de définir la distance à laquelle un point est considéré comme dans le plan</li>
+<li>Slider "proba" : permet de définir le pourcentage de points du nuage qui doit être dans le plan pour que ce plan soit validé</li>
+</ul>
+</li>
+<li>(Optionnel) Affichage du nuage de point sans traitement avec le bouton "Affichage basique"</li>
+<li>Segmentation du nuage en plan avec le bouton "Segmenter" : <div class="image">
+<img src="/images/segmentation.png" alt="Segmentation"/>
+</div>
+</li>
+<li>Tri des plans (Attribution aux murs, plafond, sol) avec le bouton "Trier" : <div class="image">
+<img src="/images/tri.png" alt="Tri des plans"/>
+</div>
+</li>
+<li>Modélisation de la pièce avec le bouton "Modéliser" : <div class="image">
+<img src="/images/modelisation.png" alt="Modelisation"/>
+</div>
+</li>
+</ul>
+<p>Chaque nouvelle étape devient accessible une fois la fenêtre de l'étape précédente "fermée" (remarque : la fermeture d'une fenêtre ne la fait pas disparaitre, mais toute manipulation sur celle-ci devient impossible). </p>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Généré par &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>

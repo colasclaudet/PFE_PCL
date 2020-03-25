@@ -1,0 +1,361 @@
+\hypertarget{classGLArea}{}\section{Référence de la classe G\+L\+Area}
+\label{classGLArea}\index{G\+L\+Area@{G\+L\+Area}}
+
+
+Graphe d\textquotesingle{}héritage de G\+L\+Area\+:
+% FIG 0
+
+
+Graphe de collaboration de G\+L\+Area\+:
+% FIG 1
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGLArea_a999988e18caf705bcd41acb09a8dcc8e}{G\+L\+Area} (Q\+Widget $\ast$parent=nullptr)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_a999988e18caf705bcd41acb09a8dcc8e}{G\+L\+Area\+::\+G\+L\+Area} -\/ constructeur du open\+GL widget. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classGLArea_afa9c60f160f51d8ff4af29e602792722}\label{classGLArea_afa9c60f160f51d8ff4af29e602792722}} 
+\hyperlink{classGLArea_afa9c60f160f51d8ff4af29e602792722}{$\sim$\+G\+L\+Area} () override
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_afa9c60f160f51d8ff4af29e602792722}{G\+L\+Area\+::$\sim$\+G\+L\+Area} -\/ destructeur du open\+GL widget. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classGLArea_a3da93ab6b76f23dacf4b4d9c88fa2592}\label{classGLArea_a3da93ab6b76f23dacf4b4d9c88fa2592}} 
+void {\bfseries draw\+\_\+plane} (Q\+Vector3D P1, Q\+Vector3D P2, Q\+Vector3D P3, Q\+Vector3D P4)
+\item 
+void \hyperlink{classGLArea_abf44db1be50a0bfcdac509e3554156ce}{draw\+\_\+bounding\+\_\+box} (G\+Lfloat xmax=0.\+0f, G\+Lfloat ymax=0.\+0f, G\+Lfloat zmax=0.\+0f, G\+Lfloat xmin=0.\+0f, G\+Lfloat ymin=0.\+0f, G\+Lfloat zmin=0.\+0f)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_abf44db1be50a0bfcdac509e3554156ce}{G\+L\+Area\+::draw\+\_\+bounding\+\_\+box} -\/ initialisation de la boite englobante du nuage de point. \end{DoxyCompactList}\item 
+void \hyperlink{classGLArea_a5c884a65c2b4a128830e6ea3f4e36cf2}{add\+Planes} (Q\+List$<$ \hyperlink{classPlane}{Plane} $>$ lplanes)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_a5c884a65c2b4a128830e6ea3f4e36cf2}{G\+L\+Area\+::add\+Planes} -\/ Ajout de la liste de plan à la classe pour initialisation. \end{DoxyCompactList}\item 
+void \hyperlink{classGLArea_aa777dac3d1033603db3f7cac4cd860c4}{add\+Vertex} (Q\+List$<$ \hyperlink{classVertex}{Vertex} $>$ lvertex)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_aa777dac3d1033603db3f7cac4cd860c4}{G\+L\+Area\+::add\+Vertex} -\/ Ajout de la liste de vertex à la classe pour initialisation. \end{DoxyCompactList}\item 
+void \hyperlink{classGLArea_a70332315f6c9696f27302ce62bb076a1}{add\+Polygon} (Q\+List$<$ \hyperlink{classPolygon}{Polygon} $>$ lpoly)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_a70332315f6c9696f27302ce62bb076a1}{G\+L\+Area\+::add\+Polygon} -\/ Ajout de la liste de polygone à la classe pour initialisation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Attributs publics}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classGLArea_a4c16dbc578726c904e44202b8859abc5}\label{classGLArea_a4c16dbc578726c904e44202b8859abc5}} 
+Q\+List$<$ \hyperlink{classPlane}{Plane} $>$ {\bfseries list\+\_\+plane}
+\item 
+\mbox{\Hypertarget{classGLArea_abaefb908243ca60f59e326d285e2ab98}\label{classGLArea_abaefb908243ca60f59e326d285e2ab98}} 
+Q\+List$<$ \hyperlink{classVertex}{Vertex} $>$ {\bfseries list\+\_\+vertices}
+\item 
+\mbox{\Hypertarget{classGLArea_a1cfbc947d7ee3abd98e05ba9410b9713}\label{classGLArea_a1cfbc947d7ee3abd98e05ba9410b9713}} 
+Q\+List$<$ \hyperlink{classPolygon}{Polygon} $>$ {\bfseries list\+\_\+polygon}
+\end{DoxyCompactItemize}
+\subsection*{Connecteurs protégés}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classGLArea_a62ff54b320abd318088f06bf861d8024}\label{classGLArea_a62ff54b320abd318088f06bf861d8024}} 
+void \hyperlink{classGLArea_a62ff54b320abd318088f06bf861d8024}{on\+Timeout} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_a62ff54b320abd318088f06bf861d8024}{G\+L\+Area\+::on\+Timeout} -\/ gestion de la position des objets en fonction du temps par raffraichissement. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Fonctions membres protégées}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classGLArea_a561f724c4f5a676c7d48dc4c1facab6a}\label{classGLArea_a561f724c4f5a676c7d48dc4c1facab6a}} 
+void \hyperlink{classGLArea_a561f724c4f5a676c7d48dc4c1facab6a}{initialize\+GL} () override
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_a561f724c4f5a676c7d48dc4c1facab6a}{G\+L\+Area\+::initialize\+GL} -\/ initialisation de l\textquotesingle{}environnement 3D. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classGLArea_a7258b85eec87415b8bdfde5a20b9bf34}\label{classGLArea_a7258b85eec87415b8bdfde5a20b9bf34}} 
+void {\bfseries do\+Projection} ()
+\item 
+void \hyperlink{classGLArea_af4aefae86c0eab7dcd5773daccca6582}{resize\+GL} (int w, int h) override
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_af4aefae86c0eab7dcd5773daccca6582}{G\+L\+Area\+::resize\+GL} -\/ modification de la taille de la fenêtre. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classGLArea_a235d7e6e2dcdb4c47cf368f11686ab8f}\label{classGLArea_a235d7e6e2dcdb4c47cf368f11686ab8f}} 
+void \hyperlink{classGLArea_a235d7e6e2dcdb4c47cf368f11686ab8f}{paint\+GL} () override
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_a235d7e6e2dcdb4c47cf368f11686ab8f}{G\+L\+Area\+::paint\+GL} -\/ affichage des objets 3D. \end{DoxyCompactList}\item 
+void \hyperlink{classGLArea_a675245da4965c357b5752dfdfc610ebc}{key\+Press\+Event} (Q\+Key\+Event $\ast$ev) override
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_a675245da4965c357b5752dfdfc610ebc}{G\+L\+Area\+::key\+Press\+Event} -\/ gestion des événements clavier. \end{DoxyCompactList}\item 
+void \hyperlink{classGLArea_a512f4957605fab5fcea0aba8bb7df2fa}{key\+Release\+Event} (Q\+Key\+Event $\ast$ev) override
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_a512f4957605fab5fcea0aba8bb7df2fa}{G\+L\+Area\+::key\+Release\+Event} -\/ gestion des touches clavier relachées. \end{DoxyCompactList}\item 
+void \hyperlink{classGLArea_a5f07177f849511bdba54369d7a73dea3}{mouse\+Press\+Event} (Q\+Mouse\+Event $\ast$ev) override
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_a5f07177f849511bdba54369d7a73dea3}{G\+L\+Area\+::mouse\+Press\+Event} -\/ gestion des clics souris. \end{DoxyCompactList}\item 
+void \hyperlink{classGLArea_a264a2cb285aa7c82d43bc618d54e01f9}{mouse\+Release\+Event} (Q\+Mouse\+Event $\ast$ev) override
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_a264a2cb285aa7c82d43bc618d54e01f9}{G\+L\+Area\+::mouse\+Release\+Event} -\/ gestion des clics souris relachés. \end{DoxyCompactList}\item 
+void \hyperlink{classGLArea_a3b36fa38f36d924e2d435b52f10f3446}{mouse\+Move\+Event} (Q\+Mouse\+Event $\ast$ev) override
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_a3b36fa38f36d924e2d435b52f10f3446}{G\+L\+Area\+::mouse\+Move\+Event} -\/ gestion des mouvements souris. \end{DoxyCompactList}\item 
+void \hyperlink{classGLArea_a40884963629d3fb97a752875fd741e5e}{wheel\+Event} (Q\+Wheel\+Event $\ast$event) override
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_a40884963629d3fb97a752875fd741e5e}{G\+L\+Area\+::wheel\+Event} -\/ Gestion de la molette souris. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Fonctions membres privées}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classGLArea_a6813d77eb9a8f03a1d61749f93d82120}\label{classGLArea_a6813d77eb9a8f03a1d61749f93d82120}} 
+void \hyperlink{classGLArea_a6813d77eb9a8f03a1d61749f93d82120}{make\+G\+L\+Objects} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_a6813d77eb9a8f03a1d61749f93d82120}{G\+L\+Area\+::make\+G\+L\+Objects} -\/ initialisation des objets. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classGLArea_a0492da4c02cd7265be107fe819da1196}\label{classGLArea_a0492da4c02cd7265be107fe819da1196}} 
+void \hyperlink{classGLArea_a0492da4c02cd7265be107fe819da1196}{tear\+G\+L\+Objects} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classGLArea_a0492da4c02cd7265be107fe819da1196}{G\+L\+Area\+::tear\+G\+L\+Objects} -\/ destruction des objets. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Attributs privés}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classGLArea_a9e6ccb31b9276cc6802e4975e6865f10}\label{classGLArea_a9e6ccb31b9276cc6802e4975e6865f10}} 
+float {\bfseries x\+Rot} =20.\+0f
+\item 
+\mbox{\Hypertarget{classGLArea_aef59623ef883589d4c0a0f2b556f6f85}\label{classGLArea_aef59623ef883589d4c0a0f2b556f6f85}} 
+float {\bfseries y\+Rot} =0.\+0f
+\item 
+\mbox{\Hypertarget{classGLArea_a8fcd59d1fc2863c7a543777aa1471b6d}\label{classGLArea_a8fcd59d1fc2863c7a543777aa1471b6d}} 
+float {\bfseries z\+Rot} =0.\+0f
+\item 
+\mbox{\Hypertarget{classGLArea_abae89a1d81c11c64534649dfebff9809}\label{classGLArea_abae89a1d81c11c64534649dfebff9809}} 
+float {\bfseries x\+Pos} =0.\+0f
+\item 
+\mbox{\Hypertarget{classGLArea_ad7c6f9b56b3bd72859ffa9ba82e44bb1}\label{classGLArea_ad7c6f9b56b3bd72859ffa9ba82e44bb1}} 
+float {\bfseries y\+Pos} =0.\+0f
+\item 
+\mbox{\Hypertarget{classGLArea_ae0a96496d46cc99c08820a06529db66a}\label{classGLArea_ae0a96496d46cc99c08820a06529db66a}} 
+float {\bfseries z\+Pos} =-\/100.\+0f
+\item 
+\mbox{\Hypertarget{classGLArea_acfcb07f1d8e185b210b949e4534fe15a}\label{classGLArea_acfcb07f1d8e185b210b949e4534fe15a}} 
+Q\+Timer $\ast$ {\bfseries timer} = nullptr
+\item 
+\mbox{\Hypertarget{classGLArea_a6deb97fc9ab129842fb732b1444bf311}\label{classGLArea_a6deb97fc9ab129842fb732b1444bf311}} 
+Q\+Elapsed\+Timer {\bfseries elapsed\+Timer}
+\item 
+\mbox{\Hypertarget{classGLArea_a417c1e45c60687785531252071475276}\label{classGLArea_a417c1e45c60687785531252071475276}} 
+float {\bfseries dt} = 0
+\item 
+\mbox{\Hypertarget{classGLArea_ad8037728bd431c90c4f5f03305359538}\label{classGLArea_ad8037728bd431c90c4f5f03305359538}} 
+float {\bfseries window\+Ratio} = 1.\+0f
+\item 
+\mbox{\Hypertarget{classGLArea_ac6a4e3c068caaf76cf0ea87bbe71eefa}\label{classGLArea_ac6a4e3c068caaf76cf0ea87bbe71eefa}} 
+Q\+Point {\bfseries last\+Pos}
+\item 
+\mbox{\Hypertarget{classGLArea_ae747ef73dd0d256a3fda6bbe9bad8c9a}\label{classGLArea_ae747ef73dd0d256a3fda6bbe9bad8c9a}} 
+Q\+Open\+G\+L\+Shader\+Program $\ast$ {\bfseries program\+\_\+bounding\+Box}
+\item 
+\mbox{\Hypertarget{classGLArea_a962ac00c0eff21b62356a2740e7599e8}\label{classGLArea_a962ac00c0eff21b62356a2740e7599e8}} 
+Q\+Open\+G\+L\+Shader\+Program $\ast$ {\bfseries program\+\_\+particule}
+\item 
+\mbox{\Hypertarget{classGLArea_a80ab62be1936f19faf1b70ad54340249}\label{classGLArea_a80ab62be1936f19faf1b70ad54340249}} 
+Q\+Open\+G\+L\+Shader\+Program $\ast$ {\bfseries program\+\_\+plane}
+\item 
+\mbox{\Hypertarget{classGLArea_a5e6ad8332603e6f5befd52eb5e93f808}\label{classGLArea_a5e6ad8332603e6f5befd52eb5e93f808}} 
+Q\+Open\+G\+L\+Buffer {\bfseries vbo\+\_\+box}
+\item 
+\mbox{\Hypertarget{classGLArea_a479d522b70fa0ad02cf7c24dc8c188f8}\label{classGLArea_a479d522b70fa0ad02cf7c24dc8c188f8}} 
+Q\+Open\+G\+L\+Buffer {\bfseries vbo\+\_\+particule}
+\item 
+\mbox{\Hypertarget{classGLArea_afa4a469b743272e0cbe5185721de515c}\label{classGLArea_afa4a469b743272e0cbe5185721de515c}} 
+Q\+Open\+G\+L\+Texture $\ast$ {\bfseries textures} \mbox{[}2\mbox{]}
+\item 
+\mbox{\Hypertarget{classGLArea_ae7c5ec4d76ee1bf4419fe34d7354da36}\label{classGLArea_ae7c5ec4d76ee1bf4419fe34d7354da36}} 
+float {\bfseries r\+\_\+light} = 0.\+02
+\item 
+\mbox{\Hypertarget{classGLArea_ac2e7a9b7a122466263f56784937ab3ed}\label{classGLArea_ac2e7a9b7a122466263f56784937ab3ed}} 
+float {\bfseries g\+\_\+light} = 0.\+02
+\item 
+\mbox{\Hypertarget{classGLArea_af009cf6fb234c4ef6f311ce3462c1249}\label{classGLArea_af009cf6fb234c4ef6f311ce3462c1249}} 
+float {\bfseries b\+\_\+light} = 0.\+05
+\item 
+\mbox{\Hypertarget{classGLArea_a3b167861356999b9615f12afaf082cec}\label{classGLArea_a3b167861356999b9615f12afaf082cec}} 
+float {\bfseries a\+\_\+light} = 1.\+0
+\item 
+\mbox{\Hypertarget{classGLArea_a42e15f1c58c337ab3ad25d8e76a10ea3}\label{classGLArea_a42e15f1c58c337ab3ad25d8e76a10ea3}} 
+\hyperlink{classPlanes}{Planes} $\ast$ {\bfseries planes}
+\item 
+\mbox{\Hypertarget{classGLArea_ab72ff8d5456b34a61ad8272e2a333b51}\label{classGLArea_ab72ff8d5456b34a61ad8272e2a333b51}} 
+\hyperlink{classVertices}{Vertices} $\ast$ {\bfseries vertices}
+\item 
+\mbox{\Hypertarget{classGLArea_af380eb1c28949bca9eca33a526edf657}\label{classGLArea_af380eb1c28949bca9eca33a526edf657}} 
+\hyperlink{classPolygons}{Polygons} $\ast$ {\bfseries polygons}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des constructeurs et destructeur}
+\mbox{\Hypertarget{classGLArea_a999988e18caf705bcd41acb09a8dcc8e}\label{classGLArea_a999988e18caf705bcd41acb09a8dcc8e}} 
+\index{G\+L\+Area@{G\+L\+Area}!G\+L\+Area@{G\+L\+Area}}
+\index{G\+L\+Area@{G\+L\+Area}!G\+L\+Area@{G\+L\+Area}}
+\subsubsection{\texorpdfstring{G\+L\+Area()}{GLArea()}}
+{\footnotesize\ttfamily G\+L\+Area\+::\+G\+L\+Area (\begin{DoxyParamCaption}\item[{Q\+Widget $\ast$}]{parent = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+\hyperlink{classGLArea_a999988e18caf705bcd41acb09a8dcc8e}{G\+L\+Area\+::\+G\+L\+Area} -\/ constructeur du open\+GL widget. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em parent} & -\/ classe parent \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Documentation des fonctions membres}
+\mbox{\Hypertarget{classGLArea_a5c884a65c2b4a128830e6ea3f4e36cf2}\label{classGLArea_a5c884a65c2b4a128830e6ea3f4e36cf2}} 
+\index{G\+L\+Area@{G\+L\+Area}!add\+Planes@{add\+Planes}}
+\index{add\+Planes@{add\+Planes}!G\+L\+Area@{G\+L\+Area}}
+\subsubsection{\texorpdfstring{add\+Planes()}{addPlanes()}}
+{\footnotesize\ttfamily void G\+L\+Area\+::add\+Planes (\begin{DoxyParamCaption}\item[{Q\+List$<$ \hyperlink{classPlane}{Plane} $>$}]{lplanes }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classGLArea_a5c884a65c2b4a128830e6ea3f4e36cf2}{G\+L\+Area\+::add\+Planes} -\/ Ajout de la liste de plan à la classe pour initialisation. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em lplane} & -\/ liste de plan \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGLArea_a70332315f6c9696f27302ce62bb076a1}\label{classGLArea_a70332315f6c9696f27302ce62bb076a1}} 
+\index{G\+L\+Area@{G\+L\+Area}!add\+Polygon@{add\+Polygon}}
+\index{add\+Polygon@{add\+Polygon}!G\+L\+Area@{G\+L\+Area}}
+\subsubsection{\texorpdfstring{add\+Polygon()}{addPolygon()}}
+{\footnotesize\ttfamily void G\+L\+Area\+::add\+Polygon (\begin{DoxyParamCaption}\item[{Q\+List$<$ \hyperlink{classPolygon}{Polygon} $>$}]{lpoly }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classGLArea_a70332315f6c9696f27302ce62bb076a1}{G\+L\+Area\+::add\+Polygon} -\/ Ajout de la liste de polygone à la classe pour initialisation. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em lvertex} & -\/ liste de polygone \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGLArea_aa777dac3d1033603db3f7cac4cd860c4}\label{classGLArea_aa777dac3d1033603db3f7cac4cd860c4}} 
+\index{G\+L\+Area@{G\+L\+Area}!add\+Vertex@{add\+Vertex}}
+\index{add\+Vertex@{add\+Vertex}!G\+L\+Area@{G\+L\+Area}}
+\subsubsection{\texorpdfstring{add\+Vertex()}{addVertex()}}
+{\footnotesize\ttfamily void G\+L\+Area\+::add\+Vertex (\begin{DoxyParamCaption}\item[{Q\+List$<$ \hyperlink{classVertex}{Vertex} $>$}]{lvertex }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classGLArea_aa777dac3d1033603db3f7cac4cd860c4}{G\+L\+Area\+::add\+Vertex} -\/ Ajout de la liste de vertex à la classe pour initialisation. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em lvertex} & -\/ liste de vertex \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGLArea_abf44db1be50a0bfcdac509e3554156ce}\label{classGLArea_abf44db1be50a0bfcdac509e3554156ce}} 
+\index{G\+L\+Area@{G\+L\+Area}!draw\+\_\+bounding\+\_\+box@{draw\+\_\+bounding\+\_\+box}}
+\index{draw\+\_\+bounding\+\_\+box@{draw\+\_\+bounding\+\_\+box}!G\+L\+Area@{G\+L\+Area}}
+\subsubsection{\texorpdfstring{draw\+\_\+bounding\+\_\+box()}{draw\_bounding\_box()}}
+{\footnotesize\ttfamily void G\+L\+Area\+::draw\+\_\+bounding\+\_\+box (\begin{DoxyParamCaption}\item[{G\+Lfloat}]{xmax = {\ttfamily 0.0f},  }\item[{G\+Lfloat}]{ymax = {\ttfamily 0.0f},  }\item[{G\+Lfloat}]{zmax = {\ttfamily 0.0f},  }\item[{G\+Lfloat}]{xmin = {\ttfamily 0.0f},  }\item[{G\+Lfloat}]{ymin = {\ttfamily 0.0f},  }\item[{G\+Lfloat}]{zmin = {\ttfamily 0.0f} }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classGLArea_abf44db1be50a0bfcdac509e3554156ce}{G\+L\+Area\+::draw\+\_\+bounding\+\_\+box} -\/ initialisation de la boite englobante du nuage de point. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em xmax} & \\
+\hline
+{\em ymax} & \\
+\hline
+{\em zmax} & \\
+\hline
+{\em xmin} & \\
+\hline
+{\em ymin} & \\
+\hline
+{\em zmin} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGLArea_a675245da4965c357b5752dfdfc610ebc}\label{classGLArea_a675245da4965c357b5752dfdfc610ebc}} 
+\index{G\+L\+Area@{G\+L\+Area}!key\+Press\+Event@{key\+Press\+Event}}
+\index{key\+Press\+Event@{key\+Press\+Event}!G\+L\+Area@{G\+L\+Area}}
+\subsubsection{\texorpdfstring{key\+Press\+Event()}{keyPressEvent()}}
+{\footnotesize\ttfamily void G\+L\+Area\+::key\+Press\+Event (\begin{DoxyParamCaption}\item[{Q\+Key\+Event $\ast$}]{ev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+\hyperlink{classGLArea_a675245da4965c357b5752dfdfc610ebc}{G\+L\+Area\+::key\+Press\+Event} -\/ gestion des événements clavier. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em ev} & -\/ événement clavier \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGLArea_a512f4957605fab5fcea0aba8bb7df2fa}\label{classGLArea_a512f4957605fab5fcea0aba8bb7df2fa}} 
+\index{G\+L\+Area@{G\+L\+Area}!key\+Release\+Event@{key\+Release\+Event}}
+\index{key\+Release\+Event@{key\+Release\+Event}!G\+L\+Area@{G\+L\+Area}}
+\subsubsection{\texorpdfstring{key\+Release\+Event()}{keyReleaseEvent()}}
+{\footnotesize\ttfamily void G\+L\+Area\+::key\+Release\+Event (\begin{DoxyParamCaption}\item[{Q\+Key\+Event $\ast$}]{ev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+\hyperlink{classGLArea_a512f4957605fab5fcea0aba8bb7df2fa}{G\+L\+Area\+::key\+Release\+Event} -\/ gestion des touches clavier relachées. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em ev} & -\/ événement clavier \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGLArea_a3b36fa38f36d924e2d435b52f10f3446}\label{classGLArea_a3b36fa38f36d924e2d435b52f10f3446}} 
+\index{G\+L\+Area@{G\+L\+Area}!mouse\+Move\+Event@{mouse\+Move\+Event}}
+\index{mouse\+Move\+Event@{mouse\+Move\+Event}!G\+L\+Area@{G\+L\+Area}}
+\subsubsection{\texorpdfstring{mouse\+Move\+Event()}{mouseMoveEvent()}}
+{\footnotesize\ttfamily void G\+L\+Area\+::mouse\+Move\+Event (\begin{DoxyParamCaption}\item[{Q\+Mouse\+Event $\ast$}]{ev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+\hyperlink{classGLArea_a3b36fa38f36d924e2d435b52f10f3446}{G\+L\+Area\+::mouse\+Move\+Event} -\/ gestion des mouvements souris. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em ev} & -\/ événement souris \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGLArea_a5f07177f849511bdba54369d7a73dea3}\label{classGLArea_a5f07177f849511bdba54369d7a73dea3}} 
+\index{G\+L\+Area@{G\+L\+Area}!mouse\+Press\+Event@{mouse\+Press\+Event}}
+\index{mouse\+Press\+Event@{mouse\+Press\+Event}!G\+L\+Area@{G\+L\+Area}}
+\subsubsection{\texorpdfstring{mouse\+Press\+Event()}{mousePressEvent()}}
+{\footnotesize\ttfamily void G\+L\+Area\+::mouse\+Press\+Event (\begin{DoxyParamCaption}\item[{Q\+Mouse\+Event $\ast$}]{ev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+\hyperlink{classGLArea_a5f07177f849511bdba54369d7a73dea3}{G\+L\+Area\+::mouse\+Press\+Event} -\/ gestion des clics souris. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em ev} & -\/ événement souris \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGLArea_a264a2cb285aa7c82d43bc618d54e01f9}\label{classGLArea_a264a2cb285aa7c82d43bc618d54e01f9}} 
+\index{G\+L\+Area@{G\+L\+Area}!mouse\+Release\+Event@{mouse\+Release\+Event}}
+\index{mouse\+Release\+Event@{mouse\+Release\+Event}!G\+L\+Area@{G\+L\+Area}}
+\subsubsection{\texorpdfstring{mouse\+Release\+Event()}{mouseReleaseEvent()}}
+{\footnotesize\ttfamily void G\+L\+Area\+::mouse\+Release\+Event (\begin{DoxyParamCaption}\item[{Q\+Mouse\+Event $\ast$}]{ev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+\hyperlink{classGLArea_a264a2cb285aa7c82d43bc618d54e01f9}{G\+L\+Area\+::mouse\+Release\+Event} -\/ gestion des clics souris relachés. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em ev} & -\/ événement souris \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGLArea_af4aefae86c0eab7dcd5773daccca6582}\label{classGLArea_af4aefae86c0eab7dcd5773daccca6582}} 
+\index{G\+L\+Area@{G\+L\+Area}!resize\+GL@{resize\+GL}}
+\index{resize\+GL@{resize\+GL}!G\+L\+Area@{G\+L\+Area}}
+\subsubsection{\texorpdfstring{resize\+G\+L()}{resizeGL()}}
+{\footnotesize\ttfamily void G\+L\+Area\+::resize\+GL (\begin{DoxyParamCaption}\item[{int}]{w,  }\item[{int}]{h }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+\hyperlink{classGLArea_af4aefae86c0eab7dcd5773daccca6582}{G\+L\+Area\+::resize\+GL} -\/ modification de la taille de la fenêtre. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em w} & -\/ width \\
+\hline
+{\em h} & -\/ height \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGLArea_a40884963629d3fb97a752875fd741e5e}\label{classGLArea_a40884963629d3fb97a752875fd741e5e}} 
+\index{G\+L\+Area@{G\+L\+Area}!wheel\+Event@{wheel\+Event}}
+\index{wheel\+Event@{wheel\+Event}!G\+L\+Area@{G\+L\+Area}}
+\subsubsection{\texorpdfstring{wheel\+Event()}{wheelEvent()}}
+{\footnotesize\ttfamily void G\+L\+Area\+::wheel\+Event (\begin{DoxyParamCaption}\item[{Q\+Wheel\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+\hyperlink{classGLArea_a40884963629d3fb97a752875fd741e5e}{G\+L\+Area\+::wheel\+Event} -\/ Gestion de la molette souris. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em ev} & -\/ événement souris \\
+\hline
+\end{DoxyParams}
+
+
+La documentation de cette classe a été générée à partir des fichiers suivants \+:\begin{DoxyCompactItemize}
+\item 
+glarea.\+h\item 
+glarea.\+cpp\end{DoxyCompactItemize}

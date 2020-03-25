@@ -1,0 +1,274 @@
+\hypertarget{classPrimitive}{}\section{Référence de la classe Primitive}
+\label{classPrimitive}\index{Primitive@{Primitive}}
+
+
+Classe modélisant un demi-\/segment de l\textquotesingle{}image, s\textquotesingle{}étendant dans une direction donnée (m\+\_\+direction). Modélise aussi, en cas particuliers, les bords de l\textquotesingle{}image, qui ne s\textquotesingle{}étendent pas mais sont plus simple à traiter en tant que Primitives dans la logique de l\textquotesingle{}application.  
+
+
+
+
+{\ttfamily \#include $<$primitive.\+h$>$}
+
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classPrimitive_a239074a5d2deb80546353e9b4d1cf6dc}{Primitive} (Point2f \hyperlink{classPrimitive_a4d89d749fdc58956f7ba04620cc556c4}{origin}, Point2f \hyperlink{classPrimitive_a3a3e177ac6afb1b474592993f448da22}{end}, int size, int \hyperlink{classPrimitive_a1a78dc24085b7a840f22dd66a981530b}{K}, int \hyperlink{classPrimitive_a7e4c88deefa351711897d2522333c530}{id\+Primitive}, int \hyperlink{classPrimitive_a42806c3e24a4f0e06688ee38cbfdc8e7}{id\+Segment})
+\begin{DoxyCompactList}\small\item\em Constructeur de la classe primitive. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPrimitive_a9ba4d88c5e316e8112bd1fb4a0b5699c}\label{classPrimitive_a9ba4d88c5e316e8112bd1fb4a0b5699c}} 
+int \hyperlink{classPrimitive_a9ba4d88c5e316e8112bd1fb4a0b5699c}{nb\+Certificates} () const
+\begin{DoxyCompactList}\small\item\em Nombre de certificats validés par la primitive (= nombre de fois ou elle est entrée en intersection avec une autre primitive) \end{DoxyCompactList}\item 
+bool \hyperlink{classPrimitive_aef2d33af9762c7799b98f8c0cf74ee2a}{operator$<$} (const \hyperlink{classPrimitive}{Primitive} \&p) const
+\begin{DoxyCompactList}\small\item\em Surcharge de l\textquotesingle{}opérateur de comparaison $<$. Utilisée pour le tri d\textquotesingle{}une priority\+\_\+queue de Primitives dans \hyperlink{classKippi}{Kippi}. \end{DoxyCompactList}\item 
+Point2f \hyperlink{classPrimitive_a4d89d749fdc58956f7ba04620cc556c4}{origin} () const
+\begin{DoxyCompactList}\small\item\em Getter de m\+\_\+origin. \end{DoxyCompactList}\item 
+Point2f \hyperlink{classPrimitive_a3a3e177ac6afb1b474592993f448da22}{end} () const
+\begin{DoxyCompactList}\small\item\em Getter de m\+\_\+end. \end{DoxyCompactList}\item 
+Point2f \hyperlink{classPrimitive_a4abb7b712bb47b8862802ea35036ad2a}{current} () const
+\begin{DoxyCompactList}\small\item\em Getter de m\+\_\+curren. \end{DoxyCompactList}\item 
+void \hyperlink{classPrimitive_a658fc13a5d4a524019eab364632bf420}{set\+Current} (const Point2f \&\hyperlink{classPrimitive_a4abb7b712bb47b8862802ea35036ad2a}{current})
+\begin{DoxyCompactList}\small\item\em Setter de m\+\_\+current. \end{DoxyCompactList}\item 
+Point2f \hyperlink{classPrimitive_a3b5bb082b6f0358c4b5cd1333e9c359d}{direction} () const
+\begin{DoxyCompactList}\small\item\em Getter de m\+\_\+direction. \end{DoxyCompactList}\item 
+int \hyperlink{classPrimitive_a42806c3e24a4f0e06688ee38cbfdc8e7}{id\+Segment} () const
+\begin{DoxyCompactList}\small\item\em Getter de m\+\_\+id\+Segment. \end{DoxyCompactList}\item 
+int \hyperlink{classPrimitive_a7e4c88deefa351711897d2522333c530}{id\+Primitive} () const
+\begin{DoxyCompactList}\small\item\em Getter de m\+\_\+id\+Primitive. \end{DoxyCompactList}\item 
+vector$<$ bool $>$ \hyperlink{classPrimitive_aec6c5596a62aa29b559d3f7090ccdde0}{certificates} ()
+\begin{DoxyCompactList}\small\item\em Getter de m\+\_\+certificates. \end{DoxyCompactList}\item 
+void \hyperlink{classPrimitive_ac488e2f817127865f9bb8c0563012f43}{flip\+Certificate} (int index)
+\begin{DoxyCompactList}\small\item\em Inverse la valeur du certificat dans m\+\_\+certificates à l\textquotesingle{}index passé en paramètre. \end{DoxyCompactList}\item 
+int \hyperlink{classPrimitive_a1a78dc24085b7a840f22dd66a981530b}{K} () const
+\begin{DoxyCompactList}\small\item\em Getter de m\+\_\+K. \end{DoxyCompactList}\item 
+void \hyperlink{classPrimitive_adca41b714ede708b2bddcaca1bc8bc25}{setK} (int \hyperlink{classPrimitive_a1a78dc24085b7a840f22dd66a981530b}{K})
+\begin{DoxyCompactList}\small\item\em Setter de m\+\_\+K. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Attributs privés}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classPrimitive_a42f9cfd7cb6fe5d8222b54184cb01370}\label{classPrimitive_a42f9cfd7cb6fe5d8222b54184cb01370}} 
+Point2f \hyperlink{classPrimitive_a42f9cfd7cb6fe5d8222b54184cb01370}{m\+\_\+origin}
+\begin{DoxyCompactList}\small\item\em m\+\_\+origin\+: Point d\textquotesingle{}origine de la primitive. Chaque segment de l\textquotesingle{}image est coupée en deux à son milieu pour former deux primitives, l\textquotesingle{}origine de chaque primitive est donc le milieu du segment originel (sauf pour les bords de l\textquotesingle{}image) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPrimitive_aff19d540e2d8542d34a57c51e6ff73f9}\label{classPrimitive_aff19d540e2d8542d34a57c51e6ff73f9}} 
+Point2f \hyperlink{classPrimitive_aff19d540e2d8542d34a57c51e6ff73f9}{m\+\_\+end}
+\begin{DoxyCompactList}\small\item\em m\+\_\+end\+: Point de fin originel de la primitive, correspondant à une des deux extrémités du segment originel \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPrimitive_ac3a589bccaf2d4361a389f229cc44f51}\label{classPrimitive_ac3a589bccaf2d4361a389f229cc44f51}} 
+Point2f \hyperlink{classPrimitive_ac3a589bccaf2d4361a389f229cc44f51}{m\+\_\+current}
+\begin{DoxyCompactList}\small\item\em m\+\_\+current\+: Point de fin courant de la primitive lors de son extension. Initialisé à m\+\_\+end au départ \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPrimitive_a575f14e177bf1d3b2e7f94ff8ca21686}\label{classPrimitive_a575f14e177bf1d3b2e7f94ff8ca21686}} 
+Point2f \hyperlink{classPrimitive_a575f14e177bf1d3b2e7f94ff8ca21686}{m\+\_\+direction}
+\begin{DoxyCompactList}\small\item\em m\+\_\+direction\+: Direction d\textquotesingle{}extension de la primitive \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPrimitive_a6cd5569c0d6016390c6e2d83764326fe}\label{classPrimitive_a6cd5569c0d6016390c6e2d83764326fe}} 
+int \hyperlink{classPrimitive_a6cd5569c0d6016390c6e2d83764326fe}{m\+\_\+id\+Segment}
+\begin{DoxyCompactList}\small\item\em m\+\_\+id\+Segment\+: Index du segment dont fait partie la primitive dans le tableau lines\+\_\+fld utilisée dans \hyperlink{classKippi}{Kippi} (tableau résultant de la recherche de segment par l\textquotesingle{}algorithme fast line detector d\textquotesingle{}Open\+CV) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPrimitive_a257ded40eb050dc78a3ca0010855b72f}\label{classPrimitive_a257ded40eb050dc78a3ca0010855b72f}} 
+int \hyperlink{classPrimitive_a257ded40eb050dc78a3ca0010855b72f}{m\+\_\+id\+Primitive}
+\begin{DoxyCompactList}\small\item\em m\+\_\+id\+Primitive\+: Index de la primitive dans le tableau \hyperlink{classKippi_a27b6bb80d6de150819bdf84a68f5a649}{Kippi\+::m\+\_\+primitives} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPrimitive_a9773acb10509e3c459cf55473e23232c}\label{classPrimitive_a9773acb10509e3c459cf55473e23232c}} 
+vector$<$ bool $>$ \hyperlink{classPrimitive_a9773acb10509e3c459cf55473e23232c}{m\+\_\+certificates}
+\begin{DoxyCompactList}\small\item\em m\+\_\+certificates\+: Tableau référençant si la primitive courante est déjà entrée en intersection avec chaque autre primitive \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPrimitive_adedc640045d803d7634d0dc036bbf07b}\label{classPrimitive_adedc640045d803d7634d0dc036bbf07b}} 
+int \hyperlink{classPrimitive_adedc640045d803d7634d0dc036bbf07b}{m\+\_\+K}
+\begin{DoxyCompactList}\small\item\em m\+\_\+K\+: Nombre d\textquotesingle{}intersections données à la primitive avant que la propagation de celle-\/ci s\textquotesingle{}arrête \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+Classe modélisant un demi-\/segment de l\textquotesingle{}image, s\textquotesingle{}étendant dans une direction donnée (m\+\_\+direction). Modélise aussi, en cas particuliers, les bords de l\textquotesingle{}image, qui ne s\textquotesingle{}étendent pas mais sont plus simple à traiter en tant que Primitives dans la logique de l\textquotesingle{}application. 
+
+\subsection{Documentation des constructeurs et destructeur}
+\mbox{\Hypertarget{classPrimitive_a239074a5d2deb80546353e9b4d1cf6dc}\label{classPrimitive_a239074a5d2deb80546353e9b4d1cf6dc}} 
+\index{Primitive@{Primitive}!Primitive@{Primitive}}
+\index{Primitive@{Primitive}!Primitive@{Primitive}}
+\subsubsection{\texorpdfstring{Primitive()}{Primitive()}}
+{\footnotesize\ttfamily Primitive\+::\+Primitive (\begin{DoxyParamCaption}\item[{Point2f}]{origin,  }\item[{Point2f}]{end,  }\item[{int}]{size,  }\item[{int}]{K,  }\item[{int}]{id\+Primitive,  }\item[{int}]{id\+Segment }\end{DoxyParamCaption})}
+
+
+
+Constructeur de la classe primitive. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em origin} & Point d\textquotesingle{}origine de la primitive \\
+\hline
+{\em end} & Point de fin originel de la primitive \\
+\hline
+{\em size} & Taille du tableau m\+\_\+certificates (nombre total de primitives dans l\textquotesingle{}image) \\
+\hline
+{\em K} & Nombre d\textquotesingle{}intersections données à la primitive avant que la propagation de celle-\/ci s\textquotesingle{}arrête \\
+\hline
+{\em id\+Primitive} & Index de la primitive dans le tableau \hyperlink{classKippi_a27b6bb80d6de150819bdf84a68f5a649}{Kippi\+::m\+\_\+primitives} \\
+\hline
+{\em id\+Segment} & Index du segment dont fait partie la primitive dans le tableau lines\+\_\+fld utilisée dans \hyperlink{classKippi}{Kippi} \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Documentation des fonctions membres}
+\mbox{\Hypertarget{classPrimitive_aec6c5596a62aa29b559d3f7090ccdde0}\label{classPrimitive_aec6c5596a62aa29b559d3f7090ccdde0}} 
+\index{Primitive@{Primitive}!certificates@{certificates}}
+\index{certificates@{certificates}!Primitive@{Primitive}}
+\subsubsection{\texorpdfstring{certificates()}{certificates()}}
+{\footnotesize\ttfamily vector$<$ bool $>$ Primitive\+::certificates (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Getter de m\+\_\+certificates. 
+
+\begin{DoxyReturn}{Renvoie}
+vector$<$bool$>$ m\+\_\+certificates 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPrimitive_a4abb7b712bb47b8862802ea35036ad2a}\label{classPrimitive_a4abb7b712bb47b8862802ea35036ad2a}} 
+\index{Primitive@{Primitive}!current@{current}}
+\index{current@{current}!Primitive@{Primitive}}
+\subsubsection{\texorpdfstring{current()}{current()}}
+{\footnotesize\ttfamily Point2f Primitive\+::current (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter de m\+\_\+curren. 
+
+\begin{DoxyReturn}{Renvoie}
+Point2f m\+\_\+current 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPrimitive_a3b5bb082b6f0358c4b5cd1333e9c359d}\label{classPrimitive_a3b5bb082b6f0358c4b5cd1333e9c359d}} 
+\index{Primitive@{Primitive}!direction@{direction}}
+\index{direction@{direction}!Primitive@{Primitive}}
+\subsubsection{\texorpdfstring{direction()}{direction()}}
+{\footnotesize\ttfamily Point2f Primitive\+::direction (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter de m\+\_\+direction. 
+
+\begin{DoxyReturn}{Renvoie}
+Point2f m\+\_\+direction 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPrimitive_a3a3e177ac6afb1b474592993f448da22}\label{classPrimitive_a3a3e177ac6afb1b474592993f448da22}} 
+\index{Primitive@{Primitive}!end@{end}}
+\index{end@{end}!Primitive@{Primitive}}
+\subsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily Point2f Primitive\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter de m\+\_\+end. 
+
+\begin{DoxyReturn}{Renvoie}
+Point2f m\+\_\+end 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPrimitive_ac488e2f817127865f9bb8c0563012f43}\label{classPrimitive_ac488e2f817127865f9bb8c0563012f43}} 
+\index{Primitive@{Primitive}!flip\+Certificate@{flip\+Certificate}}
+\index{flip\+Certificate@{flip\+Certificate}!Primitive@{Primitive}}
+\subsubsection{\texorpdfstring{flip\+Certificate()}{flipCertificate()}}
+{\footnotesize\ttfamily void Primitive\+::flip\+Certificate (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})}
+
+
+
+Inverse la valeur du certificat dans m\+\_\+certificates à l\textquotesingle{}index passé en paramètre. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em index} & Index auquel inverser le certificat \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPrimitive_a7e4c88deefa351711897d2522333c530}\label{classPrimitive_a7e4c88deefa351711897d2522333c530}} 
+\index{Primitive@{Primitive}!id\+Primitive@{id\+Primitive}}
+\index{id\+Primitive@{id\+Primitive}!Primitive@{Primitive}}
+\subsubsection{\texorpdfstring{id\+Primitive()}{idPrimitive()}}
+{\footnotesize\ttfamily int Primitive\+::id\+Primitive (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter de m\+\_\+id\+Primitive. 
+
+\begin{DoxyReturn}{Renvoie}
+int m\+\_\+id\+Primitive 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPrimitive_a42806c3e24a4f0e06688ee38cbfdc8e7}\label{classPrimitive_a42806c3e24a4f0e06688ee38cbfdc8e7}} 
+\index{Primitive@{Primitive}!id\+Segment@{id\+Segment}}
+\index{id\+Segment@{id\+Segment}!Primitive@{Primitive}}
+\subsubsection{\texorpdfstring{id\+Segment()}{idSegment()}}
+{\footnotesize\ttfamily int Primitive\+::id\+Segment (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter de m\+\_\+id\+Segment. 
+
+\begin{DoxyReturn}{Renvoie}
+int m\+\_\+id\+Segment 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPrimitive_a1a78dc24085b7a840f22dd66a981530b}\label{classPrimitive_a1a78dc24085b7a840f22dd66a981530b}} 
+\index{Primitive@{Primitive}!K@{K}}
+\index{K@{K}!Primitive@{Primitive}}
+\subsubsection{\texorpdfstring{K()}{K()}}
+{\footnotesize\ttfamily int Primitive\+::K (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter de m\+\_\+K. 
+
+\begin{DoxyReturn}{Renvoie}
+int m\+\_\+K 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPrimitive_aef2d33af9762c7799b98f8c0cf74ee2a}\label{classPrimitive_aef2d33af9762c7799b98f8c0cf74ee2a}} 
+\index{Primitive@{Primitive}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!Primitive@{Primitive}}
+\subsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily bool Primitive\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \hyperlink{classPrimitive}{Primitive} \&}]{p }\end{DoxyParamCaption}) const}
+
+
+
+Surcharge de l\textquotesingle{}opérateur de comparaison $<$. Utilisée pour le tri d\textquotesingle{}une priority\+\_\+queue de Primitives dans \hyperlink{classKippi}{Kippi}. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em p} & \hyperlink{classPrimitive}{Primitive} à comparer à la primitive courante \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPrimitive_a4d89d749fdc58956f7ba04620cc556c4}\label{classPrimitive_a4d89d749fdc58956f7ba04620cc556c4}} 
+\index{Primitive@{Primitive}!origin@{origin}}
+\index{origin@{origin}!Primitive@{Primitive}}
+\subsubsection{\texorpdfstring{origin()}{origin()}}
+{\footnotesize\ttfamily Point2f Primitive\+::origin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter de m\+\_\+origin. 
+
+\begin{DoxyReturn}{Renvoie}
+Point2f m\+\_\+origin 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPrimitive_a658fc13a5d4a524019eab364632bf420}\label{classPrimitive_a658fc13a5d4a524019eab364632bf420}} 
+\index{Primitive@{Primitive}!set\+Current@{set\+Current}}
+\index{set\+Current@{set\+Current}!Primitive@{Primitive}}
+\subsubsection{\texorpdfstring{set\+Current()}{setCurrent()}}
+{\footnotesize\ttfamily void Primitive\+::set\+Current (\begin{DoxyParamCaption}\item[{const Point2f \&}]{current }\end{DoxyParamCaption})}
+
+
+
+Setter de m\+\_\+current. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em current} & Nouvelle position à affecter à m\+\_\+current \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPrimitive_adca41b714ede708b2bddcaca1bc8bc25}\label{classPrimitive_adca41b714ede708b2bddcaca1bc8bc25}} 
+\index{Primitive@{Primitive}!setK@{setK}}
+\index{setK@{setK}!Primitive@{Primitive}}
+\subsubsection{\texorpdfstring{set\+K()}{setK()}}
+{\footnotesize\ttfamily void Primitive\+::setK (\begin{DoxyParamCaption}\item[{int}]{K }\end{DoxyParamCaption})}
+
+
+
+Setter de m\+\_\+K. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em K} & Nouvelle valeur à affecter à m\+\_\+K \\
+\hline
+\end{DoxyParams}
+
+
+La documentation de cette classe a été générée à partir des fichiers suivants \+:\begin{DoxyCompactItemize}
+\item 
+primitive.\+h\item 
+primitive.\+cpp\end{DoxyCompactItemize}

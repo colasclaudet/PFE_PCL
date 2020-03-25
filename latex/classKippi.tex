@@ -1,0 +1,220 @@
+\hypertarget{classKippi}{}\section{Référence de la classe Kippi}
+\label{classKippi}\index{Kippi@{Kippi}}
+
+
+Classe principale de la partie \hyperlink{classKippi}{Kippi} de notre application. Regroupe les fonction nécéssaires à l\textquotesingle{}éxécution de cet algorithme.  
+
+
+
+
+{\ttfamily \#include $<$kippi.\+h$>$}
+
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classKippi_a0b082ee735c823502a2d7942ba151da3}\label{classKippi_a0b082ee735c823502a2d7942ba151da3}} 
+\hyperlink{classKippi_a0b082ee735c823502a2d7942ba151da3}{Kippi} ()
+\begin{DoxyCompactList}\small\item\em Constructeur par défaut de la classe \hyperlink{classKippi}{Kippi}. \end{DoxyCompactList}\item 
+vector$<$ \hyperlink{classPrimitive}{Primitive} $>$ \hyperlink{classKippi_af783aa21eeb1b1974bd1b45fb0dbf673}{primitives} ()
+\begin{DoxyCompactList}\small\item\em Getter de m\+\_\+primitives. \end{DoxyCompactList}\item 
+pair$<$ vector$<$ vector$<$ Q\+Vector2D $>$ $>$, vector$<$ double $>$ $>$ \hyperlink{classKippi_ae9d153838b05fe37934d32152bf78539}{partition} (string img\+Name, bool display=false)
+\begin{DoxyCompactList}\small\item\em Partitionne l\textquotesingle{}image passée en paramètre selon une implémentation de l\textquotesingle{}algorithme \hyperlink{classKippi}{Kippi}\+: \href{https://hal.inria.fr/hal-01740958/file/kippi.pdf}{\tt https\+://hal.\+inria.\+fr/hal-\/01740958/file/kippi.\+pdf}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Fonctions membres privées}
+\begin{DoxyCompactItemize}
+\item 
+Point2f \hyperlink{classKippi_a5192ea964167634b40c1938b332bdb9f}{middle\+Of\+Segment} (const Point2f \&segment\+Start, const Point2f \&segment\+End)
+\begin{DoxyCompactList}\small\item\em Retourne les coordonnées du milieu d\textquotesingle{}un segment. \end{DoxyCompactList}\item 
+bool \hyperlink{classKippi_a6631ea0c01edea1b06f87b27f79c667a}{almost\+Equal} (double number1, double number2)
+\begin{DoxyCompactList}\small\item\em Opérateur égalité à E\+P\+S\+I\+L\+ON près. Source\+: \href{https://github.com/opencv/opencv/blob/master/modules/imgproc/src/min_enclosing_triangle.cpp#L1521-L1531}{\tt https\+://github.\+com/opencv/opencv/blob/master/modules/imgproc/src/min\+\_\+enclosing\+\_\+triangle.\+cpp\#\+L1521-\/\+L1531}. \end{DoxyCompactList}\item 
+double \hyperlink{classKippi_a0e3cbabe915e2be9e8ab37081d7098ed}{distance\+Between\+Points} (const Point2f \&a, const Point2f \&b)
+\begin{DoxyCompactList}\small\item\em Retourne la distance entre deux Point2f. \end{DoxyCompactList}\item 
+bool \hyperlink{classKippi_aa0e06b53305f73af6cd8be09bad0c647}{are\+Points\+Colinear} (const Point2f \&a, const Point2f \&b, const Point2f \&c)
+\begin{DoxyCompactList}\small\item\em Teste la colinéarité de 3 points. \end{DoxyCompactList}\item 
+bool \hyperlink{classKippi_a8766f581808019895b8a515e18550347}{point\+On\+Segment} (const Point2f \&segment\+Start, const Point2f \&segment\+End, const Point2f \&to\+Evaluate)
+\begin{DoxyCompactList}\small\item\em Teste si le point to\+Evaluate est sur le segment segment\+Start-\/ segment\+End, en fonction de la colinéarité des trois points et de la distance entre ceux-\/ci. \end{DoxyCompactList}\item 
+bool \hyperlink{classKippi_afb3a6de2afb50deea4f782fecdb63c6a}{line\+Intersection} (const Point2f \&a1, const Point2f \&b1, const Point2f \&a2, const Point2f \&b2, Point2f \&intersection)
+\begin{DoxyCompactList}\small\item\em Teste l\textquotesingle{}intersection de deux segments. Source (modifiée pour ajouter des tests d\textquotesingle{}appartenance aux segments, la fonction de base étant pour des droites\+: \href{https://github.com/opencv/opencv/blob/master/modules/imgproc/src/min_enclosing_triangle.cpp#L1380-L1424}{\tt https\+://github.\+com/opencv/opencv/blob/master/modules/imgproc/src/min\+\_\+enclosing\+\_\+triangle.\+cpp\#\+L1380-\/\+L1424}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classKippi_a2cdc0fdc3106ccb21a6bd33790920497}\label{classKippi_a2cdc0fdc3106ccb21a6bd33790920497}} 
+bool \hyperlink{classKippi_a2cdc0fdc3106ccb21a6bd33790920497}{is\+Propagation\+Left} ()
+\begin{DoxyCompactList}\small\item\em Teste si il reste des primitives à propager dans l\textquotesingle{}image. \end{DoxyCompactList}\item 
+void \hyperlink{classKippi_ac474c09621760386d61b9ee4714512b0}{propagation\+Priority\+Queue} (double t, const Mat \&image)
+\begin{DoxyCompactList}\small\item\em Fonction de propagation des primitives dans l\textquotesingle{}image en fonction du temps t. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Attributs privés}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classKippi_a27b6bb80d6de150819bdf84a68f5a649}\label{classKippi_a27b6bb80d6de150819bdf84a68f5a649}} 
+vector$<$ \hyperlink{classPrimitive}{Primitive} $>$ \hyperlink{classKippi_a27b6bb80d6de150819bdf84a68f5a649}{m\+\_\+primitives}
+\begin{DoxyCompactList}\small\item\em m\+\_\+primitives\+: Tableau stockant toutes les primitives de l\textquotesingle{}image \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+Classe principale de la partie \hyperlink{classKippi}{Kippi} de notre application. Regroupe les fonction nécéssaires à l\textquotesingle{}éxécution de cet algorithme. 
+
+\subsection{Documentation des fonctions membres}
+\mbox{\Hypertarget{classKippi_a6631ea0c01edea1b06f87b27f79c667a}\label{classKippi_a6631ea0c01edea1b06f87b27f79c667a}} 
+\index{Kippi@{Kippi}!almost\+Equal@{almost\+Equal}}
+\index{almost\+Equal@{almost\+Equal}!Kippi@{Kippi}}
+\subsubsection{\texorpdfstring{almost\+Equal()}{almostEqual()}}
+{\footnotesize\ttfamily bool Kippi\+::almost\+Equal (\begin{DoxyParamCaption}\item[{double}]{number1,  }\item[{double}]{number2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Opérateur égalité à E\+P\+S\+I\+L\+ON près. Source\+: \href{https://github.com/opencv/opencv/blob/master/modules/imgproc/src/min_enclosing_triangle.cpp#L1521-L1531}{\tt https\+://github.\+com/opencv/opencv/blob/master/modules/imgproc/src/min\+\_\+enclosing\+\_\+triangle.\+cpp\#\+L1521-\/\+L1531}. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em number1} & Premier nombre à comparer \\
+\hline
+{\em number2} & Second nombre à comparer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classKippi_aa0e06b53305f73af6cd8be09bad0c647}\label{classKippi_aa0e06b53305f73af6cd8be09bad0c647}} 
+\index{Kippi@{Kippi}!are\+Points\+Colinear@{are\+Points\+Colinear}}
+\index{are\+Points\+Colinear@{are\+Points\+Colinear}!Kippi@{Kippi}}
+\subsubsection{\texorpdfstring{are\+Points\+Colinear()}{arePointsColinear()}}
+{\footnotesize\ttfamily bool Kippi\+::are\+Points\+Colinear (\begin{DoxyParamCaption}\item[{const Point2f \&}]{a,  }\item[{const Point2f \&}]{b,  }\item[{const Point2f \&}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Teste la colinéarité de 3 points. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em a} & Premier point \\
+\hline
+{\em b} & Second point \\
+\hline
+{\em c} & Troisième point \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classKippi_a0e3cbabe915e2be9e8ab37081d7098ed}\label{classKippi_a0e3cbabe915e2be9e8ab37081d7098ed}} 
+\index{Kippi@{Kippi}!distance\+Between\+Points@{distance\+Between\+Points}}
+\index{distance\+Between\+Points@{distance\+Between\+Points}!Kippi@{Kippi}}
+\subsubsection{\texorpdfstring{distance\+Between\+Points()}{distanceBetweenPoints()}}
+{\footnotesize\ttfamily double Kippi\+::distance\+Between\+Points (\begin{DoxyParamCaption}\item[{const Point2f \&}]{a,  }\item[{const Point2f \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Retourne la distance entre deux Point2f. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em a} & Premier point \\
+\hline
+{\em b} & Second Point \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classKippi_afb3a6de2afb50deea4f782fecdb63c6a}\label{classKippi_afb3a6de2afb50deea4f782fecdb63c6a}} 
+\index{Kippi@{Kippi}!line\+Intersection@{line\+Intersection}}
+\index{line\+Intersection@{line\+Intersection}!Kippi@{Kippi}}
+\subsubsection{\texorpdfstring{line\+Intersection()}{lineIntersection()}}
+{\footnotesize\ttfamily bool Kippi\+::line\+Intersection (\begin{DoxyParamCaption}\item[{const Point2f \&}]{a1,  }\item[{const Point2f \&}]{b1,  }\item[{const Point2f \&}]{a2,  }\item[{const Point2f \&}]{b2,  }\item[{Point2f \&}]{intersection }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Teste l\textquotesingle{}intersection de deux segments. Source (modifiée pour ajouter des tests d\textquotesingle{}appartenance aux segments, la fonction de base étant pour des droites\+: \href{https://github.com/opencv/opencv/blob/master/modules/imgproc/src/min_enclosing_triangle.cpp#L1380-L1424}{\tt https\+://github.\+com/opencv/opencv/blob/master/modules/imgproc/src/min\+\_\+enclosing\+\_\+triangle.\+cpp\#\+L1380-\/\+L1424}. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em a1} & Point de départ du premier segment \\
+\hline
+{\em b1} & Point de fin du premier segment \\
+\hline
+{\em a2} & Point de départ du second segment \\
+\hline
+{\em b2} & Point de fin du second segment \\
+\hline
+{\em intersection} & Point vide afin de stocker l\textquotesingle{}intersection \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classKippi_a5192ea964167634b40c1938b332bdb9f}\label{classKippi_a5192ea964167634b40c1938b332bdb9f}} 
+\index{Kippi@{Kippi}!middle\+Of\+Segment@{middle\+Of\+Segment}}
+\index{middle\+Of\+Segment@{middle\+Of\+Segment}!Kippi@{Kippi}}
+\subsubsection{\texorpdfstring{middle\+Of\+Segment()}{middleOfSegment()}}
+{\footnotesize\ttfamily Point2f Kippi\+::middle\+Of\+Segment (\begin{DoxyParamCaption}\item[{const Point2f \&}]{segment\+Start,  }\item[{const Point2f \&}]{segment\+End }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Retourne les coordonnées du milieu d\textquotesingle{}un segment. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em segment\+Start} & Point de départ du segment \\
+\hline
+{\em segment\+End} & Point de fin du segment \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classKippi_ae9d153838b05fe37934d32152bf78539}\label{classKippi_ae9d153838b05fe37934d32152bf78539}} 
+\index{Kippi@{Kippi}!partition@{partition}}
+\index{partition@{partition}!Kippi@{Kippi}}
+\subsubsection{\texorpdfstring{partition()}{partition()}}
+{\footnotesize\ttfamily pair$<$ vector$<$ vector$<$ Q\+Vector2D $>$ $>$, vector$<$ double $>$ $>$ Kippi\+::partition (\begin{DoxyParamCaption}\item[{string}]{img\+Name,  }\item[{bool}]{display = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Partitionne l\textquotesingle{}image passée en paramètre selon une implémentation de l\textquotesingle{}algorithme \hyperlink{classKippi}{Kippi}\+: \href{https://hal.inria.fr/hal-01740958/file/kippi.pdf}{\tt https\+://hal.\+inria.\+fr/hal-\/01740958/file/kippi.\+pdf}. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em img\+Name} & Chemin de l\textquotesingle{}image à partitionner \\
+\hline
+{\em display} & True\+: Affiche la partition de l\textquotesingle{}image \\
+\hline
+\end{DoxyParams}
+Detect edges using canny
+
+Find contours \mbox{\Hypertarget{classKippi_a8766f581808019895b8a515e18550347}\label{classKippi_a8766f581808019895b8a515e18550347}} 
+\index{Kippi@{Kippi}!point\+On\+Segment@{point\+On\+Segment}}
+\index{point\+On\+Segment@{point\+On\+Segment}!Kippi@{Kippi}}
+\subsubsection{\texorpdfstring{point\+On\+Segment()}{pointOnSegment()}}
+{\footnotesize\ttfamily bool Kippi\+::point\+On\+Segment (\begin{DoxyParamCaption}\item[{const Point2f \&}]{segment\+Start,  }\item[{const Point2f \&}]{segment\+End,  }\item[{const Point2f \&}]{to\+Evaluate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Teste si le point to\+Evaluate est sur le segment segment\+Start-\/ segment\+End, en fonction de la colinéarité des trois points et de la distance entre ceux-\/ci. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em segment\+Start} & Point de départ du segment \\
+\hline
+{\em segment\+End} & Point de fin du segment \\
+\hline
+{\em to\+Evaluate} & Point à évaluer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classKippi_af783aa21eeb1b1974bd1b45fb0dbf673}\label{classKippi_af783aa21eeb1b1974bd1b45fb0dbf673}} 
+\index{Kippi@{Kippi}!primitives@{primitives}}
+\index{primitives@{primitives}!Kippi@{Kippi}}
+\subsubsection{\texorpdfstring{primitives()}{primitives()}}
+{\footnotesize\ttfamily vector$<$ \hyperlink{classPrimitive}{Primitive} $>$ Kippi\+::primitives (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Getter de m\+\_\+primitives. 
+
+\begin{DoxyReturn}{Renvoie}
+vector$<$\+Primitive$>$ m\+\_\+primitives 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classKippi_ac474c09621760386d61b9ee4714512b0}\label{classKippi_ac474c09621760386d61b9ee4714512b0}} 
+\index{Kippi@{Kippi}!propagation\+Priority\+Queue@{propagation\+Priority\+Queue}}
+\index{propagation\+Priority\+Queue@{propagation\+Priority\+Queue}!Kippi@{Kippi}}
+\subsubsection{\texorpdfstring{propagation\+Priority\+Queue()}{propagationPriorityQueue()}}
+{\footnotesize\ttfamily void Kippi\+::propagation\+Priority\+Queue (\begin{DoxyParamCaption}\item[{double}]{t,  }\item[{const Mat \&}]{image }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Fonction de propagation des primitives dans l\textquotesingle{}image en fonction du temps t. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em t} & Temps écoulé \\
+\hline
+{\em image} & Image d\textquotesingle{}origine des primitives \\
+\hline
+\end{DoxyParams}
+
+
+La documentation de cette classe a été générée à partir des fichiers suivants \+:\begin{DoxyCompactItemize}
+\item 
+kippi.\+h\item 
+kippi.\+cpp\end{DoxyCompactItemize}

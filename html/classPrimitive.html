@@ -1,0 +1,501 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ScanLidar: Référence de la classe Primitive</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">ScanLidar
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Fonctions membres publiques</a> &#124;
+<a href="#pri-attribs">Attributs privés</a> &#124;
+<a href="classPrimitive-members.html">Liste de tous les membres</a>  </div>
+  <div class="headertitle">
+<div class="title">Référence de la classe Primitive</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Classe modélisant un demi-segment de l'image, s'étendant dans une direction donnée (m_direction). Modélise aussi, en cas particuliers, les bords de l'image, qui ne s'étendent pas mais sont plus simple à traiter en tant que Primitives dans la logique de l'application.  
+ <a href="classPrimitive.html#details">Plus de détails...</a></p>
+
+<p><code>#include &lt;<a class="el" href="primitive_8h_source.html">primitive.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Fonctions membres publiques</h2></td></tr>
+<tr class="memitem:a239074a5d2deb80546353e9b4d1cf6dc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a239074a5d2deb80546353e9b4d1cf6dc">Primitive</a> (Point2f <a class="el" href="classPrimitive.html#a4d89d749fdc58956f7ba04620cc556c4">origin</a>, Point2f <a class="el" href="classPrimitive.html#a3a3e177ac6afb1b474592993f448da22">end</a>, int size, int <a class="el" href="classPrimitive.html#a1a78dc24085b7a840f22dd66a981530b">K</a>, int <a class="el" href="classPrimitive.html#a7e4c88deefa351711897d2522333c530">idPrimitive</a>, int <a class="el" href="classPrimitive.html#a42806c3e24a4f0e06688ee38cbfdc8e7">idSegment</a>)</td></tr>
+<tr class="memdesc:a239074a5d2deb80546353e9b4d1cf6dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructeur de la classe primitive.  <a href="#a239074a5d2deb80546353e9b4d1cf6dc">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a239074a5d2deb80546353e9b4d1cf6dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ba4d88c5e316e8112bd1fb4a0b5699c"><td class="memItemLeft" align="right" valign="top"><a id="a9ba4d88c5e316e8112bd1fb4a0b5699c"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a9ba4d88c5e316e8112bd1fb4a0b5699c">nbCertificates</a> () const</td></tr>
+<tr class="memdesc:a9ba4d88c5e316e8112bd1fb4a0b5699c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de certificats validés par la primitive (= nombre de fois ou elle est entrée en intersection avec une autre primitive) <br /></td></tr>
+<tr class="separator:a9ba4d88c5e316e8112bd1fb4a0b5699c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef2d33af9762c7799b98f8c0cf74ee2a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#aef2d33af9762c7799b98f8c0cf74ee2a">operator&lt;</a> (const <a class="el" href="classPrimitive.html">Primitive</a> &amp;p) const</td></tr>
+<tr class="memdesc:aef2d33af9762c7799b98f8c0cf74ee2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Surcharge de l'opérateur de comparaison &lt;. Utilisée pour le tri d'une priority_queue de Primitives dans <a class="el" href="classKippi.html" title="Classe principale de la partie Kippi de notre application. Regroupe les fonction nécéssaires à l&#39;éxéc...">Kippi</a>.  <a href="#aef2d33af9762c7799b98f8c0cf74ee2a">Plus de détails...</a><br /></td></tr>
+<tr class="separator:aef2d33af9762c7799b98f8c0cf74ee2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d89d749fdc58956f7ba04620cc556c4"><td class="memItemLeft" align="right" valign="top">Point2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a4d89d749fdc58956f7ba04620cc556c4">origin</a> () const</td></tr>
+<tr class="memdesc:a4d89d749fdc58956f7ba04620cc556c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter de m_origin.  <a href="#a4d89d749fdc58956f7ba04620cc556c4">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a4d89d749fdc58956f7ba04620cc556c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a3e177ac6afb1b474592993f448da22"><td class="memItemLeft" align="right" valign="top">Point2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a3a3e177ac6afb1b474592993f448da22">end</a> () const</td></tr>
+<tr class="memdesc:a3a3e177ac6afb1b474592993f448da22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter de m_end.  <a href="#a3a3e177ac6afb1b474592993f448da22">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a3a3e177ac6afb1b474592993f448da22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4abb7b712bb47b8862802ea35036ad2a"><td class="memItemLeft" align="right" valign="top">Point2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a4abb7b712bb47b8862802ea35036ad2a">current</a> () const</td></tr>
+<tr class="memdesc:a4abb7b712bb47b8862802ea35036ad2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter de m_curren.  <a href="#a4abb7b712bb47b8862802ea35036ad2a">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a4abb7b712bb47b8862802ea35036ad2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a658fc13a5d4a524019eab364632bf420"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a658fc13a5d4a524019eab364632bf420">setCurrent</a> (const Point2f &amp;<a class="el" href="classPrimitive.html#a4abb7b712bb47b8862802ea35036ad2a">current</a>)</td></tr>
+<tr class="memdesc:a658fc13a5d4a524019eab364632bf420"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setter de m_current.  <a href="#a658fc13a5d4a524019eab364632bf420">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a658fc13a5d4a524019eab364632bf420"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b5bb082b6f0358c4b5cd1333e9c359d"><td class="memItemLeft" align="right" valign="top">Point2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a3b5bb082b6f0358c4b5cd1333e9c359d">direction</a> () const</td></tr>
+<tr class="memdesc:a3b5bb082b6f0358c4b5cd1333e9c359d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter de m_direction.  <a href="#a3b5bb082b6f0358c4b5cd1333e9c359d">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a3b5bb082b6f0358c4b5cd1333e9c359d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42806c3e24a4f0e06688ee38cbfdc8e7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a42806c3e24a4f0e06688ee38cbfdc8e7">idSegment</a> () const</td></tr>
+<tr class="memdesc:a42806c3e24a4f0e06688ee38cbfdc8e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter de m_idSegment.  <a href="#a42806c3e24a4f0e06688ee38cbfdc8e7">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a42806c3e24a4f0e06688ee38cbfdc8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e4c88deefa351711897d2522333c530"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a7e4c88deefa351711897d2522333c530">idPrimitive</a> () const</td></tr>
+<tr class="memdesc:a7e4c88deefa351711897d2522333c530"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter de m_idPrimitive.  <a href="#a7e4c88deefa351711897d2522333c530">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a7e4c88deefa351711897d2522333c530"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec6c5596a62aa29b559d3f7090ccdde0"><td class="memItemLeft" align="right" valign="top">vector&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#aec6c5596a62aa29b559d3f7090ccdde0">certificates</a> ()</td></tr>
+<tr class="memdesc:aec6c5596a62aa29b559d3f7090ccdde0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter de m_certificates.  <a href="#aec6c5596a62aa29b559d3f7090ccdde0">Plus de détails...</a><br /></td></tr>
+<tr class="separator:aec6c5596a62aa29b559d3f7090ccdde0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac488e2f817127865f9bb8c0563012f43"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#ac488e2f817127865f9bb8c0563012f43">flipCertificate</a> (int index)</td></tr>
+<tr class="memdesc:ac488e2f817127865f9bb8c0563012f43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inverse la valeur du certificat dans m_certificates à l'index passé en paramètre.  <a href="#ac488e2f817127865f9bb8c0563012f43">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ac488e2f817127865f9bb8c0563012f43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a78dc24085b7a840f22dd66a981530b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a1a78dc24085b7a840f22dd66a981530b">K</a> () const</td></tr>
+<tr class="memdesc:a1a78dc24085b7a840f22dd66a981530b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter de m_K.  <a href="#a1a78dc24085b7a840f22dd66a981530b">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a1a78dc24085b7a840f22dd66a981530b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adca41b714ede708b2bddcaca1bc8bc25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#adca41b714ede708b2bddcaca1bc8bc25">setK</a> (int <a class="el" href="classPrimitive.html#a1a78dc24085b7a840f22dd66a981530b">K</a>)</td></tr>
+<tr class="memdesc:adca41b714ede708b2bddcaca1bc8bc25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setter de m_K.  <a href="#adca41b714ede708b2bddcaca1bc8bc25">Plus de détails...</a><br /></td></tr>
+<tr class="separator:adca41b714ede708b2bddcaca1bc8bc25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Attributs privés</h2></td></tr>
+<tr class="memitem:a42f9cfd7cb6fe5d8222b54184cb01370"><td class="memItemLeft" align="right" valign="top"><a id="a42f9cfd7cb6fe5d8222b54184cb01370"></a>
+Point2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a42f9cfd7cb6fe5d8222b54184cb01370">m_origin</a></td></tr>
+<tr class="memdesc:a42f9cfd7cb6fe5d8222b54184cb01370"><td class="mdescLeft">&#160;</td><td class="mdescRight">m_origin: Point d'origine de la primitive. Chaque segment de l'image est coupée en deux à son milieu pour former deux primitives, l'origine de chaque primitive est donc le milieu du segment originel (sauf pour les bords de l'image) <br /></td></tr>
+<tr class="separator:a42f9cfd7cb6fe5d8222b54184cb01370"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff19d540e2d8542d34a57c51e6ff73f9"><td class="memItemLeft" align="right" valign="top"><a id="aff19d540e2d8542d34a57c51e6ff73f9"></a>
+Point2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#aff19d540e2d8542d34a57c51e6ff73f9">m_end</a></td></tr>
+<tr class="memdesc:aff19d540e2d8542d34a57c51e6ff73f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">m_end: Point de fin originel de la primitive, correspondant à une des deux extrémités du segment originel <br /></td></tr>
+<tr class="separator:aff19d540e2d8542d34a57c51e6ff73f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3a589bccaf2d4361a389f229cc44f51"><td class="memItemLeft" align="right" valign="top"><a id="ac3a589bccaf2d4361a389f229cc44f51"></a>
+Point2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#ac3a589bccaf2d4361a389f229cc44f51">m_current</a></td></tr>
+<tr class="memdesc:ac3a589bccaf2d4361a389f229cc44f51"><td class="mdescLeft">&#160;</td><td class="mdescRight">m_current: Point de fin courant de la primitive lors de son extension. Initialisé à m_end au départ <br /></td></tr>
+<tr class="separator:ac3a589bccaf2d4361a389f229cc44f51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a575f14e177bf1d3b2e7f94ff8ca21686"><td class="memItemLeft" align="right" valign="top"><a id="a575f14e177bf1d3b2e7f94ff8ca21686"></a>
+Point2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a575f14e177bf1d3b2e7f94ff8ca21686">m_direction</a></td></tr>
+<tr class="memdesc:a575f14e177bf1d3b2e7f94ff8ca21686"><td class="mdescLeft">&#160;</td><td class="mdescRight">m_direction: Direction d'extension de la primitive <br /></td></tr>
+<tr class="separator:a575f14e177bf1d3b2e7f94ff8ca21686"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cd5569c0d6016390c6e2d83764326fe"><td class="memItemLeft" align="right" valign="top"><a id="a6cd5569c0d6016390c6e2d83764326fe"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a6cd5569c0d6016390c6e2d83764326fe">m_idSegment</a></td></tr>
+<tr class="memdesc:a6cd5569c0d6016390c6e2d83764326fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">m_idSegment: Index du segment dont fait partie la primitive dans le tableau lines_fld utilisée dans <a class="el" href="classKippi.html" title="Classe principale de la partie Kippi de notre application. Regroupe les fonction nécéssaires à l&#39;éxéc...">Kippi</a> (tableau résultant de la recherche de segment par l'algorithme fast line detector d'OpenCV) <br /></td></tr>
+<tr class="separator:a6cd5569c0d6016390c6e2d83764326fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a257ded40eb050dc78a3ca0010855b72f"><td class="memItemLeft" align="right" valign="top"><a id="a257ded40eb050dc78a3ca0010855b72f"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a257ded40eb050dc78a3ca0010855b72f">m_idPrimitive</a></td></tr>
+<tr class="memdesc:a257ded40eb050dc78a3ca0010855b72f"><td class="mdescLeft">&#160;</td><td class="mdescRight">m_idPrimitive: Index de la primitive dans le tableau <a class="el" href="classKippi.html#a27b6bb80d6de150819bdf84a68f5a649" title="m_primitives: Tableau stockant toutes les primitives de l&#39;image ">Kippi::m_primitives</a> <br /></td></tr>
+<tr class="separator:a257ded40eb050dc78a3ca0010855b72f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9773acb10509e3c459cf55473e23232c"><td class="memItemLeft" align="right" valign="top"><a id="a9773acb10509e3c459cf55473e23232c"></a>
+vector&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#a9773acb10509e3c459cf55473e23232c">m_certificates</a></td></tr>
+<tr class="memdesc:a9773acb10509e3c459cf55473e23232c"><td class="mdescLeft">&#160;</td><td class="mdescRight">m_certificates: Tableau référençant si la primitive courante est déjà entrée en intersection avec chaque autre primitive <br /></td></tr>
+<tr class="separator:a9773acb10509e3c459cf55473e23232c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adedc640045d803d7634d0dc036bbf07b"><td class="memItemLeft" align="right" valign="top"><a id="adedc640045d803d7634d0dc036bbf07b"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPrimitive.html#adedc640045d803d7634d0dc036bbf07b">m_K</a></td></tr>
+<tr class="memdesc:adedc640045d803d7634d0dc036bbf07b"><td class="mdescLeft">&#160;</td><td class="mdescRight">m_K: Nombre d'intersections données à la primitive avant que la propagation de celle-ci s'arrête <br /></td></tr>
+<tr class="separator:adedc640045d803d7634d0dc036bbf07b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>Classe modélisant un demi-segment de l'image, s'étendant dans une direction donnée (m_direction). Modélise aussi, en cas particuliers, les bords de l'image, qui ne s'étendent pas mais sont plus simple à traiter en tant que Primitives dans la logique de l'application. </p>
+</div><h2 class="groupheader">Documentation des constructeurs et destructeur</h2>
+<a id="a239074a5d2deb80546353e9b4d1cf6dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a239074a5d2deb80546353e9b4d1cf6dc">&#9670;&nbsp;</a></span>Primitive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Primitive::Primitive </td>
+          <td>(</td>
+          <td class="paramtype">Point2f&#160;</td>
+          <td class="paramname"><em>origin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Point2f&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>K</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idPrimitive</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idSegment</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructeur de la classe primitive. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">origin</td><td>Point d'origine de la primitive </td></tr>
+    <tr><td class="paramname">end</td><td>Point de fin originel de la primitive </td></tr>
+    <tr><td class="paramname">size</td><td>Taille du tableau m_certificates (nombre total de primitives dans l'image) </td></tr>
+    <tr><td class="paramname">K</td><td>Nombre d'intersections données à la primitive avant que la propagation de celle-ci s'arrête </td></tr>
+    <tr><td class="paramname">idPrimitive</td><td>Index de la primitive dans le tableau <a class="el" href="classKippi.html#a27b6bb80d6de150819bdf84a68f5a649" title="m_primitives: Tableau stockant toutes les primitives de l&#39;image ">Kippi::m_primitives</a> </td></tr>
+    <tr><td class="paramname">idSegment</td><td>Index du segment dont fait partie la primitive dans le tableau lines_fld utilisée dans <a class="el" href="classKippi.html" title="Classe principale de la partie Kippi de notre application. Regroupe les fonction nécéssaires à l&#39;éxéc...">Kippi</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des fonctions membres</h2>
+<a id="aec6c5596a62aa29b559d3f7090ccdde0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec6c5596a62aa29b559d3f7090ccdde0">&#9670;&nbsp;</a></span>certificates()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; bool &gt; Primitive::certificates </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Getter de m_certificates. </p>
+<dl class="section return"><dt>Renvoie</dt><dd>vector&lt;bool&gt; m_certificates </dd></dl>
+
+</div>
+</div>
+<a id="a4abb7b712bb47b8862802ea35036ad2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4abb7b712bb47b8862802ea35036ad2a">&#9670;&nbsp;</a></span>current()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Point2f Primitive::current </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Getter de m_curren. </p>
+<dl class="section return"><dt>Renvoie</dt><dd>Point2f m_current </dd></dl>
+
+</div>
+</div>
+<a id="a3b5bb082b6f0358c4b5cd1333e9c359d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b5bb082b6f0358c4b5cd1333e9c359d">&#9670;&nbsp;</a></span>direction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Point2f Primitive::direction </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Getter de m_direction. </p>
+<dl class="section return"><dt>Renvoie</dt><dd>Point2f m_direction </dd></dl>
+
+</div>
+</div>
+<a id="a3a3e177ac6afb1b474592993f448da22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a3e177ac6afb1b474592993f448da22">&#9670;&nbsp;</a></span>end()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Point2f Primitive::end </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Getter de m_end. </p>
+<dl class="section return"><dt>Renvoie</dt><dd>Point2f m_end </dd></dl>
+
+</div>
+</div>
+<a id="ac488e2f817127865f9bb8c0563012f43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac488e2f817127865f9bb8c0563012f43">&#9670;&nbsp;</a></span>flipCertificate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Primitive::flipCertificate </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Inverse la valeur du certificat dans m_certificates à l'index passé en paramètre. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Index auquel inverser le certificat </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7e4c88deefa351711897d2522333c530"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e4c88deefa351711897d2522333c530">&#9670;&nbsp;</a></span>idPrimitive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Primitive::idPrimitive </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Getter de m_idPrimitive. </p>
+<dl class="section return"><dt>Renvoie</dt><dd>int m_idPrimitive </dd></dl>
+
+</div>
+</div>
+<a id="a42806c3e24a4f0e06688ee38cbfdc8e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42806c3e24a4f0e06688ee38cbfdc8e7">&#9670;&nbsp;</a></span>idSegment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Primitive::idSegment </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Getter de m_idSegment. </p>
+<dl class="section return"><dt>Renvoie</dt><dd>int m_idSegment </dd></dl>
+
+</div>
+</div>
+<a id="a1a78dc24085b7a840f22dd66a981530b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a78dc24085b7a840f22dd66a981530b">&#9670;&nbsp;</a></span>K()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Primitive::K </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Getter de m_K. </p>
+<dl class="section return"><dt>Renvoie</dt><dd>int m_K </dd></dl>
+
+</div>
+</div>
+<a id="aef2d33af9762c7799b98f8c0cf74ee2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef2d33af9762c7799b98f8c0cf74ee2a">&#9670;&nbsp;</a></span>operator<()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Primitive::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classPrimitive.html">Primitive</a> &amp;&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Surcharge de l'opérateur de comparaison &lt;. Utilisée pour le tri d'une priority_queue de Primitives dans <a class="el" href="classKippi.html" title="Classe principale de la partie Kippi de notre application. Regroupe les fonction nécéssaires à l&#39;éxéc...">Kippi</a>. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td><a class="el" href="classPrimitive.html" title="Classe modélisant un demi-segment de l&#39;image, s&#39;étendant dans une direction donnée (m_direction)...">Primitive</a> à comparer à la primitive courante </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4d89d749fdc58956f7ba04620cc556c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d89d749fdc58956f7ba04620cc556c4">&#9670;&nbsp;</a></span>origin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Point2f Primitive::origin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Getter de m_origin. </p>
+<dl class="section return"><dt>Renvoie</dt><dd>Point2f m_origin </dd></dl>
+
+</div>
+</div>
+<a id="a658fc13a5d4a524019eab364632bf420"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a658fc13a5d4a524019eab364632bf420">&#9670;&nbsp;</a></span>setCurrent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Primitive::setCurrent </td>
+          <td>(</td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>current</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Setter de m_current. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">current</td><td>Nouvelle position à affecter à m_current </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="adca41b714ede708b2bddcaca1bc8bc25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adca41b714ede708b2bddcaca1bc8bc25">&#9670;&nbsp;</a></span>setK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Primitive::setK </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>K</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Setter de m_K. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">K</td><td>Nouvelle valeur à affecter à m_K </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>La documentation de cette classe a été générée à partir des fichiers suivants :<ul>
+<li><a class="el" href="primitive_8h_source.html">primitive.h</a></li>
+<li>primitive.cpp</li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Généré par &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>

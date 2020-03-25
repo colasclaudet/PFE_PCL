@@ -1,0 +1,615 @@
+\hypertarget{classMainWindow}{}\section{Référence de la classe Main\+Window}
+\label{classMainWindow}\index{Main\+Window@{Main\+Window}}
+
+
+Graphe d\textquotesingle{}héritage de Main\+Window\+:
+% FIG 0
+
+
+Graphe de collaboration de Main\+Window\+:
+% FIG 1
+\subsection*{Connecteurs publics}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classMainWindow_ad4486efe33c8da6b53e3d14630c8dc6c}{change\+Threshold} (int th)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_ad4486efe33c8da6b53e3d14630c8dc6c}{Main\+Window\+::change\+Threshold} -\/ changement de la valeur du slider threshold. \end{DoxyCompactList}\item 
+void \hyperlink{classMainWindow_ab4e79d23cef5c6a44f2cf425976c1aae}{change\+Proba} (int proba)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_ab4e79d23cef5c6a44f2cf425976c1aae}{Main\+Window\+::change\+Proba} -\/ changement de la valeur du slider proba. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classMainWindow_a783335f36c6de64a0eaea17c3e658e1e}\label{classMainWindow_a783335f36c6de64a0eaea17c3e658e1e}} 
+void \hyperlink{classMainWindow_a783335f36c6de64a0eaea17c3e658e1e}{on\+\_\+action\+\_\+propos\+\_\+triggered} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a783335f36c6de64a0eaea17c3e658e1e}{Main\+Window\+::on\+\_\+action\+\_\+propos\+\_\+triggered} -\/ affichage de la fenetre \textquotesingle{}A Propos\textquotesingle{} de l\textquotesingle{}application. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classMainWindow_ad9414920d90d79a159c013deb5adbfbe}\label{classMainWindow_ad9414920d90d79a159c013deb5adbfbe}} 
+void \hyperlink{classMainWindow_ad9414920d90d79a159c013deb5adbfbe}{choose\+File} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_ad9414920d90d79a159c013deb5adbfbe}{Main\+Window\+::choose\+File} -\/ sélection du fichier ply pour le traitement. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classMainWindow_a91efdbf7f70a09ad4d790c85b7bec6ba}\label{classMainWindow_a91efdbf7f70a09ad4d790c85b7bec6ba}} 
+void \hyperlink{classMainWindow_a91efdbf7f70a09ad4d790c85b7bec6ba}{display\+Basic} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a91efdbf7f70a09ad4d790c85b7bec6ba}{Main\+Window\+::display\+Basic} -\/ affiche un nuage de point basique. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classMainWindow_a42d82e5bb2368b2aabd251c38482a811}\label{classMainWindow_a42d82e5bb2368b2aabd251c38482a811}} 
+void {\bfseries segmente} ()
+\item 
+\mbox{\Hypertarget{classMainWindow_a16c24245d00afb35b6a3df17f5954adf}\label{classMainWindow_a16c24245d00afb35b6a3df17f5954adf}} 
+void \hyperlink{classMainWindow_a16c24245d00afb35b6a3df17f5954adf}{draw} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a16c24245d00afb35b6a3df17f5954adf}{Main\+Window\+::draw} -\/ fonction globale pour la recherche des éléments de la piece et leur affichage. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classMainWindow_a4bba121d07a37b44cbb89f10e25e4f42}\label{classMainWindow_a4bba121d07a37b44cbb89f10e25e4f42}} 
+void \hyperlink{classMainWindow_a4bba121d07a37b44cbb89f10e25e4f42}{modelize} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a4bba121d07a37b44cbb89f10e25e4f42}{Main\+Window\+::modelize} -\/ modelise dans une \hyperlink{classGLArea}{G\+L\+Area} une version simplifiée de la piece. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMainWindow_a996c5a2b6f77944776856f08ec30858d}\label{classMainWindow_a996c5a2b6f77944776856f08ec30858d}} 
+{\bfseries Main\+Window} (Q\+Widget $\ast$parent=nullptr)
+\item 
+\mbox{\Hypertarget{classMainWindow_a6cd41eb337005e89a01d285c16bce574}\label{classMainWindow_a6cd41eb337005e89a01d285c16bce574}} 
+void {\bfseries save\+Cloud} ()
+\item 
+\mbox{\Hypertarget{classMainWindow_ac65e57d0a71013b887f6a14119514623}\label{classMainWindow_ac65e57d0a71013b887f6a14119514623}} 
+void {\bfseries show\+Help} (char $\ast$program\+\_\+name)
+\item 
+\mbox{\Hypertarget{classMainWindow_a40a7f3dc356ee6e31d07b6c8b1e7e5da}\label{classMainWindow_a40a7f3dc356ee6e31d07b6c8b1e7e5da}} 
+pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr {\bfseries simple\+Vis} (pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Const\+Ptr cloud)
+\item 
+\mbox{\Hypertarget{classMainWindow_ac42871a20623031b7efcb79a95ebb672}\label{classMainWindow_ac42871a20623031b7efcb79a95ebb672}} 
+pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr {\bfseries simple\+Vis\+Col} (pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Const\+Ptr cloud, pcl\+::visualization\+::\+Point\+Cloud\+Color\+Handler\+Custom$<$ pcl\+::\+Point\+X\+YZ $>$ single\+\_\+color)
+\item 
+\mbox{\Hypertarget{classMainWindow_ada10cd1ae8dc065eb0b50f7e98552524}\label{classMainWindow_ada10cd1ae8dc065eb0b50f7e98552524}} 
+pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr {\bfseries add\+Visualiser} ()
+\item 
+\mbox{\Hypertarget{classMainWindow_a3d0135e9222e369a50b6f18b333da36d}\label{classMainWindow_a3d0135e9222e369a50b6f18b333da36d}} 
+pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr {\bfseries finalise\+Vis} (pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr viewer)
+\item 
+\mbox{\Hypertarget{classMainWindow_a4bc39a7a5dd6643c024b08578988bc49}\label{classMainWindow_a4bc39a7a5dd6643c024b08578988bc49}} 
+pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr {\bfseries add\+Pts\+Cloud\+Color} (pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr viewer, pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Const\+Ptr cloud, pcl\+::visualization\+::\+Point\+Cloud\+Color\+Handler\+Custom$<$ pcl\+::\+Point\+X\+YZ $>$ single\+\_\+color)
+\item 
+\mbox{\Hypertarget{classMainWindow_abc7b137a8520dd1ae264d40fae80320b}\label{classMainWindow_abc7b137a8520dd1ae264d40fae80320b}} 
+pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr {\bfseries add\+Pts\+Cloud} (pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr viewer, pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+Normal $>$\+::Ptr cloud)
+\item 
+\mbox{\Hypertarget{classMainWindow_a6e4cbac16cfc95c2e4436a565eb9158a}\label{classMainWindow_a6e4cbac16cfc95c2e4436a565eb9158a}} 
+void {\bfseries denoise} (pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Const\+Ptr cloud)
+\item 
+void \hyperlink{classMainWindow_a643a46cc48a4cbab47ebb6e2e9d05ca0}{don\+\_\+segmentation} (pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Const\+Ptr cloud, double angle, double threshold, double scale1, double scale2)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a643a46cc48a4cbab47ebb6e2e9d05ca0}{Main\+Window\+::don\+\_\+segmentation} -\/ Segmentation par direction des normales et agrandissement des régions. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classMainWindow_ac6ecb3438b696b04a2bdd8547f81d30a}\label{classMainWindow_ac6ecb3438b696b04a2bdd8547f81d30a}} 
+void \hyperlink{classMainWindow_ac6ecb3438b696b04a2bdd8547f81d30a}{ransac\+\_\+segmentation} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_ac6ecb3438b696b04a2bdd8547f81d30a}{Main\+Window\+::ransac\+\_\+segmentation} -\/ recherche tous les plans présents dans le nuage initial cloud à l\textquotesingle{}aide de l\textquotesingle{}algorithme de R\+A\+N\+S\+AC. \end{DoxyCompactList}\item 
+double $\ast$ \hyperlink{classMainWindow_a13b4ad1f6a3a4b6fa4f4bcb068b7d1e3}{equation\+\_\+plane} (Q\+Vector3D P1, Q\+Vector3D P2, Q\+Vector3D P3)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a13b4ad1f6a3a4b6fa4f4bcb068b7d1e3}{Main\+Window\+::equation\+\_\+plane} -\/ calcul l\textquotesingle{}équation du plan passant par les 3 points. \end{DoxyCompactList}\item 
+double $\ast$ \hyperlink{classMainWindow_a616d841913b70481fe6872e874dc090b}{equation\+\_\+plane2} (pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$ pcloud)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a616d841913b70481fe6872e874dc090b}{Main\+Window\+::equation\+\_\+plane2} -\/ retrouve une approximation de l\textquotesingle{}équation du plan en utilisant R\+A\+N\+S\+AC. \end{DoxyCompactList}\item 
+double $\ast$ \hyperlink{classMainWindow_a270e2529573f70c73c0c96379add233d}{moy\+\_\+eq\+\_\+plane} (pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$ pcloud)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a270e2529573f70c73c0c96379add233d}{Main\+Window\+::moy\+\_\+eq\+\_\+plane} On prend plusieurs trinômes de points des nuages afin de faire une équation de plan moyenne. \end{DoxyCompactList}\item 
+Q\+Vector3D \hyperlink{classMainWindow_a67a37a0adb8dc9c349e6ccca029c6a1e}{resol\+\_\+3eq\+\_\+3inc} (double $\ast$eq1, double $\ast$eq2, double $\ast$eq3)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a67a37a0adb8dc9c349e6ccca029c6a1e}{Main\+Window\+::resol\+\_\+3eq\+\_\+3inc} -\/ résolution d\textquotesingle{}un système de 3 équations 3 inconnus. \end{DoxyCompactList}\item 
+void \hyperlink{classMainWindow_a74c5655d5716cf30d2647c2a1cf757a4}{repere\+Room} (pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr viewer, std\+::vector$<$ pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr $>$ list\+\_\+planes)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a74c5655d5716cf30d2647c2a1cf757a4}{Main\+Window\+::repere\+Room} -\/ repérage des murs, sol, plafond d\textquotesingle{}une piece. \end{DoxyCompactList}\item 
+pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr \hyperlink{classMainWindow_a64c3b822b3ec2d55e2c999d5fda2981e}{rotate\+Cloud} (pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr cloud, int degrees, int axe)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a64c3b822b3ec2d55e2c999d5fda2981e}{Main\+Window\+::rotate\+Cloud} -\/ fais pivoter un nuage de points en recalculant toutes les coordonnées. \end{DoxyCompactList}\item 
+void \hyperlink{classMainWindow_a884e9d60c68bb38b4830a36907a59c79}{search\+Limit} (std\+::vector$<$ pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr $>$ list\+\_\+planes, std\+::vector$<$ double $\ast$$>$ list\+\_\+equat\+\_\+planes, std\+::vector$<$ Q\+Vector3D $>$ list\+\_\+normale\+\_\+planes, std\+::vector$<$ Q\+Vector3D $>$ list\+\_\+mean\+Position)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a884e9d60c68bb38b4830a36907a59c79}{Main\+Window\+::search\+Limit} -\/ recherche les éléments les plus éloignés dans la pièce pour retrouver ce qui semble etre sol/plafond/mur. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classMainWindow_a751785ea3a2a4405d8479ca979ff6061}\label{classMainWindow_a751785ea3a2a4405d8479ca979ff6061}} 
+void \hyperlink{classMainWindow_a751785ea3a2a4405d8479ca979ff6061}{create\+Room} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a751785ea3a2a4405d8479ca979ff6061}{Main\+Window\+::create\+Room} -\/ réunis les différents plans formant un pan de la piece pour créer une piece avec un minimum de nuage (un nuage = un pan) \end{DoxyCompactList}\item 
+pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$ \hyperlink{classMainWindow_a419bc39129027cc42b708751088cbde7}{clouds\+\_\+union} (std\+::vector$<$ pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$$>$ v\+\_\+cloud)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a419bc39129027cc42b708751088cbde7}{Main\+Window\+::clouds\+\_\+union}. \end{DoxyCompactList}\item 
+Q\+Vector3D \hyperlink{classMainWindow_a4cc8d1511438ac06d0e6c663c7fa3ab7}{compute\+Mean\+Position\+Plane} (pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr plane)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a4cc8d1511438ac06d0e6c663c7fa3ab7}{Main\+Window\+::compute\+Mean\+Position\+Plane} -\/ calcul la position moyenne des points d\textquotesingle{}un nuage. \end{DoxyCompactList}\item 
+double \hyperlink{classMainWindow_a5cf7c81626d682f087f5143605342f52}{compute\+Distance} (Q\+Vector3D p1, Q\+Vector3D p2)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a5cf7c81626d682f087f5143605342f52}{Main\+Window\+::compute\+Distance} -\/ calcul la distance entre deux points dans l\textquotesingle{}espace. \end{DoxyCompactList}\item 
+bool \hyperlink{classMainWindow_aa630d558c19d9e93bc8f3f0e2f591163}{normales\+Are\+Similar} (Q\+Vector3D p1, Q\+Vector3D p2)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_aa630d558c19d9e93bc8f3f0e2f591163}{Main\+Window\+::normales\+Are\+Similar} -\/ vérifie si deux normales sont a peu pres semblables (ou inverses) \end{DoxyCompactList}\item 
+int \hyperlink{classMainWindow_a271a1410c7952fbdb4aa418acd38a52f}{axe\+Via\+Normal} (Q\+Vector3D n)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a271a1410c7952fbdb4aa418acd38a52f}{Main\+Window\+::axe\+Via\+Normal} -\/ trouve l\textquotesingle{}axe d\textquotesingle{}un plan en fonction de sa normale. \end{DoxyCompactList}\item 
+pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr \hyperlink{classMainWindow_abe57e522ecabb790bbb41ce813ea2a70}{add\+Plane} (pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr viewer, pcl\+::\+Model\+Coefficients plane\+Coef)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_abe57e522ecabb790bbb41ce813ea2a70}{Main\+Window\+::add\+Plane} -\/ Ajout d\textquotesingle{}un plan au viewer avec en paramètre une équation de plan. \end{DoxyCompactList}\item 
+void \hyperlink{classMainWindow_a0e33f00b6a6dc0c09dbc75d7396b7094}{calc\+\_\+bounding\+\_\+box} (pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr cloud)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a0e33f00b6a6dc0c09dbc75d7396b7094}{Main\+Window\+::calc\+\_\+bounding\+\_\+box} -\/ calcul la boite englobante d\textquotesingle{}un nuage de point. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classMainWindow_ac50b2af26b94eb93ca707e25057e6a8f}\label{classMainWindow_ac50b2af26b94eb93ca707e25057e6a8f}} 
+pcl\+::\+Point\+X\+YZ {\bfseries three\+Plane\+Intersection} (pcl\+::\+Model\+Coefficients plane\+\_\+coeff1, pcl\+::\+Model\+Coefficients plane\+\_\+coeff2, pcl\+::\+Model\+Coefficients plane\+\_\+coeff3)
+\item 
+void \hyperlink{classMainWindow_a94ae96c49d6c349e19632d9639926029}{calc\+\_\+inter\+\_\+planes} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classMainWindow_a94ae96c49d6c349e19632d9639926029}{Main\+Window\+::calc\+\_\+inter\+\_\+planes} -\/ calcul les intersections de tous les plans. \end{DoxyCompactList}\item 
+void \hyperlink{classMainWindow_a007d96d06719323cefdf2911a27be390}{advanced\+\_\+modelization} (std\+::vector$<$ std\+::vector$<$ Q\+Vector2D $>$$>$ contours, std\+::vector$<$ double $>$ value\+\_\+contour, int plane\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Main\+Window\+::advanced\+\_\+modelisation -\/ projection des polygones trouvés avec kippi dans le contexte open\+Gl. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classMainWindow_a6babcc4794e60b38ca505e29dd4edb5d}\label{classMainWindow_a6babcc4794e60b38ca505e29dd4edb5d}} 
+void {\bfseries plane\+\_\+to\+\_\+pict} ()
+\item 
+\mbox{\Hypertarget{classMainWindow_ac8645de6863dba9f6ab989cb0b969cbe}\label{classMainWindow_ac8645de6863dba9f6ab989cb0b969cbe}} 
+void {\bfseries search\+\_\+planes} (std\+::string filename, int plane\+\_\+id)
+\end{DoxyCompactItemize}
+\subsection*{Fonctions membres publiques statiques}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMainWindow_a75f9b462219b1b22bad10c3d61d4d032}\label{classMainWindow_a75f9b462219b1b22bad10c3d61d4d032}} 
+static void {\bfseries show\+Vizualizer} ()
+\end{DoxyCompactItemize}
+\subsection*{Attributs protégés}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMainWindow_a025f68d3c8f83a5e3735ae159ff96f08}\label{classMainWindow_a025f68d3c8f83a5e3735ae159ff96f08}} 
+pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr {\bfseries viewer}
+\end{DoxyCompactItemize}
+\subsection*{Attributs privés}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMainWindow_aa24e16f583a9d00e5a381bd92dd1de63}\label{classMainWindow_aa24e16f583a9d00e5a381bd92dd1de63}} 
+pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr {\bfseries cloud}
+\item 
+\mbox{\Hypertarget{classMainWindow_a7ea43214b12d587275a982b845ea320c}\label{classMainWindow_a7ea43214b12d587275a982b845ea320c}} 
+pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr {\bfseries cloud\+\_\+basic}
+\item 
+\mbox{\Hypertarget{classMainWindow_a48316a4efb8a0e18505d0b2aec1c654c}\label{classMainWindow_a48316a4efb8a0e18505d0b2aec1c654c}} 
+pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr {\bfseries cloud\+\_\+xyzrgb}
+\item 
+\mbox{\Hypertarget{classMainWindow_a4f5a133fa3e7636f55740adbab42882c}\label{classMainWindow_a4f5a133fa3e7636f55740adbab42882c}} 
+pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr {\bfseries final}
+\item 
+\mbox{\Hypertarget{classMainWindow_a11c0dda5b360439d8ee82358bba4ff4c}\label{classMainWindow_a11c0dda5b360439d8ee82358bba4ff4c}} 
+bool {\bfseries file\+\_\+is\+\_\+ply} = false
+\item 
+\mbox{\Hypertarget{classMainWindow_a35466a70ed47252a0191168126a352a5}\label{classMainWindow_a35466a70ed47252a0191168126a352a5}} 
+Ui\+::\+Main\+Window $\ast$ {\bfseries ui}
+\item 
+\mbox{\Hypertarget{classMainWindow_a66f2c761e1c4101e78c30e9d432ab949}\label{classMainWindow_a66f2c761e1c4101e78c30e9d432ab949}} 
+float {\bfseries threshold} = 90.\+0f
+\item 
+\mbox{\Hypertarget{classMainWindow_aa7c49953146d2441b132a565923ffbfc}\label{classMainWindow_aa7c49953146d2441b132a565923ffbfc}} 
+float {\bfseries proba} = 0.\+05f
+\item 
+\mbox{\Hypertarget{classMainWindow_ab0f0de203290ffd2587eb07d71898afa}\label{classMainWindow_ab0f0de203290ffd2587eb07d71898afa}} 
+bool {\bfseries view\+\_\+plan} = true
+\item 
+\mbox{\Hypertarget{classMainWindow_a9c107504bd70b705355d2442336cd7e3}\label{classMainWindow_a9c107504bd70b705355d2442336cd7e3}} 
+bool {\bfseries have\+\_\+plane} = false
+\item 
+\mbox{\Hypertarget{classMainWindow_a008546b8cbf367b6e97e366c4589d1a5}\label{classMainWindow_a008546b8cbf367b6e97e366c4589d1a5}} 
+std\+::vector$<$ pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$ $>$ {\bfseries vector\+\_\+cloud}
+\item 
+\mbox{\Hypertarget{classMainWindow_a44d3e7e6098cddb397e1ca26e1c94960}\label{classMainWindow_a44d3e7e6098cddb397e1ca26e1c94960}} 
+pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr {\bfseries cloud\+To\+Save}
+\item 
+\mbox{\Hypertarget{classMainWindow_a6ee83b2d6702a0a004a47db770120b76}\label{classMainWindow_a6ee83b2d6702a0a004a47db770120b76}} 
+std\+::vector$<$ pcl\+::\+Model\+Coefficients $>$ {\bfseries vector\+\_\+eq}
+\item 
+\mbox{\Hypertarget{classMainWindow_a7854ffa4bd34848d15406b033933f2a8}\label{classMainWindow_a7854ffa4bd34848d15406b033933f2a8}} 
+std\+::vector$<$ pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$ $>$ {\bfseries vector\+\_\+cloud\+\_\+\+R\+GB}
+\item 
+\mbox{\Hypertarget{classMainWindow_a3ba800b63dde403575263a10efb0422e}\label{classMainWindow_a3ba800b63dde403575263a10efb0422e}} 
+std\+::vector$<$ \hyperlink{classFragment}{Fragment} $>$ {\bfseries list\+\_\+limits}
+\item 
+\mbox{\Hypertarget{classMainWindow_ac09ffc325d981294d43ce5a2f31d3038}\label{classMainWindow_ac09ffc325d981294d43ce5a2f31d3038}} 
+std\+::vector$<$ pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$ $>$ {\bfseries room}
+\item 
+\mbox{\Hypertarget{classMainWindow_ae66cd602d3e6e6ca34f278534be99087}\label{classMainWindow_ae66cd602d3e6e6ca34f278534be99087}} 
+Q\+List$<$ \hyperlink{classPlane}{Plane} $>$ {\bfseries pl}
+\item 
+\mbox{\Hypertarget{classMainWindow_a73fe7472d7ac9fc69cf261e2c44e9453}\label{classMainWindow_a73fe7472d7ac9fc69cf261e2c44e9453}} 
+Q\+List$<$ \hyperlink{classVertex}{Vertex} $>$ {\bfseries vertices}
+\item 
+\mbox{\Hypertarget{classMainWindow_ad492b5bd41c228fadc6fed5404b1fd32}\label{classMainWindow_ad492b5bd41c228fadc6fed5404b1fd32}} 
+Q\+List$<$ \hyperlink{classPolygon}{Polygon} $>$ {\bfseries polygons}
+\item 
+\mbox{\Hypertarget{classMainWindow_a43b36978f24818ddb3337f66e8905892}\label{classMainWindow_a43b36978f24818ddb3337f66e8905892}} 
+std\+::vector$<$ double $\ast$ $>$ {\bfseries eq\+\_\+planes}
+\item 
+\mbox{\Hypertarget{classMainWindow_abc4bbbdd16bd42a6be673c86e881b6e2}\label{classMainWindow_abc4bbbdd16bd42a6be673c86e881b6e2}} 
+std\+::vector$<$ Q\+Vector3D $>$ {\bfseries inter\+\_\+points}
+\item 
+\mbox{\Hypertarget{classMainWindow_a04a17ff8d2a8277e3d4802fe73707d00}\label{classMainWindow_a04a17ff8d2a8277e3d4802fe73707d00}} 
+Q\+String {\bfseries file} = \char`\"{}\char`\"{}
+\item 
+\mbox{\Hypertarget{classMainWindow_a48b24b52a6700ee721be76e4dbaa2786}\label{classMainWindow_a48b24b52a6700ee721be76e4dbaa2786}} 
+int {\bfseries nb\+\_\+cloud} = 0
+\item 
+\mbox{\Hypertarget{classMainWindow_a135297d2d090cc0ae454a11ade9a2a00}\label{classMainWindow_a135297d2d090cc0ae454a11ade9a2a00}} 
+int {\bfseries nb\+\_\+plane} = 0
+\item 
+\mbox{\Hypertarget{classMainWindow_ac9e38e6da6b793162eb083600af2b9e4}\label{classMainWindow_ac9e38e6da6b793162eb083600af2b9e4}} 
+double {\bfseries xmin}
+\item 
+\mbox{\Hypertarget{classMainWindow_aae093db91dd3f5a8363d02f9634483ad}\label{classMainWindow_aae093db91dd3f5a8363d02f9634483ad}} 
+double {\bfseries ymin}
+\item 
+\mbox{\Hypertarget{classMainWindow_ad8bed6b99e90163c778d24e3380b59d2}\label{classMainWindow_ad8bed6b99e90163c778d24e3380b59d2}} 
+double {\bfseries zmin} = 10000000000
+\item 
+\mbox{\Hypertarget{classMainWindow_a6a24b68c9a57c46121804c1fecf58bff}\label{classMainWindow_a6a24b68c9a57c46121804c1fecf58bff}} 
+double {\bfseries xmax}
+\item 
+\mbox{\Hypertarget{classMainWindow_afcc020e854fddff3c814ce17a532fe97}\label{classMainWindow_afcc020e854fddff3c814ce17a532fe97}} 
+double {\bfseries ymax}
+\item 
+\mbox{\Hypertarget{classMainWindow_a6ab24bd943f474b3ec49c3ce8377ea3a}\label{classMainWindow_a6ab24bd943f474b3ec49c3ce8377ea3a}} 
+double {\bfseries zmax} = -\/10000000000
+\item 
+\mbox{\Hypertarget{classMainWindow_a1e872447c53d990b385fc134264eb645}\label{classMainWindow_a1e872447c53d990b385fc134264eb645}} 
+std\+::vector$<$ int $>$ {\bfseries rotate\+\_\+room}
+\item 
+\mbox{\Hypertarget{classMainWindow_afed123a278aeb01ec3507297365c01d0}\label{classMainWindow_afed123a278aeb01ec3507297365c01d0}} 
+std\+::vector$<$ float $\ast$$>$ {\bfseries scale\+\_\+xy}
+\item 
+\mbox{\Hypertarget{classMainWindow_ac3997f5d657dae5e5a53d6a7ff58f210}\label{classMainWindow_ac3997f5d657dae5e5a53d6a7ff58f210}} 
+std\+::vector$<$ float $\ast$$>$ {\bfseries dif\+\_\+xy}
+\item 
+\mbox{\Hypertarget{classMainWindow_ad4f4b6bc69443cc48c82cd84330c64e0}\label{classMainWindow_ad4f4b6bc69443cc48c82cd84330c64e0}} 
+std\+::vector$<$ float $>$ {\bfseries dist\+\_\+plane}
+\item 
+\mbox{\Hypertarget{classMainWindow_a42337f458dbab83dae12673acafa5916}\label{classMainWindow_a42337f458dbab83dae12673acafa5916}} 
+std\+::vector$<$ double $>$ {\bfseries rot\+\_\+xz}
+\item 
+\mbox{\Hypertarget{classMainWindow_a2fbedc27fd4c6a38bf43475547b40159}\label{classMainWindow_a2fbedc27fd4c6a38bf43475547b40159}} 
+std\+::vector$<$ double $>$ {\bfseries rot\+\_\+yz}
+\item 
+\mbox{\Hypertarget{classMainWindow_acbfecd04d6d7a18181b01fdefd46ad5f}\label{classMainWindow_acbfecd04d6d7a18181b01fdefd46ad5f}} 
+std\+::vector$<$ bool $>$ {\bfseries invert\+\_\+z}
+\item 
+\mbox{\Hypertarget{classMainWindow_a7a6950a1f310fb06a75e2fa657c40ec0}\label{classMainWindow_a7a6950a1f310fb06a75e2fa657c40ec0}} 
+float {\bfseries scalexy}
+\item 
+\mbox{\Hypertarget{classMainWindow_a610e1dd9a8cb241e02c14109d0647c28}\label{classMainWindow_a610e1dd9a8cb241e02c14109d0647c28}} 
+float {\bfseries scale\+\_\+depth}
+\item 
+\mbox{\Hypertarget{classMainWindow_aff5e355080dbdafbf461ba40bd877db5}\label{classMainWindow_aff5e355080dbdafbf461ba40bd877db5}} 
+Q\+Thread $\ast$ {\bfseries process\+Viewer}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions membres}
+\mbox{\Hypertarget{classMainWindow_abe57e522ecabb790bbb41ce813ea2a70}\label{classMainWindow_abe57e522ecabb790bbb41ce813ea2a70}} 
+\index{Main\+Window@{Main\+Window}!add\+Plane@{add\+Plane}}
+\index{add\+Plane@{add\+Plane}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{add\+Plane()}{addPlane()}}
+{\footnotesize\ttfamily pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr Main\+Window\+::add\+Plane (\begin{DoxyParamCaption}\item[{pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr}]{viewer,  }\item[{pcl\+::\+Model\+Coefficients}]{plane\+Coef }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_abe57e522ecabb790bbb41ce813ea2a70}{Main\+Window\+::add\+Plane} -\/ Ajout d\textquotesingle{}un plan au viewer avec en paramètre une équation de plan. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em viewer} & \\
+\hline
+{\em plane\+Coef} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMainWindow_a007d96d06719323cefdf2911a27be390}\label{classMainWindow_a007d96d06719323cefdf2911a27be390}} 
+\index{Main\+Window@{Main\+Window}!advanced\+\_\+modelization@{advanced\+\_\+modelization}}
+\index{advanced\+\_\+modelization@{advanced\+\_\+modelization}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{advanced\+\_\+modelization()}{advanced\_modelization()}}
+{\footnotesize\ttfamily void Main\+Window\+::advanced\+\_\+modelization (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::vector$<$ Q\+Vector2D $>$$>$}]{contours,  }\item[{std\+::vector$<$ double $>$}]{value\+\_\+contour,  }\item[{int}]{plane\+\_\+id }\end{DoxyParamCaption})}
+
+
+
+Main\+Window\+::advanced\+\_\+modelisation -\/ projection des polygones trouvés avec kippi dans le contexte open\+Gl. 
+
+\begin{DoxyNote}{Note}
+appelé pour chaque plan 
+\end{DoxyNote}
+\mbox{\Hypertarget{classMainWindow_a271a1410c7952fbdb4aa418acd38a52f}\label{classMainWindow_a271a1410c7952fbdb4aa418acd38a52f}} 
+\index{Main\+Window@{Main\+Window}!axe\+Via\+Normal@{axe\+Via\+Normal}}
+\index{axe\+Via\+Normal@{axe\+Via\+Normal}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{axe\+Via\+Normal()}{axeViaNormal()}}
+{\footnotesize\ttfamily int Main\+Window\+::axe\+Via\+Normal (\begin{DoxyParamCaption}\item[{Q\+Vector3D}]{n }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_a271a1410c7952fbdb4aa418acd38a52f}{Main\+Window\+::axe\+Via\+Normal} -\/ trouve l\textquotesingle{}axe d\textquotesingle{}un plan en fonction de sa normale. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em n} & -\/ normale \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+0 pour x, 1 pour y, 2 pour z 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMainWindow_a0e33f00b6a6dc0c09dbc75d7396b7094}\label{classMainWindow_a0e33f00b6a6dc0c09dbc75d7396b7094}} 
+\index{Main\+Window@{Main\+Window}!calc\+\_\+bounding\+\_\+box@{calc\+\_\+bounding\+\_\+box}}
+\index{calc\+\_\+bounding\+\_\+box@{calc\+\_\+bounding\+\_\+box}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{calc\+\_\+bounding\+\_\+box()}{calc\_bounding\_box()}}
+{\footnotesize\ttfamily void Main\+Window\+::calc\+\_\+bounding\+\_\+box (\begin{DoxyParamCaption}\item[{pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr}]{cloud }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_a0e33f00b6a6dc0c09dbc75d7396b7094}{Main\+Window\+::calc\+\_\+bounding\+\_\+box} -\/ calcul la boite englobante d\textquotesingle{}un nuage de point. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em cloud} & -\/ nuage \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classMainWindow_a94ae96c49d6c349e19632d9639926029}\label{classMainWindow_a94ae96c49d6c349e19632d9639926029}} 
+\index{Main\+Window@{Main\+Window}!calc\+\_\+inter\+\_\+planes@{calc\+\_\+inter\+\_\+planes}}
+\index{calc\+\_\+inter\+\_\+planes@{calc\+\_\+inter\+\_\+planes}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{calc\+\_\+inter\+\_\+planes()}{calc\_inter\_planes()}}
+{\footnotesize\ttfamily void Main\+Window\+::calc\+\_\+inter\+\_\+planes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_a94ae96c49d6c349e19632d9639926029}{Main\+Window\+::calc\+\_\+inter\+\_\+planes} -\/ calcul les intersections de tous les plans. 
+
+\begin{DoxyNote}{Note}
+utilise room qui est la liste des plans de la piece 
+\end{DoxyNote}
+\mbox{\Hypertarget{classMainWindow_ab4e79d23cef5c6a44f2cf425976c1aae}\label{classMainWindow_ab4e79d23cef5c6a44f2cf425976c1aae}} 
+\index{Main\+Window@{Main\+Window}!change\+Proba@{change\+Proba}}
+\index{change\+Proba@{change\+Proba}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{change\+Proba}{changeProba}}
+{\footnotesize\ttfamily void Main\+Window\+::change\+Proba (\begin{DoxyParamCaption}\item[{int}]{proba }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+\hyperlink{classMainWindow_ab4e79d23cef5c6a44f2cf425976c1aae}{Main\+Window\+::change\+Proba} -\/ changement de la valeur du slider proba. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em proba} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classMainWindow_ad4486efe33c8da6b53e3d14630c8dc6c}\label{classMainWindow_ad4486efe33c8da6b53e3d14630c8dc6c}} 
+\index{Main\+Window@{Main\+Window}!change\+Threshold@{change\+Threshold}}
+\index{change\+Threshold@{change\+Threshold}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{change\+Threshold}{changeThreshold}}
+{\footnotesize\ttfamily void Main\+Window\+::change\+Threshold (\begin{DoxyParamCaption}\item[{int}]{th }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+\hyperlink{classMainWindow_ad4486efe33c8da6b53e3d14630c8dc6c}{Main\+Window\+::change\+Threshold} -\/ changement de la valeur du slider threshold. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em th} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classMainWindow_a419bc39129027cc42b708751088cbde7}\label{classMainWindow_a419bc39129027cc42b708751088cbde7}} 
+\index{Main\+Window@{Main\+Window}!clouds\+\_\+union@{clouds\+\_\+union}}
+\index{clouds\+\_\+union@{clouds\+\_\+union}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{clouds\+\_\+union()}{clouds\_union()}}
+{\footnotesize\ttfamily pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$ Main\+Window\+::clouds\+\_\+union (\begin{DoxyParamCaption}\item[{std\+::vector$<$ pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$$>$}]{v\+\_\+cloud }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_a419bc39129027cc42b708751088cbde7}{Main\+Window\+::clouds\+\_\+union}. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em v\+\_\+cloud} & -\/ tableau de nuages de points \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+un nuage qui est l\textquotesingle{}union de tous les nuages du vector 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMainWindow_a5cf7c81626d682f087f5143605342f52}\label{classMainWindow_a5cf7c81626d682f087f5143605342f52}} 
+\index{Main\+Window@{Main\+Window}!compute\+Distance@{compute\+Distance}}
+\index{compute\+Distance@{compute\+Distance}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{compute\+Distance()}{computeDistance()}}
+{\footnotesize\ttfamily double Main\+Window\+::compute\+Distance (\begin{DoxyParamCaption}\item[{Q\+Vector3D}]{p1,  }\item[{Q\+Vector3D}]{p2 }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_a5cf7c81626d682f087f5143605342f52}{Main\+Window\+::compute\+Distance} -\/ calcul la distance entre deux points dans l\textquotesingle{}espace. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em p1} & -\/ Q\+Vector3D d\textquotesingle{}un point \\
+\hline
+{\em p2} & -\/ Q\+Vector3D d\textquotesingle{}un point \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+une distance 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMainWindow_a4cc8d1511438ac06d0e6c663c7fa3ab7}\label{classMainWindow_a4cc8d1511438ac06d0e6c663c7fa3ab7}} 
+\index{Main\+Window@{Main\+Window}!compute\+Mean\+Position\+Plane@{compute\+Mean\+Position\+Plane}}
+\index{compute\+Mean\+Position\+Plane@{compute\+Mean\+Position\+Plane}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{compute\+Mean\+Position\+Plane()}{computeMeanPositionPlane()}}
+{\footnotesize\ttfamily Q\+Vector3D Main\+Window\+::compute\+Mean\+Position\+Plane (\begin{DoxyParamCaption}\item[{pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr}]{plane }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_a4cc8d1511438ac06d0e6c663c7fa3ab7}{Main\+Window\+::compute\+Mean\+Position\+Plane} -\/ calcul la position moyenne des points d\textquotesingle{}un nuage. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em plane} & -\/ le nuage de points initial (appelé plane dans notre contexte car n\textquotesingle{}est intéressant que pour nos nuages de plan) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+un Q\+Vector3D représentant le x, y, et z moyen 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMainWindow_a643a46cc48a4cbab47ebb6e2e9d05ca0}\label{classMainWindow_a643a46cc48a4cbab47ebb6e2e9d05ca0}} 
+\index{Main\+Window@{Main\+Window}!don\+\_\+segmentation@{don\+\_\+segmentation}}
+\index{don\+\_\+segmentation@{don\+\_\+segmentation}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{don\+\_\+segmentation()}{don\_segmentation()}}
+{\footnotesize\ttfamily void Main\+Window\+::don\+\_\+segmentation (\begin{DoxyParamCaption}\item[{pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Const\+Ptr}]{cloud,  }\item[{double}]{angle,  }\item[{double}]{threshold,  }\item[{double}]{scale1,  }\item[{double}]{scale2 }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_a643a46cc48a4cbab47ebb6e2e9d05ca0}{Main\+Window\+::don\+\_\+segmentation} -\/ Segmentation par direction des normales et agrandissement des régions. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em cloud} & -\/ nuage initial \\
+\hline
+{\em angle} & T\+O\+DO \\
+\hline
+{\em threshold} & T\+O\+DO \\
+\hline
+{\em scale1} & T\+O\+DO \\
+\hline
+{\em scale2} & T\+O\+DO \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+n\textquotesingle{}est pas utilisé 
+\end{DoxyNote}
+N\+O\+TE\+: setting viewpoint is very important, so that we can ensure normals are all pointed in the same direction!\mbox{\Hypertarget{classMainWindow_a13b4ad1f6a3a4b6fa4f4bcb068b7d1e3}\label{classMainWindow_a13b4ad1f6a3a4b6fa4f4bcb068b7d1e3}} 
+\index{Main\+Window@{Main\+Window}!equation\+\_\+plane@{equation\+\_\+plane}}
+\index{equation\+\_\+plane@{equation\+\_\+plane}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{equation\+\_\+plane()}{equation\_plane()}}
+{\footnotesize\ttfamily double $\ast$ Main\+Window\+::equation\+\_\+plane (\begin{DoxyParamCaption}\item[{Q\+Vector3D}]{P1,  }\item[{Q\+Vector3D}]{P2,  }\item[{Q\+Vector3D}]{P3 }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_a13b4ad1f6a3a4b6fa4f4bcb068b7d1e3}{Main\+Window\+::equation\+\_\+plane} -\/ calcul l\textquotesingle{}équation du plan passant par les 3 points. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em P1} & \\
+\hline
+{\em P2} & \\
+\hline
+{\em P3} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+un tableau de double représentant les a, b, c et d d\textquotesingle{}une équation de plan 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMainWindow_a616d841913b70481fe6872e874dc090b}\label{classMainWindow_a616d841913b70481fe6872e874dc090b}} 
+\index{Main\+Window@{Main\+Window}!equation\+\_\+plane2@{equation\+\_\+plane2}}
+\index{equation\+\_\+plane2@{equation\+\_\+plane2}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{equation\+\_\+plane2()}{equation\_plane2()}}
+{\footnotesize\ttfamily double $\ast$ Main\+Window\+::equation\+\_\+plane2 (\begin{DoxyParamCaption}\item[{pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$}]{pcloud }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_a616d841913b70481fe6872e874dc090b}{Main\+Window\+::equation\+\_\+plane2} -\/ retrouve une approximation de l\textquotesingle{}équation du plan en utilisant R\+A\+N\+S\+AC. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em pcloud} & -\/ nuage de points représentant un plan \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+un tableau de double représentant les a, b, c et d d\textquotesingle{}une équation de plan 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMainWindow_a270e2529573f70c73c0c96379add233d}\label{classMainWindow_a270e2529573f70c73c0c96379add233d}} 
+\index{Main\+Window@{Main\+Window}!moy\+\_\+eq\+\_\+plane@{moy\+\_\+eq\+\_\+plane}}
+\index{moy\+\_\+eq\+\_\+plane@{moy\+\_\+eq\+\_\+plane}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{moy\+\_\+eq\+\_\+plane()}{moy\_eq\_plane()}}
+{\footnotesize\ttfamily double $\ast$ Main\+Window\+::moy\+\_\+eq\+\_\+plane (\begin{DoxyParamCaption}\item[{pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$}]{pcloud }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_a270e2529573f70c73c0c96379add233d}{Main\+Window\+::moy\+\_\+eq\+\_\+plane} On prend plusieurs trinômes de points des nuages afin de faire une équation de plan moyenne. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em pcloud} & -\/ nuage de points représentant un plan \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+une équation de plan moyenne 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMainWindow_aa630d558c19d9e93bc8f3f0e2f591163}\label{classMainWindow_aa630d558c19d9e93bc8f3f0e2f591163}} 
+\index{Main\+Window@{Main\+Window}!normales\+Are\+Similar@{normales\+Are\+Similar}}
+\index{normales\+Are\+Similar@{normales\+Are\+Similar}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{normales\+Are\+Similar()}{normalesAreSimilar()}}
+{\footnotesize\ttfamily bool Main\+Window\+::normales\+Are\+Similar (\begin{DoxyParamCaption}\item[{Q\+Vector3D}]{p1,  }\item[{Q\+Vector3D}]{p2 }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_aa630d558c19d9e93bc8f3f0e2f591163}{Main\+Window\+::normales\+Are\+Similar} -\/ vérifie si deux normales sont a peu pres semblables (ou inverses) 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em p1} & \\
+\hline
+{\em p2} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+le seuil est le seuil d\textquotesingle{}erreur dans la comparaison 
+\end{DoxyNote}
+\begin{DoxyReturn}{Renvoie}
+vrai si les normales sont similaires, faux sinon 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMainWindow_a74c5655d5716cf30d2647c2a1cf757a4}\label{classMainWindow_a74c5655d5716cf30d2647c2a1cf757a4}} 
+\index{Main\+Window@{Main\+Window}!repere\+Room@{repere\+Room}}
+\index{repere\+Room@{repere\+Room}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{repere\+Room()}{repereRoom()}}
+{\footnotesize\ttfamily void Main\+Window\+::repere\+Room (\begin{DoxyParamCaption}\item[{pcl\+::visualization\+::\+P\+C\+L\+Visualizer\+::\+Ptr}]{viewer,  }\item[{std\+::vector$<$ pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr $>$}]{list\+\_\+planes }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_a74c5655d5716cf30d2647c2a1cf757a4}{Main\+Window\+::repere\+Room} -\/ repérage des murs, sol, plafond d\textquotesingle{}une piece. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em viewer} & \\
+\hline
+{\em list\+\_\+planes} & -\/ liste des plans retrouvés par la méthode de recherche de plan \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classMainWindow_a67a37a0adb8dc9c349e6ccca029c6a1e}\label{classMainWindow_a67a37a0adb8dc9c349e6ccca029c6a1e}} 
+\index{Main\+Window@{Main\+Window}!resol\+\_\+3eq\+\_\+3inc@{resol\+\_\+3eq\+\_\+3inc}}
+\index{resol\+\_\+3eq\+\_\+3inc@{resol\+\_\+3eq\+\_\+3inc}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{resol\+\_\+3eq\+\_\+3inc()}{resol\_3eq\_3inc()}}
+{\footnotesize\ttfamily Q\+Vector3D Main\+Window\+::resol\+\_\+3eq\+\_\+3inc (\begin{DoxyParamCaption}\item[{double $\ast$}]{eq1,  }\item[{double $\ast$}]{eq2,  }\item[{double $\ast$}]{eq3 }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_a67a37a0adb8dc9c349e6ccca029c6a1e}{Main\+Window\+::resol\+\_\+3eq\+\_\+3inc} -\/ résolution d\textquotesingle{}un système de 3 équations 3 inconnus. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em eq1} & -\/ tableau représentant a, b, c et d d\textquotesingle{}une équation \\
+\hline
+{\em eq2} & -\/ tableau représentant a, b, c et d d\textquotesingle{}une équation \\
+\hline
+{\em eq3} & -\/ tableau représentant a, b, c et d d\textquotesingle{}une équation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+la solution de la résolution sous forme d\textquotesingle{}un tableau de 3 éléments avec x, y et z 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMainWindow_a64c3b822b3ec2d55e2c999d5fda2981e}\label{classMainWindow_a64c3b822b3ec2d55e2c999d5fda2981e}} 
+\index{Main\+Window@{Main\+Window}!rotate\+Cloud@{rotate\+Cloud}}
+\index{rotate\+Cloud@{rotate\+Cloud}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{rotate\+Cloud()}{rotateCloud()}}
+{\footnotesize\ttfamily pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr Main\+Window\+::rotate\+Cloud (\begin{DoxyParamCaption}\item[{pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr}]{cloud,  }\item[{int}]{degrees,  }\item[{int}]{axe }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_a64c3b822b3ec2d55e2c999d5fda2981e}{Main\+Window\+::rotate\+Cloud} -\/ fais pivoter un nuage de points en recalculant toutes les coordonnées. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em cloud} & -\/ nuage a tourner \\
+\hline
+{\em degrees} & -\/ nombre de degrees voulu \\
+\hline
+{\em axe} & -\/ axe sur lequel faire pivoter (x = 0, y = 1, z = 2) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+un nouveau nuage qui est une copie de l\textquotesingle{}ancien mais qui a pivoté 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMainWindow_a884e9d60c68bb38b4830a36907a59c79}\label{classMainWindow_a884e9d60c68bb38b4830a36907a59c79}} 
+\index{Main\+Window@{Main\+Window}!search\+Limit@{search\+Limit}}
+\index{search\+Limit@{search\+Limit}!Main\+Window@{Main\+Window}}
+\subsubsection{\texorpdfstring{search\+Limit()}{searchLimit()}}
+{\footnotesize\ttfamily void Main\+Window\+::search\+Limit (\begin{DoxyParamCaption}\item[{std\+::vector$<$ pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$\+::Ptr $>$}]{list\+\_\+planes,  }\item[{std\+::vector$<$ double $\ast$$>$}]{list\+\_\+equat\+\_\+planes,  }\item[{std\+::vector$<$ Q\+Vector3D $>$}]{list\+\_\+normale\+\_\+planes,  }\item[{std\+::vector$<$ Q\+Vector3D $>$}]{list\+\_\+mean\+Position }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{classMainWindow_a884e9d60c68bb38b4830a36907a59c79}{Main\+Window\+::search\+Limit} -\/ recherche les éléments les plus éloignés dans la pièce pour retrouver ce qui semble etre sol/plafond/mur. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em list\+\_\+planes} & -\/ liste des plans retrouvés par la méthode de recherche de plan \\
+\hline
+{\em list\+\_\+equat\+\_\+planes} & -\/ tableau des équations de chaque plan \\
+\hline
+{\em list\+\_\+normale\+\_\+planes} & -\/ tableau des normales de chaque plan \\
+\hline
+{\em list\+\_\+mean\+Position} & -\/ tableau des positions moyennes de chaque plan \\
+\hline
+\end{DoxyParams}
+
+
+La documentation de cette classe a été générée à partir des fichiers suivants \+:\begin{DoxyCompactItemize}
+\item 
+mainwindow.\+h\item 
+mainwindow.\+cpp\end{DoxyCompactItemize}

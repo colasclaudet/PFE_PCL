@@ -1,0 +1,16 @@
+digraph "GLArea"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node3 [label="GLArea",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="QOpenGLWidget",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node5 -> Node3 [dir="back",color="darkgreen",fontsize="10",style="solid"];
+  Node5 [label="QOpenGLFunctions",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node6 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" planes" ];
+  Node6 [label="Planes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPlanes.html"];
+  Node7 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" polygons" ];
+  Node7 [label="Polygons",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPolygons.html"];
+  Node8 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" vertices" ];
+  Node8 [label="Vertices",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classVertices.html"];
+}

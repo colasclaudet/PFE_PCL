@@ -1,0 +1,61 @@
+\hypertarget{classFragment}{}\section{Référence de la classe Fragment}
+\label{classFragment}\index{Fragment@{Fragment}}
+\subsection*{Types publics}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classFragment_a9e632cbe32b286e667c244f0cac5c25d}\label{classFragment_a9e632cbe32b286e667c244f0cac5c25d}} 
+enum {\bfseries Type} \{ \newline
+{\bfseries Mur}, 
+{\bfseries Plafond}, 
+{\bfseries Sol}, 
+{\bfseries Autre}, 
+\newline
+{\bfseries A\+\_\+\+Calculer}, 
+{\bfseries Inconnu}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classFragment_a5da4b1f26385fce802f1ef108c84a86c}\label{classFragment_a5da4b1f26385fce802f1ef108c84a86c}} 
+void {\bfseries add\+Plane} (pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$)
+\item 
+\mbox{\Hypertarget{classFragment_acddb6a660674739e83c46e32ac7a087e}\label{classFragment_acddb6a660674739e83c46e32ac7a087e}} 
+void {\bfseries set\+Type} (Type)
+\item 
+\mbox{\Hypertarget{classFragment_a186c1f7d8e132ded49f2ce26f541318d}\label{classFragment_a186c1f7d8e132ded49f2ce26f541318d}} 
+void {\bfseries compute\+Mean\+Position} ()
+\item 
+\mbox{\Hypertarget{classFragment_af4458206e0a2993e54a91fd98d3cc6da}\label{classFragment_af4458206e0a2993e54a91fd98d3cc6da}} 
+Q\+Vector3D {\bfseries get\+Mean\+Position} ()
+\item 
+\mbox{\Hypertarget{classFragment_af284ba2902d577c5cdfac48c35ea39f4}\label{classFragment_af284ba2902d577c5cdfac48c35ea39f4}} 
+void {\bfseries attribute\+Color\+Auto} ()
+\item 
+\mbox{\Hypertarget{classFragment_a892ecf8bc007a6742bfd118f04d13309}\label{classFragment_a892ecf8bc007a6742bfd118f04d13309}} 
+Type {\bfseries get\+Type} ()
+\item 
+\mbox{\Hypertarget{classFragment_a93a4058a4802913e27b064717a2d27a0}\label{classFragment_a93a4058a4802913e27b064717a2d27a0}} 
+std\+::string {\bfseries get\+String\+Type} ()
+\end{DoxyCompactItemize}
+\subsection*{Attributs publics}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classFragment_a94275a2ef93b9cbca8c7adbf7f87f807}\label{classFragment_a94275a2ef93b9cbca8c7adbf7f87f807}} 
+std\+::vector$<$ pcl\+::\+Point\+Cloud$<$ pcl\+::\+Point\+X\+YZ $>$ $>$ {\bfseries planes}
+\end{DoxyCompactItemize}
+\subsection*{Attributs privés}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classFragment_aa179c363d0738d2743957b5dfe0f89e5}\label{classFragment_aa179c363d0738d2743957b5dfe0f89e5}} 
+Type {\bfseries type}
+\item 
+\mbox{\Hypertarget{classFragment_ae5fbd0eeacd1483f951612ff961c967d}\label{classFragment_ae5fbd0eeacd1483f951612ff961c967d}} 
+Q\+Vector3D {\bfseries mean\+Position} = Q\+Vector3D(0,0,0)
+\end{DoxyCompactItemize}
+
+
+La documentation de cette classe a été générée à partir des fichiers suivants \+:\begin{DoxyCompactItemize}
+\item 
+fragment.\+h\item 
+fragment.\+cpp\end{DoxyCompactItemize}

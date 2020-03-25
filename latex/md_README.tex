@@ -1,0 +1,203 @@
+\subsubsection*{Projet de fin d\textquotesingle{}études de Master 2 Géométrie et Informatique Graphique}
+
+\subsubsection*{Réalisé par Colas Claudet, Yoann Foulon et Rachel Glaise}
+
+
+\begin{DoxyItemize}
+\item \href{#r%c3%a9sum%c3%a9}{\tt Résumé}
+\item \href{#d%c3%a9pendances}{\tt Dépendances}
+\item \href{#installation}{\tt Installation}
+\begin{DoxyItemize}
+\item \href{#installer-les-outils-de-compilation}{\tt Installer les outils de compilation}
+\item \href{#installer-qt-et-qtcreator}{\tt Installer Qt et Qt\+Creator}
+\item \href{#installer-opencv-et-opencv-contrib}{\tt Installer Open\+CV et Open\+CV Contrib\+:}
+\item \href{#installer-pcl-point-cloud-library}{\tt Installer P\+CL (Point Cloud Library)}
+\item \href{#configuration-du-projet}{\tt Configuration du projet}
+\item \href{#exécution}{\tt Exécution}
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\subsection*{Résumé}
+
+Les nuages de points sont très utilisés dans de nombreux domaines pour leurs multiples applications. Dans ce contexte, nous avons manipulé des nuages de points provenant de scans intérieurs de pièces pour créer des modélisations simplifiées de ces pièces. Pour cela, nous avons utilisé Point Cloud Library, qui dispose de nombreuses fonctions de manipulation de nuages de points, mais aussi l’algorithme K\+I\+P\+PI, que nous avons implémenté à l’aide de la librairie Open\+CV, et qui permet d’extraire des informations sur des images 2D. Ce projet est réalisé dans le cadre de notre Projet de Fin d’Étude et fait suite au T\+ER du même nom réalisé l’année précédente.
+
+\subsection*{Dépendances}
+
+Ce projet nécéssite les éléments suivants pour fonctionner\+:
+
+
+\begin{DoxyItemize}
+\item P\+CL (Point Cloud Library)
+\item Open\+CV et ses contributions
+\item C\+Make
+\item Make
+\item g++
+\item Qt
+\item les dépendances sur lesquelles reposent les éléments ci-\/dessus
+\end{DoxyItemize}
+
+Notre programme est compatible uniquement avec un système G\+N\+U/\+Linux. L\textquotesingle{}installation des éléments ci-\/dessus dépendant des distributions, nous couvrirons dans la partie suivante uniquement un exemple d\textquotesingle{}installation sur la distribution Ubuntu 18.\+04, système que nous avons utilisé pour le développement.
+
+\subsection*{Installation}
+
+\subsubsection*{Installer les outils de compilation}
+
+
+\begin{DoxyCode}
+sudo apt install build-essential
+\end{DoxyCode}
+
+
+\subsubsection*{Installer Qt et Qt\+Creator}
+
+
+\begin{DoxyCode}
+sudo apt-get install qtcreator qt5-default \(\backslash\)
+qt5-doc qt5-doc-html qtbase5-doc \(\backslash\)
+qtbase5-doc-html qtbase5-examples
+\end{DoxyCode}
+
+
+\subsubsection*{Installer Open\+CV et Open\+CV Contrib\+:}
+
+
+\begin{DoxyEnumerate}
+\item Dépendances\+:
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}
+sudo apt-get install cmake git libgtk2.0-dev \(\backslash\) 
+pkg-config libavcodec-dev libavformat-dev \(\backslash\)
+libswscale-dev libtbb2 libtbb-dev \(\backslash\)
+libjpeg-dev libpng-dev libtiff-dev \(\backslash\)
+libdc1394-22-dev
+\end{DoxyCode}
+
+
+
+\begin{DoxyEnumerate}
+\item Téléchargement\+:
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}
+cd ~/<my\_working\_directory>
+git clone https://github.com/opencv/opencv.git
+git clone https://github.com/opencv/opencv\_contrib.git
+\end{DoxyCode}
+
+
+
+\begin{DoxyEnumerate}
+\item Création du dossier build\+:
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}
+cd ~/opencv
+mkdir build
+cd build
+\end{DoxyCode}
+
+
+
+\begin{DoxyEnumerate}
+\item Configuration\+:
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}
+cmake -D CMAKE\_BUILD\_TYPE=Release \(\backslash\)
+-D OPENCV\_EXTRA\_MODULES\_PATH=../../opencv\_contrib/modules \(\backslash\)
+-D CMAKE\_INSTALL\_PREFIX=/usr/local ..
+\end{DoxyCode}
+
+
+
+\begin{DoxyEnumerate}
+\item Build\+:
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}
+make -jX #Remplacer X par votre nombre de coeurs du processeur
+\end{DoxyCode}
+
+
+
+\begin{DoxyEnumerate}
+\item Installation\+:
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}
+sudo make install
+\end{DoxyCode}
+
+
+\subsubsection*{Installer P\+CL (Point Cloud Library)}
+
+
+\begin{DoxyCode}
+sudo apt install libpcl-dev
+\end{DoxyCode}
+
+
+\subsubsection*{Configuration du projet}
+
+
+\begin{DoxyEnumerate}
+\item Télécharger le projet\+:
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}
+git clone https://github.com/colasclaudet/PFE\_PCL.git
+\end{DoxyCode}
+
+
+
+\begin{DoxyEnumerate}
+\item Créer un dossier build\+:
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}
+cd PFE\_PCL
+mkdir build
+\end{DoxyCode}
+
+
+
+\begin{DoxyEnumerate}
+\item Configuration sous Qt\+Creator\+:
+\end{DoxyEnumerate}
+
+Ouvrir {\ttfamily Scan\+L\+I\+D\+A\+R.\+pro} avec Qt\+Creator et créez la configuration suivante dans Projects $>$ Build\+:
+
+
+
+\subsubsection*{Exécution}
+
+Lancez le projet avec Qt\+Creator. Vous devriez obtenir l\textquotesingle{}interface suivante\+:
+
+
+
+L\textquotesingle{}éxécution du programme se déroule en plusieurs phases successives \+:
+
+
+\begin{DoxyItemize}
+\item Import d\textquotesingle{}un nuage de point avec le bouton \char`\"{}\+Import\char`\"{}
+\item Sliders pour les paramètres de segmentation (ils sont paramétrés de base pour le nuage de points d\textquotesingle{}exemple)
+\begin{DoxyItemize}
+\item Slider \char`\"{}thresold\char`\"{} \+: permet de définir la distance à laquelle un point est considéré comme dans le plan
+\item Slider \char`\"{}proba\char`\"{} \+: permet de définir le pourcentage de points du nuage qui doit être dans le plan pour que ce plan soit validé
+\end{DoxyItemize}
+\item (Optionnel) Affichage du nuage de point sans traitement avec le bouton \char`\"{}\+Affichage basique\char`\"{}
+\item Segmentation du nuage en plan avec le bouton \char`\"{}\+Segmenter\char`\"{} \+: 
+\item Tri des plans (Attribution aux murs, plafond, sol) avec le bouton \char`\"{}\+Trier\char`\"{} \+: 
+\item Modélisation de la pièce avec le bouton \char`\"{}\+Modéliser\char`\"{} \+: 
+\end{DoxyItemize}
+
+Chaque nouvelle étape devient accessible une fois la fenêtre de l\textquotesingle{}étape précédente \char`\"{}fermée\char`\"{} (remarque \+: la fermeture d\textquotesingle{}une fenêtre ne la fait pas disparaitre, mais toute manipulation sur celle-\/ci devient impossible). 

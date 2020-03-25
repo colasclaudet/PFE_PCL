@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ScanLidar:  Fichier source de kippi.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">ScanLidar
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">kippi.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef KIPPI_H</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define KIPPI_H</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;opencv2/opencv.hpp&gt;</span> <span class="comment">//Dépendance OpenCV</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;opencv2/imgproc.hpp&gt;</span> <span class="comment">//Dépendance OpenCV</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;opencv2/ximgproc.hpp&quot;</span> <span class="comment">//fast line detector</span></div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;opencv2/core/utility.hpp&gt;</span> <span class="comment">//Dépendance OpenCV</span></div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;opencv2/features2d.hpp&gt;</span> <span class="comment">//Dépendance OpenCV</span></div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;opencv2/highgui.hpp&gt;</span> <span class="comment">//Dépendance OpenCV</span></div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span> <span class="comment">//vector</span></div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span> <span class="comment">//map</span></div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span> <span class="comment">//sqrt, abs</span></div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;queue&gt;</span> <span class="comment">//priority_queue</span></div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;primitive.h&quot;</span></div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;QVector2D&gt;</span></div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacestd.html">std</a>;</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacecv.html">cv</a>;</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacecv_1_1ximgproc.html">cv::ximgproc</a>;</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">//Définition d&#39;une marge d&#39;approximation pour les égalités.</span></div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#define EPSILON 1E-10</span></div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div><div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classKippi.html">   34</a></span>&#160;<span class="keyword">class </span><a class="code" href="classKippi.html">Kippi</a></div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">private</span>:</div><div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classKippi.html#a27b6bb80d6de150819bdf84a68f5a649">   40</a></span>&#160;    vector&lt;Primitive&gt; <a class="code" href="classKippi.html#a27b6bb80d6de150819bdf84a68f5a649">m_primitives</a>;</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    Point2f middleOfSegment(<span class="keyword">const</span> Point2f &amp;segmentStart, <span class="keyword">const</span> Point2f &amp;segmentEnd);</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">bool</span> almostEqual(<span class="keywordtype">double</span> number1, <span class="keywordtype">double</span> number2);</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">double</span> distanceBetweenPoints(<span class="keyword">const</span> Point2f &amp;a, <span class="keyword">const</span> Point2f &amp;b);</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">bool</span> arePointsColinear(<span class="keyword">const</span> Point2f &amp;a, <span class="keyword">const</span> Point2f &amp;b, <span class="keyword">const</span> Point2f &amp;c);</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">bool</span> pointOnSegment(<span class="keyword">const</span> Point2f &amp;segmentStart, <span class="keyword">const</span> Point2f &amp;segmentEnd,</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                        <span class="keyword">const</span> Point2f &amp;toEvaluate);</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">bool</span> lineIntersection(<span class="keyword">const</span> Point2f &amp;a1, <span class="keyword">const</span> Point2f &amp;b1, <span class="keyword">const</span> Point2f &amp;a2,</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                            <span class="keyword">const</span> Point2f &amp;b2, Point2f &amp;intersection);</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">bool</span> isPropagationLeft();</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="comment">//void propagation(double t, const Mat &amp;image);</span></div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordtype">void</span> propagationPriorityQueue(<span class="keywordtype">double</span> t, <span class="keyword">const</span> Mat &amp;image);</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="keyword">public</span>:</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <a class="code" href="classKippi.html">Kippi</a>();</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    vector&lt;Primitive&gt; primitives();</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    pair&lt;vector&lt;vector&lt;QVector2D&gt;&gt;, vector&lt;double&gt;&gt; partition(<span class="keywordtype">string</span> imgName, <span class="keywordtype">bool</span> display = <span class="keyword">false</span>);</div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;};</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="preprocessor">#endif // KIPPI_H</span></div><div class="ttc" id="namespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div></div>
+<div class="ttc" id="namespacecv_html"><div class="ttname"><a href="namespacecv.html">cv</a></div></div>
+<div class="ttc" id="namespacecv_1_1ximgproc_html"><div class="ttname"><a href="namespacecv_1_1ximgproc.html">ximgproc</a></div></div>
+<div class="ttc" id="classKippi_html"><div class="ttname"><a href="classKippi.html">Kippi</a></div><div class="ttdoc">Classe principale de la partie Kippi de notre application. Regroupe les fonction nécéssaires à l&amp;#39;éxéc...</div><div class="ttdef"><b>Definition:</b> kippi.h:34</div></div>
+<div class="ttc" id="classKippi_html_a27b6bb80d6de150819bdf84a68f5a649"><div class="ttname"><a href="classKippi.html#a27b6bb80d6de150819bdf84a68f5a649">Kippi::m_primitives</a></div><div class="ttdeci">vector&lt; Primitive &gt; m_primitives</div><div class="ttdoc">m_primitives: Tableau stockant toutes les primitives de l&amp;#39;image </div><div class="ttdef"><b>Definition:</b> kippi.h:40</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Généré par &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ScanLidar: Référence de la classe Kippi</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">ScanLidar
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Fonctions membres publiques</a> &#124;
+<a href="#pri-methods">Fonctions membres privées</a> &#124;
+<a href="#pri-attribs">Attributs privés</a> &#124;
+<a href="classKippi-members.html">Liste de tous les membres</a>  </div>
+  <div class="headertitle">
+<div class="title">Référence de la classe Kippi</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Classe principale de la partie <a class="el" href="classKippi.html" title="Classe principale de la partie Kippi de notre application. Regroupe les fonction nécéssaires à l&#39;éxéc...">Kippi</a> de notre application. Regroupe les fonction nécéssaires à l'éxécution de cet algorithme.  
+ <a href="classKippi.html#details">Plus de détails...</a></p>
+
+<p><code>#include &lt;<a class="el" href="kippi_8h_source.html">kippi.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Fonctions membres publiques</h2></td></tr>
+<tr class="memitem:a0b082ee735c823502a2d7942ba151da3"><td class="memItemLeft" align="right" valign="top"><a id="a0b082ee735c823502a2d7942ba151da3"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKippi.html#a0b082ee735c823502a2d7942ba151da3">Kippi</a> ()</td></tr>
+<tr class="memdesc:a0b082ee735c823502a2d7942ba151da3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructeur par défaut de la classe <a class="el" href="classKippi.html" title="Classe principale de la partie Kippi de notre application. Regroupe les fonction nécéssaires à l&#39;éxéc...">Kippi</a>. <br /></td></tr>
+<tr class="separator:a0b082ee735c823502a2d7942ba151da3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af783aa21eeb1b1974bd1b45fb0dbf673"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="classPrimitive.html">Primitive</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKippi.html#af783aa21eeb1b1974bd1b45fb0dbf673">primitives</a> ()</td></tr>
+<tr class="memdesc:af783aa21eeb1b1974bd1b45fb0dbf673"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter de m_primitives.  <a href="#af783aa21eeb1b1974bd1b45fb0dbf673">Plus de détails...</a><br /></td></tr>
+<tr class="separator:af783aa21eeb1b1974bd1b45fb0dbf673"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9d153838b05fe37934d32152bf78539"><td class="memItemLeft" align="right" valign="top">pair&lt; vector&lt; vector&lt; QVector2D &gt; &gt;, vector&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKippi.html#ae9d153838b05fe37934d32152bf78539">partition</a> (string imgName, bool display=false)</td></tr>
+<tr class="memdesc:ae9d153838b05fe37934d32152bf78539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Partitionne l'image passée en paramètre selon une implémentation de l'algorithme <a class="el" href="classKippi.html" title="Classe principale de la partie Kippi de notre application. Regroupe les fonction nécéssaires à l&#39;éxéc...">Kippi</a>: <a href="https://hal.inria.fr/hal-01740958/file/kippi.pdf">https://hal.inria.fr/hal-01740958/file/kippi.pdf</a>.  <a href="#ae9d153838b05fe37934d32152bf78539">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ae9d153838b05fe37934d32152bf78539"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Fonctions membres privées</h2></td></tr>
+<tr class="memitem:a5192ea964167634b40c1938b332bdb9f"><td class="memItemLeft" align="right" valign="top">Point2f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKippi.html#a5192ea964167634b40c1938b332bdb9f">middleOfSegment</a> (const Point2f &amp;segmentStart, const Point2f &amp;segmentEnd)</td></tr>
+<tr class="memdesc:a5192ea964167634b40c1938b332bdb9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retourne les coordonnées du milieu d'un segment.  <a href="#a5192ea964167634b40c1938b332bdb9f">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a5192ea964167634b40c1938b332bdb9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6631ea0c01edea1b06f87b27f79c667a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKippi.html#a6631ea0c01edea1b06f87b27f79c667a">almostEqual</a> (double number1, double number2)</td></tr>
+<tr class="memdesc:a6631ea0c01edea1b06f87b27f79c667a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opérateur égalité à EPSILON près. Source: <a href="https://github.com/opencv/opencv/blob/master/modules/imgproc/src/min_enclosing_triangle.cpp#L1521-L1531">https://github.com/opencv/opencv/blob/master/modules/imgproc/src/min_enclosing_triangle.cpp#L1521-L1531</a>.  <a href="#a6631ea0c01edea1b06f87b27f79c667a">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a6631ea0c01edea1b06f87b27f79c667a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e3cbabe915e2be9e8ab37081d7098ed"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKippi.html#a0e3cbabe915e2be9e8ab37081d7098ed">distanceBetweenPoints</a> (const Point2f &amp;a, const Point2f &amp;b)</td></tr>
+<tr class="memdesc:a0e3cbabe915e2be9e8ab37081d7098ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retourne la distance entre deux Point2f.  <a href="#a0e3cbabe915e2be9e8ab37081d7098ed">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a0e3cbabe915e2be9e8ab37081d7098ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0e06b53305f73af6cd8be09bad0c647"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKippi.html#aa0e06b53305f73af6cd8be09bad0c647">arePointsColinear</a> (const Point2f &amp;a, const Point2f &amp;b, const Point2f &amp;c)</td></tr>
+<tr class="memdesc:aa0e06b53305f73af6cd8be09bad0c647"><td class="mdescLeft">&#160;</td><td class="mdescRight">Teste la colinéarité de 3 points.  <a href="#aa0e06b53305f73af6cd8be09bad0c647">Plus de détails...</a><br /></td></tr>
+<tr class="separator:aa0e06b53305f73af6cd8be09bad0c647"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8766f581808019895b8a515e18550347"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKippi.html#a8766f581808019895b8a515e18550347">pointOnSegment</a> (const Point2f &amp;segmentStart, const Point2f &amp;segmentEnd, const Point2f &amp;toEvaluate)</td></tr>
+<tr class="memdesc:a8766f581808019895b8a515e18550347"><td class="mdescLeft">&#160;</td><td class="mdescRight">Teste si le point toEvaluate est sur le segment segmentStart- segmentEnd, en fonction de la colinéarité des trois points et de la distance entre ceux-ci.  <a href="#a8766f581808019895b8a515e18550347">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a8766f581808019895b8a515e18550347"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb3a6de2afb50deea4f782fecdb63c6a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKippi.html#afb3a6de2afb50deea4f782fecdb63c6a">lineIntersection</a> (const Point2f &amp;a1, const Point2f &amp;b1, const Point2f &amp;a2, const Point2f &amp;b2, Point2f &amp;intersection)</td></tr>
+<tr class="memdesc:afb3a6de2afb50deea4f782fecdb63c6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Teste l'intersection de deux segments. Source (modifiée pour ajouter des tests d'appartenance aux segments, la fonction de base étant pour des droites: <a href="https://github.com/opencv/opencv/blob/master/modules/imgproc/src/min_enclosing_triangle.cpp#L1380-L1424">https://github.com/opencv/opencv/blob/master/modules/imgproc/src/min_enclosing_triangle.cpp#L1380-L1424</a>.  <a href="#afb3a6de2afb50deea4f782fecdb63c6a">Plus de détails...</a><br /></td></tr>
+<tr class="separator:afb3a6de2afb50deea4f782fecdb63c6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cdc0fdc3106ccb21a6bd33790920497"><td class="memItemLeft" align="right" valign="top"><a id="a2cdc0fdc3106ccb21a6bd33790920497"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKippi.html#a2cdc0fdc3106ccb21a6bd33790920497">isPropagationLeft</a> ()</td></tr>
+<tr class="memdesc:a2cdc0fdc3106ccb21a6bd33790920497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Teste si il reste des primitives à propager dans l'image. <br /></td></tr>
+<tr class="separator:a2cdc0fdc3106ccb21a6bd33790920497"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac474c09621760386d61b9ee4714512b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKippi.html#ac474c09621760386d61b9ee4714512b0">propagationPriorityQueue</a> (double t, const Mat &amp;image)</td></tr>
+<tr class="memdesc:ac474c09621760386d61b9ee4714512b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonction de propagation des primitives dans l'image en fonction du temps t.  <a href="#ac474c09621760386d61b9ee4714512b0">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ac474c09621760386d61b9ee4714512b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Attributs privés</h2></td></tr>
+<tr class="memitem:a27b6bb80d6de150819bdf84a68f5a649"><td class="memItemLeft" align="right" valign="top"><a id="a27b6bb80d6de150819bdf84a68f5a649"></a>
+vector&lt; <a class="el" href="classPrimitive.html">Primitive</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKippi.html#a27b6bb80d6de150819bdf84a68f5a649">m_primitives</a></td></tr>
+<tr class="memdesc:a27b6bb80d6de150819bdf84a68f5a649"><td class="mdescLeft">&#160;</td><td class="mdescRight">m_primitives: Tableau stockant toutes les primitives de l'image <br /></td></tr>
+<tr class="separator:a27b6bb80d6de150819bdf84a68f5a649"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>Classe principale de la partie <a class="el" href="classKippi.html" title="Classe principale de la partie Kippi de notre application. Regroupe les fonction nécéssaires à l&#39;éxéc...">Kippi</a> de notre application. Regroupe les fonction nécéssaires à l'éxécution de cet algorithme. </p>
+</div><h2 class="groupheader">Documentation des fonctions membres</h2>
+<a id="a6631ea0c01edea1b06f87b27f79c667a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6631ea0c01edea1b06f87b27f79c667a">&#9670;&nbsp;</a></span>almostEqual()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Kippi::almostEqual </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>number1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>number2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Opérateur égalité à EPSILON près. Source: <a href="https://github.com/opencv/opencv/blob/master/modules/imgproc/src/min_enclosing_triangle.cpp#L1521-L1531">https://github.com/opencv/opencv/blob/master/modules/imgproc/src/min_enclosing_triangle.cpp#L1521-L1531</a>. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">number1</td><td>Premier nombre à comparer </td></tr>
+    <tr><td class="paramname">number2</td><td>Second nombre à comparer </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa0e06b53305f73af6cd8be09bad0c647"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0e06b53305f73af6cd8be09bad0c647">&#9670;&nbsp;</a></span>arePointsColinear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Kippi::arePointsColinear </td>
+          <td>(</td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Teste la colinéarité de 3 points. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>Premier point </td></tr>
+    <tr><td class="paramname">b</td><td>Second point </td></tr>
+    <tr><td class="paramname">c</td><td>Troisième point </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0e3cbabe915e2be9e8ab37081d7098ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e3cbabe915e2be9e8ab37081d7098ed">&#9670;&nbsp;</a></span>distanceBetweenPoints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Kippi::distanceBetweenPoints </td>
+          <td>(</td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retourne la distance entre deux Point2f. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>Premier point </td></tr>
+    <tr><td class="paramname">b</td><td>Second Point </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="afb3a6de2afb50deea4f782fecdb63c6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb3a6de2afb50deea4f782fecdb63c6a">&#9670;&nbsp;</a></span>lineIntersection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Kippi::lineIntersection </td>
+          <td>(</td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>a1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>b1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>a2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>b2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Point2f &amp;&#160;</td>
+          <td class="paramname"><em>intersection</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Teste l'intersection de deux segments. Source (modifiée pour ajouter des tests d'appartenance aux segments, la fonction de base étant pour des droites: <a href="https://github.com/opencv/opencv/blob/master/modules/imgproc/src/min_enclosing_triangle.cpp#L1380-L1424">https://github.com/opencv/opencv/blob/master/modules/imgproc/src/min_enclosing_triangle.cpp#L1380-L1424</a>. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a1</td><td>Point de départ du premier segment </td></tr>
+    <tr><td class="paramname">b1</td><td>Point de fin du premier segment </td></tr>
+    <tr><td class="paramname">a2</td><td>Point de départ du second segment </td></tr>
+    <tr><td class="paramname">b2</td><td>Point de fin du second segment </td></tr>
+    <tr><td class="paramname">intersection</td><td>Point vide afin de stocker l'intersection </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5192ea964167634b40c1938b332bdb9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5192ea964167634b40c1938b332bdb9f">&#9670;&nbsp;</a></span>middleOfSegment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Point2f Kippi::middleOfSegment </td>
+          <td>(</td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>segmentStart</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>segmentEnd</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retourne les coordonnées du milieu d'un segment. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">segmentStart</td><td>Point de départ du segment </td></tr>
+    <tr><td class="paramname">segmentEnd</td><td>Point de fin du segment </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae9d153838b05fe37934d32152bf78539"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9d153838b05fe37934d32152bf78539">&#9670;&nbsp;</a></span>partition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pair&lt; vector&lt; vector&lt; QVector2D &gt; &gt;, vector&lt; double &gt; &gt; Kippi::partition </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>imgName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>display</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Partitionne l'image passée en paramètre selon une implémentation de l'algorithme <a class="el" href="classKippi.html" title="Classe principale de la partie Kippi de notre application. Regroupe les fonction nécéssaires à l&#39;éxéc...">Kippi</a>: <a href="https://hal.inria.fr/hal-01740958/file/kippi.pdf">https://hal.inria.fr/hal-01740958/file/kippi.pdf</a>. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">imgName</td><td>Chemin de l'image à partitionner </td></tr>
+    <tr><td class="paramname">display</td><td>True: Affiche la partition de l'image </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Detect edges using canny</p>
+<p>Find contours </p>
+
+</div>
+</div>
+<a id="a8766f581808019895b8a515e18550347"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8766f581808019895b8a515e18550347">&#9670;&nbsp;</a></span>pointOnSegment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Kippi::pointOnSegment </td>
+          <td>(</td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>segmentStart</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>segmentEnd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Point2f &amp;&#160;</td>
+          <td class="paramname"><em>toEvaluate</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Teste si le point toEvaluate est sur le segment segmentStart- segmentEnd, en fonction de la colinéarité des trois points et de la distance entre ceux-ci. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">segmentStart</td><td>Point de départ du segment </td></tr>
+    <tr><td class="paramname">segmentEnd</td><td>Point de fin du segment </td></tr>
+    <tr><td class="paramname">toEvaluate</td><td>Point à évaluer </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af783aa21eeb1b1974bd1b45fb0dbf673"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af783aa21eeb1b1974bd1b45fb0dbf673">&#9670;&nbsp;</a></span>primitives()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; <a class="el" href="classPrimitive.html">Primitive</a> &gt; Kippi::primitives </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Getter de m_primitives. </p>
+<dl class="section return"><dt>Renvoie</dt><dd>vector&lt;Primitive&gt; m_primitives </dd></dl>
+
+</div>
+</div>
+<a id="ac474c09621760386d61b9ee4714512b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac474c09621760386d61b9ee4714512b0">&#9670;&nbsp;</a></span>propagationPriorityQueue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Kippi::propagationPriorityQueue </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Mat &amp;&#160;</td>
+          <td class="paramname"><em>image</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Fonction de propagation des primitives dans l'image en fonction du temps t. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td>Temps écoulé </td></tr>
+    <tr><td class="paramname">image</td><td>Image d'origine des primitives </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>La documentation de cette classe a été générée à partir des fichiers suivants :<ul>
+<li><a class="el" href="kippi_8h_source.html">kippi.h</a></li>
+<li>kippi.cpp</li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Généré par &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>

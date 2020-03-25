@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ScanLidar: Référence de la classe Fragment</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">ScanLidar
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Types publics</a> &#124;
+<a href="#pub-methods">Fonctions membres publiques</a> &#124;
+<a href="#pub-attribs">Attributs publics</a> &#124;
+<a href="#pri-attribs">Attributs privés</a> &#124;
+<a href="classFragment-members.html">Liste de tous les membres</a>  </div>
+  <div class="headertitle">
+<div class="title">Référence de la classe Fragment</div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Types publics</h2></td></tr>
+<tr class="memitem:a9e632cbe32b286e667c244f0cac5c25d"><td class="memItemLeft" align="right" valign="top"><a id="a9e632cbe32b286e667c244f0cac5c25d"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>Type</b> { <br />
+&#160;&#160;<b>Mur</b>, 
+<b>Plafond</b>, 
+<b>Sol</b>, 
+<b>Autre</b>, 
+<br />
+&#160;&#160;<b>A_Calculer</b>, 
+<b>Inconnu</b>
+<br />
+ }</td></tr>
+<tr class="separator:a9e632cbe32b286e667c244f0cac5c25d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Fonctions membres publiques</h2></td></tr>
+<tr class="memitem:a5da4b1f26385fce802f1ef108c84a86c"><td class="memItemLeft" align="right" valign="top"><a id="a5da4b1f26385fce802f1ef108c84a86c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>addPlane</b> (pcl::PointCloud&lt; pcl::PointXYZ &gt;)</td></tr>
+<tr class="separator:a5da4b1f26385fce802f1ef108c84a86c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acddb6a660674739e83c46e32ac7a087e"><td class="memItemLeft" align="right" valign="top"><a id="acddb6a660674739e83c46e32ac7a087e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setType</b> (Type)</td></tr>
+<tr class="separator:acddb6a660674739e83c46e32ac7a087e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a186c1f7d8e132ded49f2ce26f541318d"><td class="memItemLeft" align="right" valign="top"><a id="a186c1f7d8e132ded49f2ce26f541318d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>computeMeanPosition</b> ()</td></tr>
+<tr class="separator:a186c1f7d8e132ded49f2ce26f541318d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4458206e0a2993e54a91fd98d3cc6da"><td class="memItemLeft" align="right" valign="top"><a id="af4458206e0a2993e54a91fd98d3cc6da"></a>
+QVector3D&#160;</td><td class="memItemRight" valign="bottom"><b>getMeanPosition</b> ()</td></tr>
+<tr class="separator:af4458206e0a2993e54a91fd98d3cc6da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af284ba2902d577c5cdfac48c35ea39f4"><td class="memItemLeft" align="right" valign="top"><a id="af284ba2902d577c5cdfac48c35ea39f4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>attributeColorAuto</b> ()</td></tr>
+<tr class="separator:af284ba2902d577c5cdfac48c35ea39f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a892ecf8bc007a6742bfd118f04d13309"><td class="memItemLeft" align="right" valign="top"><a id="a892ecf8bc007a6742bfd118f04d13309"></a>
+Type&#160;</td><td class="memItemRight" valign="bottom"><b>getType</b> ()</td></tr>
+<tr class="separator:a892ecf8bc007a6742bfd118f04d13309"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93a4058a4802913e27b064717a2d27a0"><td class="memItemLeft" align="right" valign="top"><a id="a93a4058a4802913e27b064717a2d27a0"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getStringType</b> ()</td></tr>
+<tr class="separator:a93a4058a4802913e27b064717a2d27a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Attributs publics</h2></td></tr>
+<tr class="memitem:a94275a2ef93b9cbca8c7adbf7f87f807"><td class="memItemLeft" align="right" valign="top"><a id="a94275a2ef93b9cbca8c7adbf7f87f807"></a>
+std::vector&lt; pcl::PointCloud&lt; pcl::PointXYZ &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>planes</b></td></tr>
+<tr class="separator:a94275a2ef93b9cbca8c7adbf7f87f807"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Attributs privés</h2></td></tr>
+<tr class="memitem:aa179c363d0738d2743957b5dfe0f89e5"><td class="memItemLeft" align="right" valign="top"><a id="aa179c363d0738d2743957b5dfe0f89e5"></a>
+Type&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
+<tr class="separator:aa179c363d0738d2743957b5dfe0f89e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5fbd0eeacd1483f951612ff961c967d"><td class="memItemLeft" align="right" valign="top"><a id="ae5fbd0eeacd1483f951612ff961c967d"></a>
+QVector3D&#160;</td><td class="memItemRight" valign="bottom"><b>meanPosition</b> = QVector3D(0,0,0)</td></tr>
+<tr class="separator:ae5fbd0eeacd1483f951612ff961c967d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<hr/>La documentation de cette classe a été générée à partir des fichiers suivants :<ul>
+<li><a class="el" href="fragment_8h_source.html">fragment.h</a></li>
+<li>fragment.cpp</li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Généré par &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>

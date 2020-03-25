@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ScanLidar:  Fichier source de primitive.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">ScanLidar
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">primitive.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef PRIMITIVE_H</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define PRIMITIVE_H</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span> <span class="comment">//sqrt</span></div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span> <span class="comment">//vector</span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;opencv2/core/types.hpp&gt;</span> <span class="comment">//Point2f</span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacestd.html">std</a>;</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacecv.html">cv</a>;</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div><div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classPrimitive.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="classPrimitive.html">Primitive</a></div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">private</span>:</div><div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classPrimitive.html#a42f9cfd7cb6fe5d8222b54184cb01370">   26</a></span>&#160;    Point2f <a class="code" href="classPrimitive.html#a42f9cfd7cb6fe5d8222b54184cb01370">m_origin</a>;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div><div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classPrimitive.html#aff19d540e2d8542d34a57c51e6ff73f9">   32</a></span>&#160;    Point2f <a class="code" href="classPrimitive.html#aff19d540e2d8542d34a57c51e6ff73f9">m_end</a>;</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div><div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classPrimitive.html#ac3a589bccaf2d4361a389f229cc44f51">   38</a></span>&#160;    Point2f <a class="code" href="classPrimitive.html#ac3a589bccaf2d4361a389f229cc44f51">m_current</a>;</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div><div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classPrimitive.html#a575f14e177bf1d3b2e7f94ff8ca21686">   43</a></span>&#160;    Point2f <a class="code" href="classPrimitive.html#a575f14e177bf1d3b2e7f94ff8ca21686">m_direction</a>;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div><div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classPrimitive.html#a6cd5569c0d6016390c6e2d83764326fe">   50</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classPrimitive.html#a6cd5569c0d6016390c6e2d83764326fe">m_idSegment</a>;</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div><div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classPrimitive.html#a257ded40eb050dc78a3ca0010855b72f">   56</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classPrimitive.html#a257ded40eb050dc78a3ca0010855b72f">m_idPrimitive</a>;</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div><div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="classPrimitive.html#a9773acb10509e3c459cf55473e23232c">   62</a></span>&#160;    vector&lt;bool&gt; <a class="code" href="classPrimitive.html#a9773acb10509e3c459cf55473e23232c">m_certificates</a>;</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div><div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="classPrimitive.html#adedc640045d803d7634d0dc036bbf07b">   68</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classPrimitive.html#adedc640045d803d7634d0dc036bbf07b">m_K</a>;</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">public</span>:</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="classPrimitive.html">Primitive</a>(Point2f origin, Point2f end, <span class="keywordtype">int</span> size, <span class="keywordtype">int</span> K, <span class="keywordtype">int</span> idPrimitive,</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;              <span class="keywordtype">int</span> idSegment);</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">int</span> nbCertificates() <span class="keyword">const</span>;</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">bool</span> operator &lt;(<span class="keyword">const</span> <a class="code" href="classPrimitive.html">Primitive</a> &amp; p) <span class="keyword">const</span>;</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    Point2f origin() <span class="keyword">const</span>;</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    Point2f end() <span class="keyword">const</span>;</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    Point2f current() <span class="keyword">const</span>;</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordtype">void</span> setCurrent(<span class="keyword">const</span> Point2f &amp;current);</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    Point2f direction() <span class="keyword">const</span>;</div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordtype">int</span> idSegment() <span class="keyword">const</span>;</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordtype">int</span> idPrimitive() <span class="keyword">const</span>;</div><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    vector&lt;bool&gt; certificates();</div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordtype">void</span> flipCertificate(<span class="keywordtype">int</span> index);</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordtype">int</span> K() <span class="keyword">const</span>;</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordtype">void</span> setK(<span class="keywordtype">int</span> K);</div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;};</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="preprocessor">#endif // PRIMITIVE_H</span></div><div class="ttc" id="classPrimitive_html_adedc640045d803d7634d0dc036bbf07b"><div class="ttname"><a href="classPrimitive.html#adedc640045d803d7634d0dc036bbf07b">Primitive::m_K</a></div><div class="ttdeci">int m_K</div><div class="ttdoc">m_K: Nombre d&amp;#39;intersections données à la primitive avant que la propagation de celle-ci s&amp;#39;arrête ...</div><div class="ttdef"><b>Definition:</b> primitive.h:68</div></div>
+<div class="ttc" id="classPrimitive_html_aff19d540e2d8542d34a57c51e6ff73f9"><div class="ttname"><a href="classPrimitive.html#aff19d540e2d8542d34a57c51e6ff73f9">Primitive::m_end</a></div><div class="ttdeci">Point2f m_end</div><div class="ttdoc">m_end: Point de fin originel de la primitive, correspondant à une des deux extrémités du segment orig...</div><div class="ttdef"><b>Definition:</b> primitive.h:32</div></div>
+<div class="ttc" id="classPrimitive_html_a257ded40eb050dc78a3ca0010855b72f"><div class="ttname"><a href="classPrimitive.html#a257ded40eb050dc78a3ca0010855b72f">Primitive::m_idPrimitive</a></div><div class="ttdeci">int m_idPrimitive</div><div class="ttdoc">m_idPrimitive: Index de la primitive dans le tableau Kippi::m_primitives </div><div class="ttdef"><b>Definition:</b> primitive.h:56</div></div>
+<div class="ttc" id="classPrimitive_html_a42f9cfd7cb6fe5d8222b54184cb01370"><div class="ttname"><a href="classPrimitive.html#a42f9cfd7cb6fe5d8222b54184cb01370">Primitive::m_origin</a></div><div class="ttdeci">Point2f m_origin</div><div class="ttdoc">m_origin: Point d&amp;#39;origine de la primitive. Chaque segment de l&amp;#39;image est coupée en deux à son milieu ...</div><div class="ttdef"><b>Definition:</b> primitive.h:26</div></div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div></div>
+<div class="ttc" id="namespacecv_html"><div class="ttname"><a href="namespacecv.html">cv</a></div></div>
+<div class="ttc" id="classPrimitive_html_ac3a589bccaf2d4361a389f229cc44f51"><div class="ttname"><a href="classPrimitive.html#ac3a589bccaf2d4361a389f229cc44f51">Primitive::m_current</a></div><div class="ttdeci">Point2f m_current</div><div class="ttdoc">m_current: Point de fin courant de la primitive lors de son extension. Initialisé à m_end au départ ...</div><div class="ttdef"><b>Definition:</b> primitive.h:38</div></div>
+<div class="ttc" id="classPrimitive_html_a575f14e177bf1d3b2e7f94ff8ca21686"><div class="ttname"><a href="classPrimitive.html#a575f14e177bf1d3b2e7f94ff8ca21686">Primitive::m_direction</a></div><div class="ttdeci">Point2f m_direction</div><div class="ttdoc">m_direction: Direction d&amp;#39;extension de la primitive </div><div class="ttdef"><b>Definition:</b> primitive.h:43</div></div>
+<div class="ttc" id="classPrimitive_html_a6cd5569c0d6016390c6e2d83764326fe"><div class="ttname"><a href="classPrimitive.html#a6cd5569c0d6016390c6e2d83764326fe">Primitive::m_idSegment</a></div><div class="ttdeci">int m_idSegment</div><div class="ttdoc">m_idSegment: Index du segment dont fait partie la primitive dans le tableau lines_fld utilisée dans K...</div><div class="ttdef"><b>Definition:</b> primitive.h:50</div></div>
+<div class="ttc" id="classPrimitive_html_a9773acb10509e3c459cf55473e23232c"><div class="ttname"><a href="classPrimitive.html#a9773acb10509e3c459cf55473e23232c">Primitive::m_certificates</a></div><div class="ttdeci">vector&lt; bool &gt; m_certificates</div><div class="ttdoc">m_certificates: Tableau référençant si la primitive courante est déjà entrée en intersection avec cha...</div><div class="ttdef"><b>Definition:</b> primitive.h:62</div></div>
+<div class="ttc" id="classPrimitive_html"><div class="ttname"><a href="classPrimitive.html">Primitive</a></div><div class="ttdoc">Classe modélisant un demi-segment de l&amp;#39;image, s&amp;#39;étendant dans une direction donnée (m_direction)...</div><div class="ttdef"><b>Definition:</b> primitive.h:17</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Généré par &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>
